@@ -10,35 +10,50 @@
 </head>
 <body>
   <header>
-    <h1>Âncoras</h1>
-    <p class="sub">Data check: verbs and anchors from <code>anchors.json</code></p>
+    <h1><a href="#" id="home-link">Âncoras</a></h1>
+    <nav>
+      <a href="#data" id="nav-data">Data</a>
+      <a href="#" id="nav-home" hidden>← Practise</a>
+    </nav>
   </header>
 
   <main>
     <div id="banner" class="banner" role="status">Loading anchors.json…</div>
 
-    <section id="verbs-section" hidden>
-      <h2>Verbs</h2>
-      <p class="legend">
-        <span class="cell covered">covered</span>
-        <span class="cell uncovered">uncovered (listed)</span>
-        <span class="cell gap">no anchor, not listed</span>
-        <span class="cell none">—</span> no form
-      </p>
-      <div class="scroll">
-        <table id="verbs-table" class="verbs"></table>
-      </div>
+    <section id="home-view" hidden>
+      <div id="picker" class="picker"></div>
     </section>
 
-    <section id="anchors-section" hidden>
-      <h2>Anchors</h2>
-      <div class="controls">
-        <label>Verb
-          <select id="verb-filter"><option value="">All verbs</option></select>
-        </label>
-        <span id="anchor-count" class="count"></span>
-      </div>
-      <table id="anchors-table" class="anchors"></table>
+    <section id="practice-view" hidden>
+      <div id="practice" class="practice"></div>
+    </section>
+
+    <section id="data-view" hidden>
+      <p class="sub">Data check: verbs and anchors from <code>anchors.json</code></p>
+
+      <section id="verbs-section" hidden>
+        <h2>Verbs</h2>
+        <p class="legend">
+          <span class="cell covered">covered</span>
+          <span class="cell uncovered">uncovered (listed)</span>
+          <span class="cell gap">no anchor, not listed</span>
+          <span class="cell none">—</span> no form
+        </p>
+        <div class="scroll">
+          <table id="verbs-table" class="verbs"></table>
+        </div>
+      </section>
+
+      <section id="anchors-section" hidden>
+        <h2>Anchors</h2>
+        <div class="controls">
+          <label>Verb
+            <select id="verb-filter"><option value="">All verbs</option></select>
+          </label>
+          <span id="anchor-count" class="count"></span>
+        </div>
+        <table id="anchors-table" class="anchors"></table>
+      </section>
     </section>
   </main>
 </body>

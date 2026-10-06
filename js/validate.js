@@ -34,15 +34,18 @@ function escapeRegExp(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// True if `form` occurs in `text` as a whole word. Case-insensitive (so "Vim" at the
-// start of a sentence matches "vim"), but accents count: "pode" does not match "pôde".
-// Hyphens are word boundaries, so "Vi-o" contains "vi".
-export function containsForm(text, form) {
-  const re = new RegExp(
+// Regex for `form` as a whole word. Case-insensitive (so "Vim" at the start of a
+// sentence matches "vim"), but accents count: "pode" does not match "pôde".
+// Hyphens are word boundaries, so "Vi-o" contains "vi". Apply it to NFC text.
+export function formRegex(form, flags = 'iu') {
+  return new RegExp(
     `(?<![\\p{L}\\p{M}])${escapeRegExp(form.normalize('NFC'))}(?![\\p{L}\\p{M}])`,
-    'iu'
+    flags
   );
-  return re.test(text.normalize('NFC'));
+}
+
+export function containsForm(text, form) {
+  return formRegex(form).test(text.normalize('NFC'));
 }
 
 export function validate(data) {

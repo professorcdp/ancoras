@@ -46,6 +46,6 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 - Where to host once it works (any static host)
 
 ## Current status
-M0 done (2026-10-06): the data-check page and validator work, and anchors.json passes
-every check (15 verbs, 126 anchors, 117 cells covered).
-Next: M1 (#2), session picker + Meet and Transfer steps.
+M1 done (2026-10-06): session picker, Meet and Transfer steps, grading with accent buttons,
+and a per-cell summary. M0's data tables are behind the "Data" link. No progress is stored
+yet. Next: M2 (#3), after deciding #12 and doing #9; content question #13 open.
