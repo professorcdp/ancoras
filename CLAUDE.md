@@ -11,10 +11,13 @@
 - Test: run `node validate.mjs` in the project folder after any edit to `anchors.json`. It
   prints "anchors.json OK: …" or a list of problems, and exits non-zero on problems. The rules
   live in `js/validate.js` (pure, no DOM), shared with the page's banner.
-  Run `node --test` after any change to the validator: it tests each rule on a small sample
-  (`test/validate.test.mjs`) and checks that the real anchors.json passes. No dependencies.
-- Layout: `index.html`, `style.css`, `js/main.js` (page), `js/validate.js` (validator),
-  `validate.mjs` (Node wrapper), `test/` (validator tests).
+  Run `node --test` after any code change: it runs every file in `test/` (validator rules,
+  grading, session building) and checks that the real anchors.json passes. No dependencies.
+- Layout: `index.html`, `style.css`; `js/main.js` (load, validate, switch views),
+  `js/picker.js` (session picker), `js/practice.js` (Meet / Transfer / summary screens),
+  `js/data-view.js` (M0 tables at `#data`), `js/dom.js` (DOM helpers). Pure, tested modules:
+  `js/validate.js`, `js/grade.js`, `js/session.js`. `js/audio.js` is a silent stub until M5.
+  `validate.mjs` is the Node wrapper; `test/` holds the `node --test` files.
 - Keep to the spec's non-goals (SPEC.md §2). Build milestones in order and stop after M5 for
   learner feedback.
 - Never fall back to a pt-BR voice.

@@ -29,3 +29,21 @@ Newest entries at the bottom.
 - **Fixed:** (1) `validate()` now skips null or wrong-shaped verbs, anchors, targets and top-level fields and reports them (e.g. "anchor vir-pres-eu-1: target #2 is not an object"); the page wraps rendering so any unexpected error shows a red banner instead of "Loading…", and skips bad entries when drawing tables. (2) Added `test/validate.test.mjs` (run with `node --test`, no dependencies): a valid sample, one broken case per rule, the null cases, and a check that the real anchors.json passes. 15 tests pass; the 4 null-case tests fail against the old checker, as they should.
 - **Deferred:** (3) #9, (4) #10, (5) #11, M2 echo note #12.
 - **Next:** decide #12 and do #9 before M2; start M1 (#2).
+
+## 2026-10-06: M1 session picker, Meet and Transfer (#2)
+- **Changed:** the front page is now the session picker (verbs with confusion-set presets
+  derived from the data, tenses, persons, live cell count, last selection remembered in
+  localStorage). Sessions run Meet for every cell, then Transfer (sentence from another anchor
+  → `transfer` list → bare prompt; form blanked by the validator's whole-word rule; accent
+  buttons; correct / almost / wrong with the Meet anchor as hint), then a summary. A miss
+  comes round once more. M0 tables moved to `js/data-view.js`, behind the "Data" link.
+  New modules: `js/grade.js`, `js/session.js` (both pure), `js/picker.js`, `js/practice.js`,
+  `js/dom.js`, `js/audio.js` (silent stub for M5). No changes to anchors.json.
+- **Tests:** `node --test` now runs 45 tests (15 validator, 17 grading, 13 session) — all
+  pass; `node validate.mjs` OK. Checked in the browser: presets and counts, reload keeps the
+  selection, a corrupt stored selection falls back to defaults, a full vir+ver session
+  (20 cells, misses retried once, summary), broken data disables Start, phone width.
+- **Decisions:** 0005 (M1 session shape).
+- **Issues touched:** #2 closed. Opened #13: 85 of 117 cells have no second sentence, so
+  Transfer shows the bare prompt for most cells (worst for dar, ir, estar, ter, ser).
+- **Next:** decide #12 and do #9, then M2 (#3). #13 needs Jim's call on content.
