@@ -1,0 +1,13 @@
+# Secrets: never commit
+.env
+.env.*
+*.p8
+*.p12
+*.pem
+*.key
+secrets/
+
+# System and tool junk
+.DS_Store
+node_modules/
+dist/
