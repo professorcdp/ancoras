@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Âncoras</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%231e6b3a'/%3E%3Ctext x='8' y='12.5' font-size='12' text-anchor='middle' fill='white' font-family='sans-serif'%3EÂ%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Âncoras</h1>
+    <p class="sub">Data check: verbs and anchors from <code>anchors.json</code></p>
+  </header>
+
+  <main>
+    <div id="banner" class="banner" role="status">Loading anchors.json…</div>
+
+    <section id="verbs-section" hidden>
+      <h2>Verbs</h2>
+      <p class="legend">
+        <span class="cell covered">covered</span>
+        <span class="cell uncovered">uncovered (listed)</span>
+        <span class="cell gap">no anchor, not listed</span>
+        <span class="cell none">—</span> no form
+      </p>
+      <div class="scroll">
+        <table id="verbs-table" class="verbs"></table>
+      </div>
+    </section>
+
+    <section id="anchors-section" hidden>
+      <h2>Anchors</h2>
+      <div class="controls">
+        <label>Verb
+          <select id="verb-filter"><option value="">All verbs</option></select>
+        </label>
+        <span id="anchor-count" class="count"></span>
+      </div>
+      <table id="anchors-table" class="anchors"></table>
+    </section>
+  </main>
+</body>
+</html>

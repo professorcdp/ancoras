@@ -46,5 +46,6 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 - Where to host once it works (any static host)
 
 ## Current status
-Spec v0.1 and data file done (15 verbs, 126 anchors, 117 cells). No app code yet.
-Next: M0 (data check).
+M0 done (2026-10-06): the data-check page and validator work, and anchors.json passes
+every check (15 verbs, 126 anchors, 117 cells covered).
+Next: M1 (#2), session picker + Meet and Transfer steps.

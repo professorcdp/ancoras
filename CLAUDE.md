@@ -8,8 +8,11 @@
 - Run locally: serve the folder with a static server, e.g. `python3 -m http.server 8000`, then
   open http://localhost:8000. (Opening the HTML file directly won't work: `fetch` of
   `anchors.json` needs a server.)
-- Test: M0 includes a validator for `anchors.json` (target forms appear in `pt`, ids unique,
-  confusion sets symmetric). Run it after any data edit.
+- Test: run `node validate.mjs` in the project folder after any edit to `anchors.json`. It
+  prints "anchors.json OK: …" or a list of problems, and exits non-zero on problems. The rules
+  live in `js/validate.js` (pure, no DOM), shared with the page's banner.
+- Layout: `index.html`, `style.css`, `js/main.js` (page), `js/validate.js` (validator),
+  `validate.mjs` (Node wrapper).
 - Keep to the spec's non-goals (SPEC.md §2). Build milestones in order and stop after M5 for
   learner feedback.
 - Never fall back to a pt-BR voice.
