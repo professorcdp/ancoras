@@ -1,0 +1,2806 @@
+{
+ "version": 1,
+ "language": "pt-PT",
+ "persons": [
+  "eu",
+  "tu",
+  "ele",
+  "nós",
+  "eles"
+ ],
+ "person_notes": {
+  "ele": "also ela, você",
+  "eles": "also elas, vocês"
+ },
+ "tenses": {
+  "pres": "Presente do indicativo",
+  "pps": "Pretérito perfeito simples"
+ },
+ "verbs": {
+  "vir": {
+   "gloss": "to come",
+   "confusion_set": [
+    "ver"
+   ],
+   "pps_pattern": "irregular",
+   "forms": {
+    "pres": {
+     "eu": "venho",
+     "tu": "vens",
+     "ele": "vem",
+     "nós": "vimos",
+     "eles": "vêm"
+    },
+    "pps": {
+     "eu": "vim",
+     "tu": "vieste",
+     "ele": "veio",
+     "nós": "viemos",
+     "eles": "vieram"
+    }
+   }
+  },
+  "ver": {
+   "gloss": "to see",
+   "confusion_set": [
+    "vir"
+   ],
+   "pps_pattern": "irregular",
+   "forms": {
+    "pres": {
+     "eu": "vejo",
+     "tu": "vês",
+     "ele": "vê",
+     "nós": "vemos",
+     "eles": "veem"
+    },
+    "pps": {
+     "eu": "vi",
+     "tu": "viste",
+     "ele": "viu",
+     "nós": "vimos",
+     "eles": "viram"
+    }
+   }
+  },
+  "ir": {
+   "gloss": "to go",
+   "confusion_set": [
+    "ser"
+   ],
+   "pps_pattern": "flip",
+   "forms": {
+    "pres": {
+     "eu": "vou",
+     "tu": "vais",
+     "ele": "vai",
+     "nós": "vamos",
+     "eles": "vão"
+    },
+    "pps": {
+     "eu": "fui",
+     "tu": "foste",
+     "ele": "foi",
+     "nós": "fomos",
+     "eles": "foram"
+    }
+   }
+  },
+  "ser": {
+   "gloss": "to be (permanent)",
+   "confusion_set": [
+    "ir"
+   ],
+   "pps_pattern": "flip",
+   "forms": {
+    "pres": {
+     "eu": "sou",
+     "tu": "és",
+     "ele": "é",
+     "nós": "somos",
+     "eles": "são"
+    },
+    "pps": {
+     "eu": "fui",
+     "tu": "foste",
+     "ele": "foi",
+     "nós": "fomos",
+     "eles": "foram"
+    }
+   }
+  },
+  "ter": {
+   "gloss": "to have",
+   "confusion_set": [
+    "estar"
+   ],
+   "pps_pattern": "flip",
+   "forms": {
+    "pres": {
+     "eu": "tenho",
+     "tu": "tens",
+     "ele": "tem",
+     "nós": "temos",
+     "eles": "têm"
+    },
+    "pps": {
+     "eu": "tive",
+     "tu": "tiveste",
+     "ele": "teve",
+     "nós": "tivemos",
+     "eles": "tiveram"
+    }
+   }
+  },
+  "estar": {
+   "gloss": "to be (state/location)",
+   "confusion_set": [
+    "ter"
+   ],
+   "pps_pattern": "flip",
+   "forms": {
+    "pres": {
+     "eu": "estou",
+     "tu": "estás",
+     "ele": "está",
+     "nós": "estamos",
+     "eles": "estão"
+    },
+    "pps": {
+     "eu": "estive",
+     "tu": "estiveste",
+     "ele": "esteve",
+     "nós": "estivemos",
+     "eles": "estiveram"
+    }
+   }
+  },
+  "pôr": {
+   "gloss": "to put",
+   "confusion_set": [
+    "poder"
+   ],
+   "pps_pattern": "flip",
+   "forms": {
+    "pres": {
+     "eu": "ponho",
+     "tu": "pões",
+     "ele": "põe",
+     "nós": "pomos",
+     "eles": "põem"
+    },
+    "pps": {
+     "eu": "pus",
+     "tu": "puseste",
+     "ele": "pôs",
+     "nós": "pusemos",
+     "eles": "puseram"
+    }
+   }
+  },
+  "poder": {
+   "gloss": "to be able to",
+   "confusion_set": [
+    "pôr"
+   ],
+   "pps_pattern": "flip",
+   "forms": {
+    "pres": {
+     "eu": "posso",
+     "tu": "podes",
+     "ele": "pode",
+     "nós": "podemos",
+     "eles": "podem"
+    },
+    "pps": {
+     "eu": "pude",
+     "tu": "pudeste",
+     "ele": "pôde",
+     "nós": "pudemos",
+     "eles": "puderam"
+    }
+   }
+  },
+  "fazer": {
+   "gloss": "to do, make",
+   "confusion_set": [],
+   "pps_pattern": "flip",
+   "forms": {
+    "pres": {
+     "eu": "faço",
+     "tu": "fazes",
+     "ele": "faz",
+     "nós": "fazemos",
+     "eles": "fazem"
+    },
+    "pps": {
+     "eu": "fiz",
+     "tu": "fizeste",
+     "ele": "fez",
+     "nós": "fizemos",
+     "eles": "fizeram"
+    }
+   }
+  },
+  "dizer": {
+   "gloss": "to say, tell",
+   "confusion_set": [],
+   "pps_pattern": "match",
+   "forms": {
+    "pres": {
+     "eu": "digo",
+     "tu": "dizes",
+     "ele": "diz",
+     "nós": "dizemos",
+     "eles": "dizem"
+    },
+    "pps": {
+     "eu": "disse",
+     "tu": "disseste",
+     "ele": "disse",
+     "nós": "dissemos",
+     "eles": "disseram"
+    }
+   }
+  },
+  "querer": {
+   "gloss": "to want",
+   "confusion_set": [],
+   "pps_pattern": "match",
+   "forms": {
+    "pres": {
+     "eu": "quero",
+     "tu": "queres",
+     "ele": "quer",
+     "nós": "queremos",
+     "eles": "querem"
+    },
+    "pps": {
+     "eu": "quis",
+     "tu": "quiseste",
+     "ele": "quis",
+     "nós": "quisemos",
+     "eles": "quiseram"
+    }
+   }
+  },
+  "saber": {
+   "gloss": "to know; (PPS) to find out",
+   "confusion_set": [],
+   "pps_pattern": "match",
+   "forms": {
+    "pres": {
+     "eu": "sei",
+     "tu": "sabes",
+     "ele": "sabe",
+     "nós": "sabemos",
+     "eles": "sabem"
+    },
+    "pps": {
+     "eu": "soube",
+     "tu": "soubeste",
+     "ele": "soube",
+     "nós": "soubemos",
+     "eles": "souberam"
+    }
+   }
+  },
+  "trazer": {
+   "gloss": "to bring",
+   "confusion_set": [],
+   "pps_pattern": "match",
+   "forms": {
+    "pres": {
+     "eu": "trago",
+     "tu": "trazes",
+     "ele": "traz",
+     "nós": "trazemos",
+     "eles": "trazem"
+    },
+    "pps": {
+     "eu": "trouxe",
+     "tu": "trouxeste",
+     "ele": "trouxe",
+     "nós": "trouxemos",
+     "eles": "trouxeram"
+    }
+   }
+  },
+  "dar": {
+   "gloss": "to give",
+   "confusion_set": [],
+   "pps_pattern": "irregular",
+   "forms": {
+    "pres": {
+     "eu": "dou",
+     "tu": "dás",
+     "ele": "dá",
+     "nós": "damos",
+     "eles": "dão"
+    },
+    "pps": {
+     "eu": "dei",
+     "tu": "deste",
+     "ele": "deu",
+     "nós": "demos",
+     "eles": "deram"
+    }
+   }
+  },
+  "haver": {
+   "gloss": "there is/are (impersonal)",
+   "confusion_set": [],
+   "pps_pattern": "irregular",
+   "forms": {
+    "pres": {
+     "ele": "há"
+    },
+    "pps": {
+     "ele": "houve"
+    }
+   }
+  }
+ },
+ "rules": [
+  {
+   "id": "pps-stem-endings",
+   "title": "Strong PPS: stem + -este / -emos / -eram",
+   "text": "For most strong preterites, tu, nós and eles are the eu-stem plus -este, -emos, -eram (tiv-: tiveste, tivemos, tiveram). Exceptions: ir/ser (foste, fomos, foram), dar (deste, demos, deram), ver (viste, vimos, viram)."
+  },
+  {
+   "id": "pps-flip",
+   "title": "Eu/ele vowel flip",
+   "text": "Eu takes the high vowel, ele the mid vowel: fui/foi, tive/teve, estive/esteve, pude/pôde, pus/pôs, fiz/fez.",
+   "verbs": [
+    "ir",
+    "ser",
+    "ter",
+    "estar",
+    "pôr",
+    "poder",
+    "fazer"
+   ]
+  },
+  {
+   "id": "pps-match",
+   "title": "Eu = ele",
+   "text": "Eu and ele are identical: disse, quis, soube, trouxe.",
+   "verbs": [
+    "dizer",
+    "querer",
+    "saber",
+    "trazer"
+   ]
+  },
+  {
+   "id": "estar-ter",
+   "title": "Estar PPS = es- + ter PPS",
+   "text": "estive/tive, esteve/teve, estivemos/tivemos, estiveram/tiveram."
+  },
+  {
+   "id": "ir-ser",
+   "title": "Ir and ser share one PPS",
+   "text": "fui, foste, foi, fomos, foram serve both verbs; only context tells them apart."
+  },
+  {
+   "id": "vimos",
+   "title": "Vimos is a homograph",
+   "text": "vimos = 'we come' (vir, present) and 'we saw' (ver, PPS). viemos = 'we came'."
+  }
+ ],
+ "anchors": [
+  {
+   "id": "vir-pres-eu-1",
+   "kind": "formula",
+   "pt": "Já venho!",
+   "en": "Be right back!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "eu",
+     "form": "venho"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pres-tu-1",
+   "kind": "echo",
+   "pt": "De onde vens? — Venho do Porto.",
+   "en": "Where are you coming from? — From Porto.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "tu",
+     "form": "vens"
+    },
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "eu",
+     "form": "venho"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "De onde vens?",
+    "Venho do Porto."
+   ]
+  },
+  {
+   "id": "vir-pres-tu-2",
+   "kind": "sentence",
+   "pt": "Vens ou ficas?",
+   "en": "Are you coming or staying?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "tu",
+     "form": "vens"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pres-ele-1",
+   "kind": "sentence",
+   "pt": "O autocarro nunca vem a horas.",
+   "en": "The bus never comes on time.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "ele",
+     "form": "vem"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Vimos cá todos os anos.",
+   "en": "We come here every year.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "nós",
+     "form": "vimos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Eles vêm jantar cá hoje.",
+   "en": "They're coming for dinner today.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "eles",
+     "form": "vêm"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pps-eu-1",
+   "kind": "contrast",
+   "pt": "Vim, vi e venci.",
+   "en": "I came, I saw, I conquered.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "eu",
+     "form": "vim"
+    },
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "eu",
+     "form": "vi"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pps-tu-1",
+   "kind": "echo",
+   "pt": "Como vieste? — Vim a pé.",
+   "en": "How did you get here? — On foot.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "tu",
+     "form": "vieste"
+    },
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "eu",
+     "form": "vim"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Como vieste?",
+    "Vim a pé."
+   ]
+  },
+  {
+   "id": "vir-pps-ele-1",
+   "kind": "formula",
+   "pt": "Veio mesmo a calhar.",
+   "en": "It came at just the right moment.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "ele",
+     "form": "veio"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pps-ele-2",
+   "kind": "sentence",
+   "pt": "Ninguém veio.",
+   "en": "Nobody came.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "ele",
+     "form": "veio"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Viemos para ficar.",
+   "en": "We came to stay.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "nós",
+     "form": "viemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pps-eles-1",
+   "kind": "echo",
+   "pt": "Eles já vieram? — Vieram.",
+   "en": "Have they come? — Yes, they have.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "eles",
+     "form": "vieram"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Eles já vieram?",
+    "Vieram."
+   ]
+  },
+  {
+   "id": "ver-pres-eu-1",
+   "kind": "sentence",
+   "pt": "Não vejo nada!",
+   "en": "I can't see a thing!",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "eu",
+     "form": "vejo"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pres-tu-1",
+   "kind": "contrast",
+   "pt": "Vês? Eu bem te disse!",
+   "en": "See? I told you so!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "tu",
+     "form": "vês"
+    },
+    {
+     "verb": "dizer",
+     "tense": "pps",
+     "person": "eu",
+     "form": "disse"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pres-ele-1",
+   "kind": "formula",
+   "pt": "Não vê um palmo à frente do nariz.",
+   "en": "He can't see past the end of his nose.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "ele",
+     "form": "vê"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pres-nós-1",
+   "kind": "formula",
+   "pt": "Logo vemos.",
+   "en": "We'll see.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "nós",
+     "form": "vemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pres-eles-1",
+   "kind": "formula",
+   "pt": "O que os olhos não veem, o coração não sente.",
+   "en": "What the eyes don't see, the heart doesn't feel.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "eles",
+     "form": "veem"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pps-eu-1",
+   "kind": "formula",
+   "pt": "Nunca vi tal coisa!",
+   "en": "I've never seen such a thing!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "eu",
+     "form": "vi"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pps-tu-1",
+   "kind": "echo",
+   "pt": "Viste as minhas chaves? — Não vi.",
+   "en": "Have you seen my keys? — No, I haven't.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "tu",
+     "form": "viste"
+    },
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "eu",
+     "form": "vi"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Viste as minhas chaves?",
+    "Não vi."
+   ]
+  },
+  {
+   "id": "ver-pps-ele-1",
+   "kind": "formula",
+   "pt": "Quem te viu e quem te vê!",
+   "en": "Look at you now! (lit. who saw you and who sees you)",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "ele",
+     "form": "viu"
+    },
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "ele",
+     "form": "vê"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Já vimos esse filme.",
+   "en": "We've already seen that film.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "nós",
+     "form": "vimos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ver-pps-eles-1",
+   "kind": "echo",
+   "pt": "Viram o jogo? — Vimos.",
+   "en": "Did you all see the game? — We did.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "eles",
+     "form": "viram"
+    },
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "nós",
+     "form": "vimos"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Viram o jogo?",
+    "Vimos."
+   ]
+  },
+  {
+   "id": "vir-pps-ele-3",
+   "kind": "contrast",
+   "pt": "Ele veio, viu e foi-se embora.",
+   "en": "He came, saw, and left.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "ele",
+     "form": "veio"
+    },
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "ele",
+     "form": "viu"
+    },
+    {
+     "verb": "ir",
+     "tense": "pps",
+     "person": "ele",
+     "form": "foi"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pps-nós-2",
+   "kind": "contrast",
+   "pt": "Viemos cá ontem e vimos tudo.",
+   "en": "We came here yesterday and saw everything.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "nós",
+     "form": "viemos"
+    },
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "nós",
+     "form": "vimos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pps-eles-2",
+   "kind": "contrast",
+   "pt": "Vieram, viram e não gostaram.",
+   "en": "They came, saw, and didn't like it.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "eles",
+     "form": "vieram"
+    },
+    {
+     "verb": "ver",
+     "tense": "pps",
+     "person": "eles",
+     "form": "viram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pres-eu-2",
+   "kind": "contrast",
+   "pt": "Venho cá e vejo sempre o mesmo.",
+   "en": "I come here and always see the same thing.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "eu",
+     "form": "venho"
+    },
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "eu",
+     "form": "vejo"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pres-ele-2",
+   "kind": "contrast",
+   "pt": "Ele vem cá e vê os netos.",
+   "en": "He comes here and sees the grandkids.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "ele",
+     "form": "vem"
+    },
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "ele",
+     "form": "vê"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "vir-pres-eles-2",
+   "kind": "contrast",
+   "pt": "Eles vêm cá e veem o jogo connosco.",
+   "en": "They come over and watch the game with us.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "vir",
+     "tense": "pres",
+     "person": "eles",
+     "form": "vêm"
+    },
+    {
+     "verb": "ver",
+     "tense": "pres",
+     "person": "eles",
+     "form": "veem"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pres-eu-1",
+   "kind": "formula",
+   "pt": "Já vou!",
+   "en": "Coming!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pres",
+     "person": "eu",
+     "form": "vou"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pres-tu-1",
+   "kind": "sentence",
+   "pt": "Aonde vais?",
+   "en": "Where are you off to?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pres",
+     "person": "tu",
+     "form": "vais"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pres-ele-1",
+   "kind": "formula",
+   "pt": "Vai-se andando.",
+   "en": "Getting by.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pres",
+     "person": "ele",
+     "form": "vai"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pres-nós-1",
+   "kind": "formula",
+   "pt": "Vamos embora!",
+   "en": "Let's go!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pres",
+     "person": "nós",
+     "form": "vamos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Como vão as coisas?",
+   "en": "How are things going?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pres",
+     "person": "eles",
+     "form": "vão"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pps-eu-1",
+   "kind": "sentence",
+   "pt": "Fui às compras.",
+   "en": "I went shopping.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pps",
+     "person": "eu",
+     "form": "fui"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pps-nós-1",
+   "kind": "contrast",
+   "pt": "Fomos e viemos no mesmo dia.",
+   "en": "We went and came back the same day.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pps",
+     "person": "nós",
+     "form": "fomos"
+    },
+    {
+     "verb": "vir",
+     "tense": "pps",
+     "person": "nós",
+     "form": "viemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ir-pps-eles-1",
+   "kind": "formula",
+   "pt": "Foram-se embora.",
+   "en": "They left.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pps",
+     "person": "eles",
+     "form": "foram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ser-pres-eu-1",
+   "kind": "formula",
+   "pt": "Sou eu.",
+   "en": "It's me.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pres",
+     "person": "eu",
+     "form": "sou"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ser-pres-tu-1",
+   "kind": "sentence",
+   "pt": "De onde és?",
+   "en": "Where are you from?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pres",
+     "person": "tu",
+     "form": "és"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ser-pres-ele-1",
+   "kind": "formula",
+   "pt": "Pois é.",
+   "en": "Yeah, exactly.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pres",
+     "person": "ele",
+     "form": "é"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ser-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Somos amigos há anos.",
+   "en": "We've been friends for years.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pres",
+     "person": "nós",
+     "form": "somos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ser-pres-eles-1",
+   "kind": "echo",
+   "pt": "Que horas são? — São três.",
+   "en": "What time is it? — Three.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pres",
+     "person": "eles",
+     "form": "são"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Que horas são?",
+    "São três."
+   ]
+  },
+  {
+   "id": "ser-pps-ele-1",
+   "kind": "echo",
+   "pt": "Quem foi? — Fui eu.",
+   "en": "Who was it? — Me.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "ele",
+     "form": "foi"
+    },
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "eu",
+     "form": "fui"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Quem foi?",
+    "Fui eu."
+   ]
+  },
+  {
+   "id": "ser-pps-tu-1",
+   "kind": "echo",
+   "pt": "Foste tu? — Não fui eu, foi ele.",
+   "en": "Was it you? — Not me, him.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "tu",
+     "form": "foste"
+    },
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "eu",
+     "form": "fui"
+    },
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "ele",
+     "form": "foi"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Foste tu?",
+    "Não fui eu, foi ele."
+   ]
+  },
+  {
+   "id": "ser-pps-ele-2",
+   "kind": "echo",
+   "pt": "Como foi? — Foi ótimo.",
+   "en": "How was it? — Great.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "ele",
+     "form": "foi"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Como foi?",
+    "Foi ótimo."
+   ]
+  },
+  {
+   "id": "ser-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Foram só cinco minutos.",
+   "en": "It was only five minutes.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "eles",
+     "form": "foram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pres-eu-1",
+   "kind": "formula",
+   "pt": "Tenho de ir.",
+   "en": "I have to go.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pres",
+     "person": "eu",
+     "form": "tenho"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pres-tu-1",
+   "kind": "formula",
+   "pt": "Tens razão.",
+   "en": "You're right.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pres",
+     "person": "tu",
+     "form": "tens"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pres-ele-1",
+   "kind": "formula",
+   "pt": "Não tem graça nenhuma.",
+   "en": "That's not funny at all.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pres",
+     "person": "ele",
+     "form": "tem"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Temos tempo.",
+   "en": "We have time.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pres",
+     "person": "nós",
+     "form": "temos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Eles não têm culpa.",
+   "en": "It's not their fault.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pres",
+     "person": "eles",
+     "form": "têm"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pps-eu-1",
+   "kind": "sentence",
+   "pt": "Tive sorte.",
+   "en": "I got lucky.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pps",
+     "person": "eu",
+     "form": "tive"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pps-ele-1",
+   "kind": "formula",
+   "pt": "Teve de ser.",
+   "en": "It had to be.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pps",
+     "person": "ele",
+     "form": "teve"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Tivemos um furo.",
+   "en": "We got a flat tire.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pps",
+     "person": "nós",
+     "form": "tivemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Tiveram um bebé.",
+   "en": "They had a baby.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pps",
+     "person": "eles",
+     "form": "tiveram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pres-eu-1",
+   "kind": "formula",
+   "pt": "Estou?",
+   "en": "Hello? (answering the phone)",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pres",
+     "person": "eu",
+     "form": "estou"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pres-tu-1",
+   "kind": "formula",
+   "pt": "Como estás?",
+   "en": "How are you?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pres",
+     "person": "tu",
+     "form": "estás"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pres-ele-1",
+   "kind": "formula",
+   "pt": "Está bem.",
+   "en": "All right.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pres",
+     "person": "ele",
+     "form": "está"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pres-nós-1",
+   "kind": "formula",
+   "pt": "Estamos quase.",
+   "en": "We're nearly there.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pres",
+     "person": "nós",
+     "form": "estamos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Estão todos bem?",
+   "en": "Is everyone OK?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pres",
+     "person": "eles",
+     "form": "estão"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pps-tu-1",
+   "kind": "echo",
+   "pt": "Onde estiveste? — Estive em casa.",
+   "en": "Where were you? — At home.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pps",
+     "person": "tu",
+     "form": "estiveste"
+    },
+    {
+     "verb": "estar",
+     "tense": "pps",
+     "person": "eu",
+     "form": "estive"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Onde estiveste?",
+    "Estive em casa."
+   ]
+  },
+  {
+   "id": "estar-pps-ele-1",
+   "kind": "sentence",
+   "pt": "Esteve cá o canalizador.",
+   "en": "The plumber was here.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pps",
+     "person": "ele",
+     "form": "esteve"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Estivemos lá há dois anos.",
+   "en": "We were there two years ago.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pps",
+     "person": "nós",
+     "form": "estivemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Estiveram cá ontem.",
+   "en": "They were here yesterday.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pps",
+     "person": "eles",
+     "form": "estiveram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "estar-pps-ele-2",
+   "kind": "contrast",
+   "pt": "Ele esteve doente e teve de ficar em casa.",
+   "en": "He was ill and had to stay home.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "estar",
+     "tense": "pps",
+     "person": "ele",
+     "form": "esteve"
+    },
+    {
+     "verb": "ter",
+     "tense": "pps",
+     "person": "ele",
+     "form": "teve"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pres-eu-1",
+   "kind": "sentence",
+   "pt": "Onde ponho isto?",
+   "en": "Where do I put this?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pres",
+     "person": "eu",
+     "form": "ponho"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pres-tu-1",
+   "kind": "sentence",
+   "pt": "Pões a mesa?",
+   "en": "Will you set the table?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pres",
+     "person": "tu",
+     "form": "pões"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pres-ele-1",
+   "kind": "formula",
+   "pt": "O homem põe e Deus dispõe.",
+   "en": "Man proposes, God disposes.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pres",
+     "person": "ele",
+     "form": "põe"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Pomos a mesa às oito.",
+   "en": "We set the table at eight.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pres",
+     "person": "nós",
+     "form": "pomos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pres-eles-1",
+   "kind": "sentence",
+   "pt": "As galinhas põem ovos.",
+   "en": "Hens lay eggs.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pres",
+     "person": "eles",
+     "form": "põem"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pps-tu-1",
+   "kind": "echo",
+   "pt": "Onde puseste as chaves? — Pus em cima da mesa.",
+   "en": "Where did you put the keys? — On the table.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "tu",
+     "form": "puseste"
+    },
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "eu",
+     "form": "pus"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Onde puseste as chaves?",
+    "Pus em cima da mesa."
+   ]
+  },
+  {
+   "id": "pôr-pps-ele-1",
+   "kind": "formula",
+   "pt": "O sol já se pôs.",
+   "en": "The sun has already set.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "ele",
+     "form": "pôs"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Pusemos tudo no carro.",
+   "en": "We put everything in the car.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "nós",
+     "form": "pusemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Puseram a casa à venda.",
+   "en": "They put the house up for sale.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "eles",
+     "form": "puseram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "poder-pres-eu-1",
+   "kind": "formula",
+   "pt": "Posso?",
+   "en": "May I?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "poder",
+     "tense": "pres",
+     "person": "eu",
+     "form": "posso"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "poder-pres-ele-1",
+   "kind": "formula",
+   "pt": "Pode ser.",
+   "en": "Could be. / That works.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "poder",
+     "tense": "pres",
+     "person": "ele",
+     "form": "pode"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "poder-pps-eu-1",
+   "kind": "sentence",
+   "pt": "Não pude ir.",
+   "en": "I couldn't go.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "eu",
+     "form": "pude"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pps-ele-1",
+   "kind": "contrast",
+   "pt": "Fez o que pôde.",
+   "en": "He did what he could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "ele",
+     "form": "fez"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "ele",
+     "form": "pôde"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pps-eu-1",
+   "kind": "contrast",
+   "pt": "Pus tudo onde pude.",
+   "en": "I put everything wherever I could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "eu",
+     "form": "pus"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "eu",
+     "form": "pude"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pps-ele-2",
+   "kind": "contrast",
+   "pt": "Pôs tudo onde pôde.",
+   "en": "He put everything wherever he could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "ele",
+     "form": "pôs"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "ele",
+     "form": "pôde"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pps-nós-2",
+   "kind": "contrast",
+   "pt": "Pusemos tudo onde pudemos.",
+   "en": "We put everything wherever we could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "nós",
+     "form": "pusemos"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "nós",
+     "form": "pudemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "pôr-pps-eles-2",
+   "kind": "contrast",
+   "pt": "Puseram tudo onde puderam.",
+   "en": "They put everything wherever they could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "pôr",
+     "tense": "pps",
+     "person": "eles",
+     "form": "puseram"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "eles",
+     "form": "puderam"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pres-eu-1",
+   "kind": "sentence",
+   "pt": "O que é que eu faço?",
+   "en": "What do I do?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pres",
+     "person": "eu",
+     "form": "faço"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pres-ele-1",
+   "kind": "formula",
+   "pt": "Não faz mal.",
+   "en": "Never mind.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pres",
+     "person": "ele",
+     "form": "faz"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pps-eu-1",
+   "kind": "contrast",
+   "pt": "Fiz o que pude.",
+   "en": "I did what I could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "eu",
+     "form": "fiz"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "eu",
+     "form": "pude"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pps-tu-1",
+   "kind": "echo",
+   "pt": "Fizeste tu? — Não fiz, fez ele.",
+   "en": "Did you do it? — I didn't, he did.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "tu",
+     "form": "fizeste"
+    },
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "eu",
+     "form": "fiz"
+    },
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "ele",
+     "form": "fez"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Fizeste tu?",
+    "Não fiz, fez ele."
+   ]
+  },
+  {
+   "id": "fazer-pps-ele-2",
+   "kind": "formula",
+   "pt": "Fez-se tarde.",
+   "en": "It got late.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "ele",
+     "form": "fez"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pps-nós-1",
+   "kind": "formula",
+   "pt": "Fizemos as pazes.",
+   "en": "We made up.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "nós",
+     "form": "fizemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pps-nós-2",
+   "kind": "contrast",
+   "pt": "Fizemos o que pudemos.",
+   "en": "We did what we could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "nós",
+     "form": "fizemos"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "nós",
+     "form": "pudemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Fizeram bem.",
+   "en": "They did the right thing.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "eles",
+     "form": "fizeram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pps-eles-2",
+   "kind": "contrast",
+   "pt": "Fizeram o que puderam.",
+   "en": "They did what they could.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pps",
+     "person": "eles",
+     "form": "fizeram"
+    },
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "eles",
+     "form": "puderam"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pres-eu-1",
+   "kind": "sentence",
+   "pt": "Não digo nada.",
+   "en": "I'm not saying anything.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pres",
+     "person": "eu",
+     "form": "digo"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pres-ele-1",
+   "kind": "formula",
+   "pt": "Como se diz…?",
+   "en": "How do you say…?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pres",
+     "person": "ele",
+     "form": "diz"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pps-eu-1",
+   "kind": "formula",
+   "pt": "Eu bem te disse!",
+   "en": "I told you so!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pps",
+     "person": "eu",
+     "form": "disse"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pps-ele-1",
+   "kind": "sentence",
+   "pt": "Quem disse isso?",
+   "en": "Who said that?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pps",
+     "person": "ele",
+     "form": "disse"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Foi o que dissemos.",
+   "en": "That's what we said.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pps",
+     "person": "nós",
+     "form": "dissemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Disseram-me que sim.",
+   "en": "They told me yes.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pps",
+     "person": "eles",
+     "form": "disseram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pres-eu-1",
+   "kind": "formula",
+   "pt": "Quero lá saber!",
+   "en": "I couldn't care less!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pres",
+     "person": "eu",
+     "form": "quero"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pres-ele-1",
+   "kind": "formula",
+   "pt": "Quer dizer…",
+   "en": "I mean…",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pres",
+     "person": "ele",
+     "form": "quer"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pps-eu-1",
+   "kind": "sentence",
+   "pt": "Eu não quis incomodar.",
+   "en": "I didn't want to bother anyone.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pps",
+     "person": "eu",
+     "form": "quis"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pps-ele-1",
+   "kind": "sentence",
+   "pt": "Ele não quis saber.",
+   "en": "He didn't want to know.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pps",
+     "person": "ele",
+     "form": "quis"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Não quisemos acordar-te.",
+   "en": "We didn't want to wake you.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pps",
+     "person": "nós",
+     "form": "quisemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Não quiseram vir.",
+   "en": "They didn't want to come.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pps",
+     "person": "eles",
+     "form": "quiseram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pres-eu-1",
+   "kind": "formula",
+   "pt": "Sei lá!",
+   "en": "How should I know!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pres",
+     "person": "eu",
+     "form": "sei"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pres-ele-1",
+   "kind": "formula",
+   "pt": "Sabe bem!",
+   "en": "That tastes/feels good!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pres",
+     "person": "ele",
+     "form": "sabe"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pps-eu-1",
+   "kind": "sentence",
+   "pt": "Só soube ontem.",
+   "en": "I only found out yesterday.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pps",
+     "person": "eu",
+     "form": "soube"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pps-ele-1",
+   "kind": "sentence",
+   "pt": "Ninguém soube de nada.",
+   "en": "Nobody found out anything.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pps",
+     "person": "ele",
+     "form": "soube"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Nunca soubemos porquê.",
+   "en": "We never found out why.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pps",
+     "person": "nós",
+     "form": "soubemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Souberam pelo jornal.",
+   "en": "They found out from the paper.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pps",
+     "person": "eles",
+     "form": "souberam"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "trazer-pres-eu-1",
+   "kind": "sentence",
+   "pt": "Já trago a conta.",
+   "en": "I'll bring the bill right away.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pres",
+     "person": "eu",
+     "form": "trago"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "trazer-pres-ele-1",
+   "kind": "formula",
+   "pt": "O que o traz por cá?",
+   "en": "What brings you here?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pres",
+     "person": "ele",
+     "form": "traz"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "trazer-pps-tu-1",
+   "kind": "echo",
+   "pt": "Trouxeste o guarda-chuva? — Trouxe.",
+   "en": "Did you bring the umbrella? — I did.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pps",
+     "person": "tu",
+     "form": "trouxeste"
+    },
+    {
+     "verb": "trazer",
+     "tense": "pps",
+     "person": "eu",
+     "form": "trouxe"
+    }
+   ],
+   "transfer": [],
+   "turns": [
+    "Trouxeste o guarda-chuva?",
+    "Trouxe."
+   ]
+  },
+  {
+   "id": "trazer-pps-ele-1",
+   "kind": "sentence",
+   "pt": "Quem trouxe isto?",
+   "en": "Who brought this?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pps",
+     "person": "ele",
+     "form": "trouxe"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "trazer-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Trouxemos vinho.",
+   "en": "We brought wine.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pps",
+     "person": "nós",
+     "form": "trouxemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "trazer-pps-eles-1",
+   "kind": "sentence",
+   "pt": "Trouxeram os miúdos.",
+   "en": "They brought the kids.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pps",
+     "person": "eles",
+     "form": "trouxeram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pres-eu-1",
+   "kind": "sentence",
+   "pt": "Dou-te a minha palavra.",
+   "en": "I give you my word.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pres",
+     "person": "eu",
+     "form": "dou"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pres-tu-1",
+   "kind": "formula",
+   "pt": "Dás-me boleia?",
+   "en": "Can you give me a lift?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pres",
+     "person": "tu",
+     "form": "dás"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pres-ele-1",
+   "kind": "formula",
+   "pt": "Não dá.",
+   "en": "It won't work. / No can do.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pres",
+     "person": "ele",
+     "form": "dá"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pres-nós-1",
+   "kind": "formula",
+   "pt": "Damos uma volta?",
+   "en": "Shall we go for a walk?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pres",
+     "person": "nós",
+     "form": "damos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pres-eles-1",
+   "kind": "formula",
+   "pt": "Eles dão-se bem.",
+   "en": "They get along well.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pres",
+     "person": "eles",
+     "form": "dão"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pps-eu-1",
+   "kind": "sentence",
+   "pt": "Dei um passeio.",
+   "en": "I went for a walk.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pps",
+     "person": "eu",
+     "form": "dei"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pps-tu-1",
+   "kind": "formula",
+   "pt": "Deste conta?",
+   "en": "Did you notice?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pps",
+     "person": "tu",
+     "form": "deste"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pps-ele-1",
+   "kind": "formula",
+   "pt": "Deu certo!",
+   "en": "It worked out!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pps",
+     "person": "ele",
+     "form": "deu"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Demos uma volta.",
+   "en": "We went for a walk.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pps",
+     "person": "nós",
+     "form": "demos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dar-pps-eles-1",
+   "kind": "formula",
+   "pt": "Deram cabo de tudo.",
+   "en": "They wrecked everything.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dar",
+     "tense": "pps",
+     "person": "eles",
+     "form": "deram"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "haver-pres-ele-1",
+   "kind": "formula",
+   "pt": "Há quanto tempo!",
+   "en": "Long time no see!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "haver",
+     "tense": "pres",
+     "person": "ele",
+     "form": "há"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "haver-pps-ele-1",
+   "kind": "sentence",
+   "pt": "Houve um acidente.",
+   "en": "There was an accident.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "haver",
+     "tense": "pps",
+     "person": "ele",
+     "form": "houve"
+    }
+   ],
+   "transfer": []
+  }
+ ],
+ "uncovered_cells": [
+  "ir.pps.tu",
+  "ser.pps.nós",
+  "ter.pps.tu",
+  "poder.pres.tu",
+  "poder.pres.nós",
+  "poder.pres.eles",
+  "poder.pps.tu",
+  "fazer.pres.tu",
+  "fazer.pres.nós",
+  "fazer.pres.eles",
+  "dizer.pres.tu",
+  "dizer.pres.nós",
+  "dizer.pres.eles",
+  "dizer.pps.tu",
+  "querer.pres.tu",
+  "querer.pres.nós",
+  "querer.pres.eles",
+  "querer.pps.tu",
+  "saber.pres.tu",
+  "saber.pres.nós",
+  "saber.pres.eles",
+  "saber.pps.tu",
+  "trazer.pres.tu",
+  "trazer.pres.nós",
+  "trazer.pres.eles"
+ ]
+}
