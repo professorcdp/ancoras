@@ -5,9 +5,12 @@
   [SPEC.md](SPEC.md); content in `anchors.json`.
 - Language: plain HTML, CSS and JavaScript modules. No build step unless the code needs one
   (then Vite). See SPEC.md §10.
-- Run locally: serve the folder with a static server, e.g. `python3 -m http.server 8000`, then
-  open http://localhost:8000. (Opening the HTML file directly won't work: `fetch` of
-  `anchors.json` needs a server.)
+- Run locally: `node serve.mjs` in the project folder. It serves the app on port 8000, or the
+  next free port up to 8020 if 8000 is busy, prints the address and opens it in the browser
+  (`--no-open` to skip; `node serve.mjs 9000` to start from another port). No caching, so
+  edits to anchors.json show on reload. (`python3 -m http.server 8000` also works if that port
+  is free.) Opening the HTML file directly won't work: `fetch` of `anchors.json` needs a server.
+- `serve.mjs` binds localhost only and refuses paths outside the folder and hidden files.
 - Test: run `node validate.mjs` in the project folder after any edit to `anchors.json`. It
   prints "anchors.json OK: …" or a list of problems, and exits non-zero on problems. The rules
   live in `js/validate.js` (pure, no DOM), shared with the page's banner.
@@ -17,7 +20,8 @@
   `js/picker.js` (session picker), `js/practice.js` (Meet / Transfer / summary screens),
   `js/data-view.js` (M0 tables at `#data`), `js/dom.js` (DOM helpers). Pure, tested modules:
   `js/validate.js`, `js/grade.js`, `js/session.js`. `js/audio.js` is a silent stub until M5.
-  `validate.mjs` is the Node wrapper; `test/` holds the `node --test` files.
+  `validate.mjs` is the Node wrapper; `serve.mjs` the local server; `test/` holds the
+  `node --test` files.
 - Keep to the spec's non-goals (SPEC.md §2). Build milestones in order and stop after M5 for
   learner feedback.
 - Never fall back to a pt-BR voice.

@@ -33,7 +33,7 @@ async function load() {
     res = await fetch('anchors.json', { cache: 'no-store' });
   } catch (err) {
     showError('Could not load anchors.json.',
-      `${err.message}. Serve this folder with a local server (python3 -m http.server 8000) rather than opening the file directly.`);
+      `${err.message}. Start the app with "node serve.mjs" in the project folder rather than opening the file directly.`);
     return;
   }
   if (!res.ok) {

@@ -47,3 +47,20 @@ Newest entries at the bottom.
 - **Issues touched:** #2 closed. Opened #13: 85 of 117 cells have no second sentence, so
   Transfer shows the bare prompt for most cells (worst for dar, ir, estar, ter, ser).
 - **Next:** decide #12 and do #9, then M2 (#3). #13 needs Jim's call on content.
+
+## 2026-10-09: Start-up script on a free port (#14)
+- **Changed:** added `serve.mjs` (Node, no dependencies): serves the folder with correct
+  Content-Type (incl. `text/javascript` for modules), `Cache-Control: no-store`, localhost only
+  (127.0.0.1 and ::1), 404 for missing and hidden files, refuses paths outside the folder.
+  Tries port 8000, then 8001…8020 (or from a port given as the first argument); before
+  claiming a port it checks nothing already answers there, so a server bound to all addresses
+  (e.g. python http.server) isn't shadowed. Prints the address and opens it in the browser
+  (`--no-open` to skip). CLAUDE.md "Run locally" and the load-error hint in js/main.js now say
+  `node serve.mjs`.
+- **Checked:** with python on 8000, two copies of `serve.mjs` landed on 8001 and 8002 and
+  said so; the app loaded from 8002 with no console errors and a session started; headers,
+  404s, `..` paths, `.git/`, a custom port, a bad port argument and all-ports-busy all behave.
+  The browser-opening step wasn't exercised (tests used `--no-open`). `node --test` 45/45,
+  `node validate.mjs` OK.
+- **Issues touched:** #14 closed.
+- **Next:** decide #12 and do #9, then M2 (#3). #13 still needs Jim's call on content.
