@@ -3,7 +3,7 @@
 
 import { isObject } from './validate.js';
 import { $, el, highlight } from './dom.js';
-import { gradeForm, CORRECT, ALMOST } from './grade.js';
+import { gradeForm, normalize, CORRECT, ALMOST } from './grade.js';
 import { speak } from './audio.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, orderCells, requeue, splitOnForm, summarize,
@@ -99,6 +99,11 @@ export function startSession(data, selection, { onHome }) {
     form.addEventListener('submit', e => {
       e.preventDefault();
       if (input.disabled) return;
+      // An empty box (or only spaces/punctuation) isn't an answer: don't grade or use the try.
+      if (!normalize(input.value)) {
+        input.focus();
+        return;
+      }
       const result = gradeForm(input.value, cell.form);
       input.disabled = true;
       keys.forEach(k => { k.disabled = true; });

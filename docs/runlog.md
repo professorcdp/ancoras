@@ -64,3 +64,11 @@ Newest entries at the bottom.
   `node validate.mjs` OK.
 - **Issues touched:** #14 closed.
 - **Next:** decide #12 and do #9, then M2 (#3). #13 still needs Jim's call on content.
+
+## 2026-10-09 (review)
+- **Reviewed:** 0bf6a19..9d76314
+- **Verdict:** Sound; nothing must-fix. Port-scoped localStorage to fix before M4.
+- **Findings:** Should fix: (1) port-scoped localStorage — saved selection (and later M4 mastery) splits across localhost:8000, :8001, … because serve.mjs hops ports; (2) an empty answer is graded wrong and uses up the first attempt. Could fix: (3) Data link visible during practice, Back/Data drops the session with no warning (js/main.js:15-21); (4) orderCells leaves same-verb neighbours in ~46% of ter+estar sessions though alternation is always possible (js/session.js:139-150; test only covers vir+ver); (5) serve.mjs Content-Length from stat before streaming can truncate a file saved mid-request, and its path rules have no automated test.
+- **Fixed:** (1) `serve.mjs` now defaults to port 4791 (uncommon, so rarely busy); if it has to fall back (4792–4811) or is given another port, it prints a warning that saved settings and progress live on 4791. CLAUDE.md "Run locally" updated. Note: the selection saved on :8000 doesn't carry over; pick it once more on :4791. (2) Submitting an empty box (or only spaces/punctuation) does nothing and keeps focus in the input; uses the existing tested `normalize()`, so no new pure function or test. Checked in the browser with real keystrokes; `node --test` 45/45, `node validate.mjs` OK.
+- **Deferred:** (3) #15, (4) #16 (measured 48% over 5000 runs; pôr+poder repeats are unavoidable, 10 vs 6 cells), (5) #17.
+- **Next:** decide #12 and do #9, then M2 (#3). #15 before M4. #13 still needs Jim's call on content.
