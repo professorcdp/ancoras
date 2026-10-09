@@ -1,7 +1,11 @@
 // Serve the app locally: node serve.mjs [port] [--no-open]
 // Static files from this folder, localhost only, no caching (so edits to anchors.json show
-// on reload). Starts at port 8000 (or the given port) and moves up to 20 ports past it if
-// that one is busy. No dependencies.
+// on reload). Uses port 4791 (or the given port) and moves up to 20 ports past it if that
+// one is busy. No dependencies.
+//
+// Keep the port stable: the browser keeps saved data (the last selection now, mastery
+// progress from M4) per address, and the port is part of the address. On any other port
+// the app starts with nothing saved, so a fallback prints a warning.
 
 import { createServer } from 'node:http';
 import { connect } from 'node:net';
@@ -13,6 +17,7 @@ import { spawn } from 'node:child_process';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url)).replace(/[\\/]$/, '');
 const HOSTS = ['127.0.0.1', '::1']; // "localhost" can mean either; claim the port on both
+const DEFAULT_PORT = 4791; // uncommon on purpose, so it's almost never busy
 const TRIES = 21;
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -29,7 +34,7 @@ const TYPES = {
 const args = process.argv.slice(2);
 const noOpen = args.includes('--no-open');
 const portArg = args.find(a => !a.startsWith('--'));
-const firstPort = portArg === undefined ? 8000 : Number(portArg);
+const firstPort = portArg === undefined ? DEFAULT_PORT : Number(portArg);
 if (!Number.isInteger(firstPort) || firstPort < 1 || firstPort > 65535) {
   console.error(`Not a port number: ${portArg}. Usage: node serve.mjs [port] [--no-open]`);
   process.exit(1);
@@ -118,6 +123,11 @@ for (let port = firstPort; port < firstPort + TRIES && port <= 65535; port++) {
   const url = `http://localhost:${port}`;
   console.log(`Âncoras: ${url}  (Ctrl+C to stop)`);
   if (port !== firstPort) console.log(`(Port ${firstPort} was busy, so this uses ${port}.)`);
+  if (port !== DEFAULT_PORT) {
+    console.log(`Warning: your saved settings and progress live on port ${DEFAULT_PORT}, so ` +
+      `they won't show here and anything saved now stays on ${port}. To get them back, stop ` +
+      `whatever is using ${DEFAULT_PORT} and run "node serve.mjs" again.`);
+  }
   if (!noOpen && process.platform === 'darwin') {
     try {
       spawn('open', [url], { stdio: 'ignore', detached: true }).on('error', () => {}).unref();
@@ -131,6 +141,6 @@ for (let port = firstPort; port < firstPort + TRIES && port <= 65535; port++) {
 
 if (!started) {
   console.error(`Ports ${firstPort}–${firstPort + TRIES - 1} are all busy. ` +
-    `Close another local server, or pick a port: node serve.mjs 9000`);
+    `Close another local server and try again (saved progress lives on ${DEFAULT_PORT}).`);
   process.exit(1);
 }

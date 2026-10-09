@@ -5,11 +5,13 @@
   [SPEC.md](SPEC.md); content in `anchors.json`.
 - Language: plain HTML, CSS and JavaScript modules. No build step unless the code needs one
   (then Vite). See SPEC.md §10.
-- Run locally: `node serve.mjs` in the project folder. It serves the app on port 8000, or the
-  next free port up to 8020 if 8000 is busy, prints the address and opens it in the browser
-  (`--no-open` to skip; `node serve.mjs 9000` to start from another port). No caching, so
-  edits to anchors.json show on reload. (`python3 -m http.server 8000` also works if that port
-  is free.) Opening the HTML file directly won't work: `fetch` of `anchors.json` needs a server.
+- Run locally: `node serve.mjs` in the project folder. It serves the app on
+  http://localhost:4791, prints the address and opens it in the browser (`--no-open` to skip).
+  Keep to 4791: the browser stores saved data (last selection; mastery progress from M4) per
+  address including the port, so another port starts empty. If 4791 is busy it falls back to
+  4792–4811 with a warning saying so. No caching, so edits to anchors.json show on reload.
+  (`python3 -m http.server 4791` also works, same port for the same saved data.) Opening the
+  HTML file directly won't work: `fetch` of `anchors.json` needs a server.
 - `serve.mjs` binds localhost only and refuses paths outside the folder and hidden files.
 - Test: run `node validate.mjs` in the project folder after any edit to `anchors.json`. It
   prints "anchors.json OK: …" or a list of problems, and exits non-zero on problems. The rules
