@@ -45,3 +45,18 @@ anchors, where context decides.
 At 5 items per cell, Discriminate is the longest phase: 95 taps for ter+estar (19 cells),
 100 for vir+ver, 50 for ir+ser (present only). Taps are quick, but a full session is now
 long; see #18 (let the picker choose steps).
+
+## Amendment, 2026-10-09: what counts toward mastery (#23)
+Decided by Jim with the advisor. Only items about the cell's **own** form count toward its
+mastery: its "which form?" items and the "which verb?" items that show its own form. A
+"which verb?" item showing a confusable verb's form (e.g. "viemos → vir" under ver.pps.nós)
+stays in the session as practice but is scored for no cell. Each item carries `counts`; the
+tally (`tallyDiscriminate`) returns scored and practice figures per cell, and the summary
+shows e.g. "3/3 (+2/2 practice)" (full marks green, partial amber, zero red).
+
+Reason: the mastery grid answers "can I produce THIS form?", so it should rest only on
+evidence about this form. Crediting another cell with a tap made while practising a
+different cell would move its mastery on weaker evidence.
+
+Consequence: a cell whose own form is shared within its set (e.g. ver.pps.nós, *vimos*)
+gets no scored "which verb?" items; its "which form?" items still count.

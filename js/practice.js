@@ -9,7 +9,7 @@ import { speak } from './audio.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
   splitOnForm, summarize, describeCells, tenseLabel, planPhases, runPhases,
-  discriminateItemsFor, interleave,
+  discriminateItemsFor, interleave, tallyDiscriminate,
 } from './session.js';
 
 const ACCENTS = ['á', 'à', 'â', 'ã', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ç'];
@@ -34,7 +34,7 @@ export function startSession(data, selection, { onHome, onAgain }) {
     };
   });
   const results = { recall: new Map(), echo: new Map(), transfer: new Map() }; // key -> grades
-  const tapped = new Map(); // Discriminate: key -> { right, total }
+  const taps = []; // Discriminate: { key, counts, right } per tap, in order
   let finished = false;
 
   const root = $('practice');
@@ -245,8 +245,7 @@ export function startSession(data, selection, { onHome, onAgain }) {
         if (buttons.some(b => b.disabled)) return;
         buttons.forEach(b => { b.disabled = true; });
         const right = opt === item.answer;
-        const t = tapped.get(item.key) ?? { right: 0, total: 0 };
-        tapped.set(item.key, { right: t.right + (right ? 1 : 0), total: t.total + 1 });
+        taps.push({ key: item.key, counts: item.counts, right });
         for (const b of buttons) {
           if (b.textContent === item.answer) b.classList.add('right');
           else if (b.textContent === opt) b.classList.add('wrong');
@@ -299,12 +298,17 @@ export function startSession(data, selection, { onHome, onAgain }) {
       .map(([, key]) => [key, summarize(plan, results[key])]));
     const label = { first: '✓ first try', retry: '✓ on retry', missed: '✗' };
     const firstTry = rows.transfer.filter(r => r.status === 'first').length;
+    const tally = tallyDiscriminate(taps);
     const status = (key, i) => {
       if (key === 'echo' && !plan[i].echo) return el('td', { class: 'none' }, '—');
       if (key === 'discriminate') {
-        const t = tapped.get(plan[i].key);
+        const t = tally.get(plan[i].key);
         if (!t) return el('td', { class: 'none' }, '—');
-        return el('td', { class: t.right === t.total ? 'first' : 'missed' }, `${t.right}/${t.total}`);
+        const { scored, practice } = t;
+        const style = !scored.total ? 'none' : scored.right === scored.total ? 'first'
+          : scored.right ? 'partial' : 'missed';
+        return el('td', { class: style }, scored.total ? `${scored.right}/${scored.total}` : '—',
+          practice.total ? el('span', { class: 'practice-tag' }, ` (+${practice.right}/${practice.total} practice)`) : null);
       }
       const r = rows[key][i];
       return el('td', { class: r.status }, label[r.status],
