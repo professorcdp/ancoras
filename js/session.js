@@ -103,10 +103,44 @@ export function pickEchoAnchor(cell, meet) {
   return cell.anchors.find(qualifies);
 }
 
-// The target forms of an anchor that appear in `text` (e.g. an echo anchor's answer turn).
+// The targets of an anchor whose form appears in `text` (e.g. an echo anchor's answer
+// turn), one per cell, in target order.
+export function targetsIn(anchor, text) {
+  const t = String(text).normalize('NFC');
+  const seen = new Set();
+  return list(anchor?.targets).filter(isObject).filter(x => {
+    const key = cellKey(x.verb, x.tense, x.person);
+    if (seen.has(key) || typeof x.form !== 'string' || !formRegex(x.form).test(t)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+// The target forms of an anchor that appear in `text`, without repeats.
 export function formsIn(anchor, text) {
-  const forms = list(anchor?.targets).filter(isObject).map(t => t.form).filter(f => typeof f === 'string');
-  return [...new Set(forms)].filter(f => formRegex(f).test(String(text).normalize('NFC')));
+  return [...new Set(targetsIn(anchor, text).map(x => x.form))];
+}
+
+export const TENSE_SHORT = { pres: 'present', pps: 'PPS' };
+export const tenseLabel = t => TENSE_SHORT[t] ?? t;
+
+// A cue naming the cells being graded, with `first` (the session's cell) leading:
+// one cell "tu · vir · present"; same verb and tense "tu + eu · vir · present";
+// same person and tense "eu · vir + ver · PPS"; otherwise full cues joined by " + ".
+export function describeCells(targets, first) {
+  const cells = [];
+  for (const t of [first, ...list(targets)].filter(isObject)) {
+    if (!cells.some(c => c.verb === t.verb && c.tense === t.tense && c.person === t.person)) {
+      cells.push({ verb: t.verb, tense: t.tense, person: t.person });
+    }
+  }
+  const same = k => cells.every(c => c[k] === cells[0][k]);
+  const join = k => [...new Set(cells.map(c => c[k]))].join(' + ');
+  if (cells.length <= 1 || (same('verb') && same('tense'))) {
+    return `${join('person')} · ${cells[0]?.verb} · ${tenseLabel(cells[0]?.tense)}`;
+  }
+  if (same('person') && same('tense')) return `${cells[0].person} · ${join('verb')} · ${tenseLabel(cells[0].tense)}`;
+  return cells.map(c => `${c.person} · ${c.verb} · ${tenseLabel(c.tense)}`).join(' + ');
 }
 
 // Transfer sentence (SPEC §6 step 5): another anchor for the same cell, then an entry from
@@ -166,8 +200,8 @@ export function orderCells(cells, rng = Math.random, prev = null) {
   return a;
 }
 
-// After a Transfer answer: a miss (wrong or almost) on the first attempt sends the cell to
-// the back of the queue once. Returns the new queue; the answered item is already removed.
+// After a graded answer (Recall, Echo or Transfer; decision 0007): a miss (wrong or almost)
+// on the first attempt sends the cell to the back of the queue once. Returns the new queue; the answered item is already removed.
 export function requeue(queue, item, result) {
   if (result !== CORRECT && item.attempt === 1) return [...queue, { ...item, attempt: 2 }];
   return queue;

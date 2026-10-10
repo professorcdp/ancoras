@@ -7,13 +7,11 @@ import { $, el, highlight } from './dom.js';
 import { gradeForm, gradePhrase, normalize, CORRECT, ALMOST } from './grade.js';
 import { speak } from './audio.js';
 import {
-  buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, formsIn, orderCells, requeue,
-  splitOnForm, summarize,
+  buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
+  splitOnForm, summarize, describeCells, tenseLabel,
 } from './session.js';
 
 const ACCENTS = ['á', 'à', 'â', 'ã', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ç'];
-const TENSE_SHORT = { pres: 'present', pps: 'PPS' };
-const tenseLabel = t => TENSE_SHORT[t] ?? t;
 const BLANK = '____';
 const targetForms = a => (Array.isArray(a?.targets) ? a.targets : []).filter(isObject).map(t => t.form);
 
@@ -23,11 +21,13 @@ export function startSession(data, selection, { onHome, onAgain }) {
   const plan = buildCells(data, selection).cells.map(cell => {
     const meet = pickMeetAnchor(cell.anchors);
     const echo = pickEchoAnchor(cell, meet);
+    const meetTargets = (Array.isArray(meet.targets) ? meet.targets : []).filter(isObject);
     return {
       ...cell, meet,
       transfer: pickTransfer(cell, meet),
       echo,
-      echoForms: echo ? formsIn(echo, echo.turns[1]) : [],
+      recallTargets: meetTargets, // Recall grades every target of the Meet anchor
+      echoTargets: echo ? targetsIn(echo, echo.turns[1]) : [], // Echo grades the answer's
     };
   });
   const results = { recall: new Map(), echo: new Map(), transfer: new Map() }; // key -> grades
@@ -43,9 +43,15 @@ export function startSession(data, selection, { onHome, onAgain }) {
   };
 
   const cueText = cell => `${cell.verb} · ${tenseLabel(cell.tense)} · ${cell.person}`;
-  const cueLine = cell => el('p', { class: 'cue', lang: 'pt-PT' },
-    el('b', {}, cell.person), notes[cell.person] ? ` (${notes[cell.person]})` : '',
-    ` · ${cell.verb} · ${tenseLabel(cell.tense)}`);
+  // The cue for the cell(s) being graded: "tu (…) · vir · present" for one cell, or e.g.
+  // "tu + eu · vir · present" when a phrase grades several.
+  const cueLine = (cell, targets = []) => {
+    const text = describeCells(targets, cell);
+    if (text !== describeCells([], cell)) return el('p', { class: 'cue', lang: 'pt-PT' }, el('b', {}, text));
+    return el('p', { class: 'cue', lang: 'pt-PT' },
+      el('b', {}, cell.person), notes[cell.person] ? ` (${notes[cell.person]})` : '',
+      ` · ${cell.verb} · ${tenseLabel(cell.tense)}`);
+  };
 
   // An anchor's phrase (both turns for echo) with all its targets marked.
   const phrase = a => el('p', { class: 'pt', lang: 'pt-PT' },
@@ -172,27 +178,27 @@ export function startSession(data, selection, { onHome, onAgain }) {
   const RECALL = {
     key: 'recall', name: 'Recall',
     prompt: cell => [
-      cueLine(cell),
+      cueLine(cell, cell.recallTargets),
       el('p', { class: 'gloss' }, cell.meet.en),
       el('p', { class: 'muted instruction' }, cell.meet.kind === 'echo'
         ? 'Type the whole exchange in Portuguese: question and answer.'
         : 'Type the whole phrase in Portuguese.'),
     ],
-    grade: (cell, answer) => gradePhrase(answer, targetForms(cell.meet)),
+    grade: (cell, answer) => gradePhrase(answer, cell.recallTargets.map(t => t.form)),
     feedback: (cell, outcome) => phraseFeedback(outcome, phrase(cell.meet)),
   };
 
   const ECHO = {
     key: 'echo', name: 'Echo',
     prompt: cell => [
-      cueLine(cell),
+      cueLine(cell, cell.echoTargets),
       el('div', { class: 'question' },
         el('p', { class: 'pt', lang: 'pt-PT' }, cell.echo.turns[0]),
         el('button', { type: 'button', class: 'play', onclick: () => speak(cell.echo.turns[0]) }, '▶ Play')),
       questionGloss(cell.echo) ? el('p', { class: 'en' }, questionGloss(cell.echo)) : null,
       el('p', { class: 'muted instruction' }, 'Type the answer.'),
     ],
-    grade: (cell, answer) => gradePhrase(answer, cell.echoForms),
+    grade: (cell, answer) => gradePhrase(answer, cell.echoTargets.map(t => t.form)),
     feedback: (cell, outcome) => phraseFeedback(outcome, phrase(cell.echo)),
   };
 

@@ -410,7 +410,7 @@
    "id": "vir-pres-tu-1",
    "kind": "echo",
    "pt": "De onde vens? — Venho do Porto.",
-   "en": "Where are you coming from? — From Porto.",
+   "en": "Where are you coming from? — I come from Porto.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -528,7 +528,7 @@
    "id": "vir-pps-tu-1",
    "kind": "echo",
    "pt": "Como vieste? — Vim a pé.",
-   "en": "How did you get here? — On foot.",
+   "en": "How did you get here? — I came on foot.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -606,7 +606,7 @@
    "id": "vir-pps-eles-1",
    "kind": "echo",
    "pt": "Eles já vieram? — Vieram.",
-   "en": "Have they come? — Yes, they have.",
+   "en": "Have they come? — Yes, they came.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -735,7 +735,7 @@
    "id": "ver-pps-tu-1",
    "kind": "echo",
    "pt": "Viste as minhas chaves? — Não vi.",
-   "en": "Have you seen my keys? — No, I haven't.",
+   "en": "Have you seen my keys? — No, I didn't see them.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -802,7 +802,7 @@
    "id": "ver-pps-eles-1",
    "kind": "echo",
    "pt": "Viram o jogo? — Vimos.",
-   "en": "Did you all see the game? — We did.",
+   "en": "Did you all see the game? — We saw it.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -1183,7 +1183,7 @@
    "id": "ser-pres-eles-1",
    "kind": "echo",
    "pt": "Que horas são? — São três.",
-   "en": "What time is it? — Three.",
+   "en": "What time is it? — It's three o'clock.",
    "established": true,
    "needs_native_check": false,
    "targets": [
@@ -1204,7 +1204,7 @@
    "id": "ser-pps-ele-1",
    "kind": "echo",
    "pt": "Quem foi? — Fui eu.",
-   "en": "Who was it? — Me.",
+   "en": "Who was it? — It was me.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -1231,7 +1231,7 @@
    "id": "ser-pps-tu-1",
    "kind": "echo",
    "pt": "Foste tu? — Não fui eu, foi ele.",
-   "en": "Was it you? — Not me, him.",
+   "en": "Was it you? — It wasn't me, it was him.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -1264,7 +1264,7 @@
    "id": "ser-pps-ele-2",
    "kind": "echo",
    "pt": "Como foi? — Foi ótimo.",
-   "en": "How was it? — Great.",
+   "en": "How was it? — It was great.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -1540,7 +1540,7 @@
    "id": "estar-pps-tu-1",
    "kind": "echo",
    "pt": "Onde estiveste? — Estive em casa.",
-   "en": "Where were you? — At home.",
+   "en": "Where were you? — I was at home.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -1726,7 +1726,7 @@
    "id": "pôr-pps-tu-1",
    "kind": "echo",
    "pt": "Onde puseste as chaves? — Pus em cima da mesa.",
-   "en": "Where did you put the keys? — On the table.",
+   "en": "Where did you put the keys? — I put them on the table.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -2027,7 +2027,7 @@
    "id": "fazer-pps-tu-1",
    "kind": "echo",
    "pt": "Fizeste tu? — Não fiz, fez ele.",
-   "en": "Did you do it? — I didn't, he did.",
+   "en": "Did you do it? — I didn't do it, he did.",
    "established": false,
    "needs_native_check": true,
    "targets": [
@@ -2497,7 +2497,7 @@
    "id": "trazer-pps-tu-1",
    "kind": "echo",
    "pt": "Trouxeste o guarda-chuva? — Trouxe.",
-   "en": "Did you bring the umbrella? — I did.",
+   "en": "Did you bring the umbrella? — Yes, I brought it.",
    "established": false,
    "needs_native_check": true,
    "targets": [
