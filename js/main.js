@@ -9,10 +9,14 @@ import { startSession } from './practice.js';
 
 const VIEWS = ['home', 'practice', 'data'];
 
+const LEAVE_PROMPT = 'End this session? What you\'ve done in it will be lost.';
+
+let session = null; // the running practice session's controller, if any
+
 function showView(name) {
   for (const v of VIEWS) $(`${v}-view`).hidden = v !== name;
   $('banner').hidden = name === 'practice';
-  $('nav-data').hidden = name === 'data';
+  $('nav-data').hidden = name !== 'home';
   $('nav-home').hidden = name !== 'data';
 }
 
@@ -66,14 +70,37 @@ function render(data) {
     if (location.hash) history.pushState(null, '', location.pathname);
     route();
   };
-  for (const id of ['home-link', 'nav-home']) {
-    $(id).addEventListener('click', e => { e.preventDefault(); home(); });
-  }
+
+  // A session gets its own history entry, so the browser's Back button returns home.
+  // Leaving an unfinished session (Back, "End session", the title link) asks first.
+  const run = selection => {
+    session = startSession(data, selection, { onHome: endSession, onAgain: () => run(selection) });
+  };
+  const endSession = () => {
+    if (!session) return home();
+    if (session.inProgress() && !confirm(LEAVE_PROMPT)) return;
+    session = null;
+    history.back(); // pops the session's entry; popstate below shows home
+  };
+  window.addEventListener('popstate', () => {
+    if (session) {
+      if (session.inProgress() && !confirm(LEAVE_PROMPT)) {
+        history.pushState({ practice: true }, '', location.pathname); // stay in the session
+        return;
+      }
+      session = null;
+    }
+    route();
+  });
+
+  $('home-link').addEventListener('click', e => { e.preventDefault(); endSession(); });
+  $('nav-home').addEventListener('click', e => { e.preventDefault(); home(); });
   renderPicker(data, {
     ok,
     onStart: selection => {
+      history.pushState({ practice: true }, '', location.pathname);
       showView('practice');
-      startSession(data, selection, { onHome: home });
+      run(selection);
     },
   });
   window.addEventListener('hashchange', route);

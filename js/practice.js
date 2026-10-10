@@ -14,7 +14,8 @@ const TENSE_SHORT = { pres: 'present', pps: 'PPS' };
 const tenseLabel = t => TENSE_SHORT[t] ?? t;
 const BLANK = '____';
 
-export function startSession(data, selection, { onHome }) {
+// Returns a controller: inProgress() is true until the summary screen is reached.
+export function startSession(data, selection, { onHome, onAgain }) {
   const notes = isObject(data.person_notes) ? data.person_notes : {};
   const plan = buildCells(data, selection).cells.map(cell => {
     const meet = pickMeetAnchor(cell.anchors);
@@ -25,6 +26,7 @@ export function startSession(data, selection, { onHome }) {
   let transferTotal = queue.length;
   let transferDone = 0;
   const results = new Map(); // cell key -> ['wrong', 'correct'] (one entry per attempt)
+  let finished = false;
 
   const root = $('practice');
   const show = (...children) => {
@@ -152,6 +154,7 @@ export function startSession(data, selection, { onHome }) {
   }
 
   function summary() {
+    finished = true;
     const rows = summarize(plan, results);
     const label = { first: '✓ first try', retry: '✓ on retry', missed: '✗' };
     const firstTry = rows.filter(r => r.status === 'first').length;
@@ -164,11 +167,12 @@ export function startSession(data, selection, { onHome }) {
           el('td', { lang: 'pt-PT' }, el('b', {}, r.cell.form)),
           el('td', {}, label[r.status], r.almost ? el('span', { class: 'almost-tag' }, 'almost') : null))))),
       el('div', { class: 'actions' },
-        el('button', { type: 'button', class: 'primary', onclick: () => startSession(data, selection, { onHome }) },
+        el('button', { type: 'button', class: 'primary', onclick: onAgain },
           'Practise again'),
         el('button', { type: 'button', onclick: onHome }, 'Home')),
     );
   }
 
   meet(0);
+  return { inProgress: () => !finished };
 }
