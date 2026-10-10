@@ -46,6 +46,7 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 - Where to host once it works (any static host)
 
 ## Current status
-M1 done (2026-10-06); local server `node serve.mjs` on port 4791 (2026-10-09). Echo rule
-decided (decision 0006) and the validator now checks echo pairs. No progress is stored yet.
-Next: M2 (#3), Recall + Echo. Open: #15 before M4; content question #13.
+M2 done (2026-10-09): sessions run Meet → Recall → Echo → Transfer → summary, with phrase
+grading for Recall and Echo (decision 0007). Leaving a session mid-way now asks first (#15).
+No progress is stored yet. Next: M3 (#4), Discriminate. Open: #13 (content), #18 (choose
+steps?), #16, #17.

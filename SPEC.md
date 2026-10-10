@@ -88,8 +88,9 @@ the bare form.
 
 1. **Meet.** Show the anchor, gloss, and target form highlighted. Play audio. The learner
    repeats aloud and taps to continue. Not graded.
-2. **Recall.** Show the English gloss (and for echo anchors, the question turn). The learner
-   types the whole phrase, or the answer turn for echo anchors.
+2. **Recall.** Show the English gloss. The learner types the whole phrase; for echo anchors,
+   the whole exchange (both turns, from the English of both), since Echo already tests the
+   answer alone (decision 0007).
 3. **Echo.** Only for cells whose form appears in the answer turn of an echo anchor. Play and
    show the question; the learner types the answer, and the answer turn's targets are graded.
    Cells whose form appears only in the question turn (or in no echo anchor) skip this step;

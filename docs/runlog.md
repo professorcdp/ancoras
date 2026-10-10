@@ -95,3 +95,29 @@ Newest entries at the bottom.
   fails against the old validator). `node validate.mjs` OK.
 - **Issues touched:** #12 and #9 closed.
 - **Next:** M2 (#3). #15 before M4. #13 still needs Jim's call on content.
+
+## 2026-10-09: Leaving a session asks first (#15); M2 Recall and Echo (#3)
+- **#15:** the Data link is hidden during practice; a session gets its own history entry so
+  Back returns home; Back, "End session" and the title link ask before abandoning an
+  unfinished session (Cancel keeps the current item); from the summary they go home without
+  asking. Checked in the browser, incl. after "Practise again". Separate commit.
+- **M2:** sessions now run Meet → Recall → Echo → Transfer → summary (decision 0007). Recall
+  asks for the Meet anchor's whole phrase from its English (the whole exchange for echo
+  pairs); Echo shows the question of an echo pair whose answer contains the cell's form and
+  asks for the answer. Both grade with the new `gradePhrase()` (js/grade.js): strict on target
+  forms, lenient elsewhere; punctuation becomes a space so hyphenated clitics (Vai-se,
+  Dou-te, foi-se) still count. New `pickEchoAnchor()` and `formsIn()` in js/session.js. All
+  graded steps share one input / accent / empty-answer / one-retry routine in js/practice.js.
+  Summary has Recall, Echo and Transfer columns; the headline counts Transfer first tries.
+  SPEC §6 step 2 updated. No change to anchors.json.
+- **Session length:** a full vir+ver session (20 cells) is now at least 65 screens: 20 Meet +
+  20 Recall + 5 Echo + 20 Transfer, plus one per miss (my test run with 4 misses: 69).
+  Opened #18 (question): let the picker choose which steps to run.
+- **Tests:** `node --test` 61/61 (14 new: gradePhrase incl. echo with/without dash, contrast
+  with one form wrong, clitics, empty; pickEchoAnchor incl. a question-only cell → none,
+  ver.pps.nós → ver-pps-eles-1, exactly the 13 cells of decision 0006). `node validate.mjs` OK.
+  Browser: vir+ver ran Meet 20, Recall 20+3, Echo 5+1, Transfer 20; echo cells show both
+  turns' English in Recall and only the question in Echo; question-only tu cells get no Echo;
+  the "Vim, vi e venci" contrast is graded on both forms; Back mid-session asks; phone width.
+- **Issues touched:** #15 and #3 closed; opened #18.
+- **Next:** M3 (#4), Discriminate. Jim: run /second-opinion in a new chat on these commits.

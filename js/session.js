@@ -92,6 +92,23 @@ export function pickMeetAnchor(anchors) {
   return anchors.find(a => a.established === true) ?? anchors[0];
 }
 
+// Echo anchor (SPEC §6 step 3, decision 0006): an echo anchor whose answer turn contains the
+// cell's form as a whole word. Prefer the Meet anchor if it qualifies, else the first in file
+// order. Undefined if none: the cell skips Echo (e.g. a tu form only in the question).
+export function pickEchoAnchor(cell, meet) {
+  const qualifies = a => a?.kind === 'echo' && Array.isArray(a.turns) && a.turns.length === 2 &&
+    a.turns.every(t => typeof t === 'string') &&
+    formRegex(cell.form).test(a.turns[1].normalize('NFC'));
+  if (meet && cell.anchors.includes(meet) && qualifies(meet)) return meet;
+  return cell.anchors.find(qualifies);
+}
+
+// The target forms of an anchor that appear in `text` (e.g. an echo anchor's answer turn).
+export function formsIn(anchor, text) {
+  const forms = list(anchor?.targets).filter(isObject).map(t => t.form).filter(f => typeof f === 'string');
+  return [...new Set(forms)].filter(f => formRegex(f).test(String(text).normalize('NFC')));
+}
+
 // Transfer sentence (SPEC §6 step 5): another anchor for the same cell, then an entry from
 // the cell's anchors' `transfer` lists (a string, or {pt, en}), then a bare prompt.
 // Sentences that don't contain the form as a whole word can't be blanked, so are skipped.
