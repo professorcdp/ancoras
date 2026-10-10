@@ -254,3 +254,73 @@ export function decideLeave({ via, inProgress, confirmed }) {
   if (!inProgress || confirmed) return { action: 'leave', popHistory: via !== 'back' };
   return { action: 'stay', restoreHistory: via === 'back' };
 }
+
+// Discriminate (SPEC §6 step 4, decision 0008): about 5 tap items per cell whose verb has a
+// confusion set, of two kinds:
+//   'verb'  "Which verb?": show a form, pick the infinitive. The form is the cell's own or the
+//           same tense+person form of a confusable verb. Never used for a form that also
+//           appears anywhere in another set verb's paradigm (all of ir/ser PPS, vimos …).
+//   'form'  "Which form?": cue person + verb + gloss + tense, pick among the same tense+person
+//           forms of the set's verbs. Not possible when two of those forms are identical.
+// Kinds alternate; if only one kind is possible, all items are that kind; if neither, the
+// cell gets no items. Options are shuffled and hold the right answer exactly once.
+export const DISCRIMINATE_ITEMS = 5;
+
+const formKey = f => String(f).normalize('NFC').toLowerCase();
+
+export function discriminateItemsFor(data, cell, rng = Math.random) {
+  const verbs = verbsOf(data);
+  const set = [cell.verb, ...list(verbs[cell.verb]?.confusion_set)]
+    .filter((v, i, a) => v in verbs && a.indexOf(v) === i);
+  if (set.length < 2) return [];
+  const formAt = v => verbs[v]?.forms?.[cell.tense]?.[cell.person];
+  const paradigm = v => Object.values(isObject(verbs[v]?.forms) ? verbs[v].forms : {})
+    .flatMap(ps => Object.values(isObject(ps) ? ps : {})).map(formKey);
+  const sharedWithOther = (form, v) => set.some(w => w !== v && paradigm(w).includes(formKey(form)));
+
+  // Kind 'verb' candidates: (form, verb) pairs at this tense+person, unambiguous in the set.
+  const verbItems = set
+    .filter(v => typeof formAt(v) === 'string' && !sharedWithOther(formAt(v), v))
+    .map(v => ({ form: formAt(v), answer: v }));
+  // Kind 'form' is possible when the set's forms at this tense+person are all different.
+  const choices = set.filter(v => typeof formAt(v) === 'string').map(formAt);
+  const formOk = choices.length >= 2 && new Set(choices.map(formKey)).size === choices.length;
+
+  const kinds = verbItems.length && formOk ? ['verb', 'form'] : verbItems.length ? ['verb'] : formOk ? ['form'] : [];
+  if (!kinds.length) return [];
+  const items = [];
+  for (let i = 0; i < DISCRIMINATE_ITEMS; i++) {
+    const kind = kinds[i % kinds.length];
+    if (kind === 'verb') {
+      const pick = verbItems[Math.floor(i / kinds.length) % verbItems.length];
+      items.push({ kind, key: cell.key, form: pick.form, answer: pick.answer, options: shuffle(set, rng) });
+    } else {
+      items.push({
+        kind, key: cell.key, verb: cell.verb, gloss: verbs[cell.verb]?.gloss, tense: cell.tense,
+        person: cell.person, answer: cell.form, options: shuffle(choices, rng),
+      });
+    }
+  }
+  return items;
+}
+
+// Interleave several lists of items so that no two neighbours come from the same list (cell)
+// when that's possible: always take from the list with most items left that differs from the
+// last one taken (ties broken at random). `prevKey` is the cell shown just before.
+export function interleave(lists, keyOf, rng = Math.random, prevKey = null) {
+  const pools = lists.map(l => l.slice()).filter(l => l.length);
+  const out = [];
+  let last = prevKey;
+  while (pools.length) {
+    const ok = pools.filter(p => keyOf(p[0]) !== last);
+    const from = ok.length ? ok : pools;
+    const most = Math.max(...from.map(p => p.length));
+    const top = from.filter(p => p.length === most);
+    const pool = top[Math.floor(rng() * top.length)];
+    const item = pool.shift();
+    out.push(item);
+    last = keyOf(item);
+    if (!pool.length) pools.splice(pools.indexOf(pool), 1);
+  }
+  return out;
+}

@@ -129,3 +129,33 @@ Newest entries at the bottom.
 - **Fixed:** none (no must-fix items).
 - **Deferred:** (1) #19 (confirmed against the data: 12 of 13 echo answers' English omits the verb; full table in the issue), (2) #20, (3)+(4) #21, (5) #22.
 - **Next:** Jim to choose the approach for #19; then M3 (#4), with #20 before M4 (#5).
+
+## 2026-10-09: Echo English (#19, #22); leave/phase tests (#20); M3 Discriminate (#4)
+- **#19 (+#22):** reworded the answer half of `en` for the 13 echo anchors so it names the
+  verb ("From Porto." → "I come from Porto.", "Me." → "It was me.", …); only those 13 `en`
+  lines changed. Recall's and Echo's cue lines now name every graded cell ("tu + eu · vir ·
+  present", "eu · ver + vir · PPS") via `describeCells()`/`targetsIn()`. Fixed the stale
+  requeue() comment. Browser: Recall on vir-pres-tu-1 shows the new English; the full
+  exchange grades correct there, and "Venho do Porto" grades correct in Echo (vir.pres.eu).
+  (In Recall, which grades both vens and venho, the answer half alone is a miss, by design.)
+- **#20:** `decideLeave()` (ask / leave / stay, plus what to do with the history entry) and
+  `planPhases()`/`runPhases()` (phase order, empty phases left out, last-cell hand-off) are
+  pure in js/session.js; main.js and practice.js call them. 7 new tests. Back / End / title /
+  summary re-checked in the browser: unchanged.
+- **M3 (decision 0008):** Discriminate runs after Echo, 5 tap items per cell of a verb with a
+  confusion set, alternating "which verb?" (never for a form shared within the set, derived
+  from the data) and "which form?" (cue person · verb (gloss) · tense). Interleaved across
+  cells; a correct tap moves on after ~600 ms, a wrong one shows the answer and waits for
+  Next; no retries. Summary column "n/5". Found while building: **ir/ser PPS cells get no
+  Discriminate items** (identical forms make both kinds impossible); ir/ser present cells
+  get both kinds, so an ir+ser session shows both kinds, not only "which form?" as planned.
+  Glosses with their own brackets show as "estar, to be (state/location)".
+- **Tests:** `node --test` 77/77 (63 → 70 → 77); the shared-form rule was mutation-checked
+  (3 tests fail with it switched off). `node validate.mjs` OK.
+- **Browser:** ter+estar showed both kinds (95 items); ir+ser showed 50 items from the
+  present cells only; auto-advance on correct, Next on wrong; summary column; phone width;
+  leaving during the auto-advance pause doesn't advance the old session; no console errors.
+- **Session length:** full presets are now 107–165 screens before retries (vir+ver 165: 100
+  of them Discriminate taps). Numbers added to #18.
+- **Issues touched:** #19, #22, #20, #4 closed; commented on #18.
+- **Next:** M4 (#5). Jim: run /second-opinion in a new chat on 3e9a065..HEAD; decide #18.

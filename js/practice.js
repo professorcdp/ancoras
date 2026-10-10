@@ -9,10 +9,12 @@ import { speak } from './audio.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
   splitOnForm, summarize, describeCells, tenseLabel, planPhases, runPhases,
+  discriminateItemsFor, interleave,
 } from './session.js';
 
 const ACCENTS = ['á', 'à', 'â', 'ã', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ç'];
 const BLANK = '____';
+const AUTO_ADVANCE_MS = 600; // Discriminate: pause on a correct tap before the next item
 const targetForms = a => (Array.isArray(a?.targets) ? a.targets : []).filter(isObject).map(t => t.form);
 
 // Returns a controller: inProgress() is true until the summary screen is reached.
@@ -28,9 +30,11 @@ export function startSession(data, selection, { onHome, onAgain }) {
       echo,
       recallTargets: meetTargets, // Recall grades every target of the Meet anchor
       echoTargets: echo ? targetsIn(echo, echo.turns[1]) : [], // Echo grades the answer's
+      discriminate: discriminateItemsFor(data, cell), // empty: no confusion set (or no item)
     };
   });
   const results = { recall: new Map(), echo: new Map(), transfer: new Map() }; // key -> grades
+  const tapped = new Map(); // Discriminate: key -> { right, total }
   let finished = false;
 
   const root = $('practice');
@@ -223,14 +227,85 @@ export function startSession(data, selection, { onHome, onAgain }) {
       ],
   };
 
+  // Discriminate (decision 0008): tap items interleaved across cells. A correct tap is marked
+  // and moves on by itself; a wrong one shows the answer and waits for Next. No retries.
+  function discriminate(cells, prev, next) {
+    const items = interleave(cells.map(c => c.discriminate), it => it.key, Math.random, prev?.key);
+    const byKey = new Map(cells.map(c => [c.key, c]));
+    let i = 0;
+    const ask = () => {
+      if (i >= items.length) return next(byKey.get(items.at(-1)?.key) ?? prev);
+      const item = items[i];
+      const feedback = el('div', { class: 'feedback', 'aria-live': 'polite' });
+      const buttons = item.options.map(opt => el('button', {
+        type: 'button', class: 'option', lang: 'pt-PT', onclick: () => choose(opt),
+      }, opt));
+      const advance = () => { i++; ask(); };
+      function choose(opt) {
+        if (buttons.some(b => b.disabled)) return;
+        buttons.forEach(b => { b.disabled = true; });
+        const right = opt === item.answer;
+        const t = tapped.get(item.key) ?? { right: 0, total: 0 };
+        tapped.set(item.key, { right: t.right + (right ? 1 : 0), total: t.total + 1 });
+        for (const b of buttons) {
+          if (b.textContent === item.answer) b.classList.add('right');
+          else if (b.textContent === opt) b.classList.add('wrong');
+        }
+        if (right) {
+          // Only advance if this screen is still showing (the learner may have left).
+          setTimeout(() => { if (buttons[0].isConnected) advance(); }, AUTO_ADVANCE_MS);
+          return;
+        }
+        const nextBtn = el('button', { type: 'button', class: 'primary', onclick: advance }, 'Next');
+        feedback.className = 'feedback wrong';
+        feedback.replaceChildren(item.kind === 'verb'
+          ? el('p', {}, el('strong', {}, '✗ '), el('b', { lang: 'pt-PT' }, item.form), ' is ',
+            el('b', { lang: 'pt-PT' }, item.answer), withGloss('', verbGloss(item.answer)), '.')
+          : el('p', {}, el('strong', {}, '✗ '), 'The form is ', el('b', { lang: 'pt-PT' }, item.answer), '.'),
+        el('div', { class: 'actions' }, nextBtn));
+        nextBtn.focus();
+      }
+      show(
+        el('p', { class: 'step' }, `Discriminate · ${i + 1} of ${items.length}`),
+        el('div', { class: 'card' },
+          item.kind === 'verb'
+            ? [el('p', { class: 'muted instruction' }, 'Which verb?'),
+              el('p', { class: 'pt big', lang: 'pt-PT' }, item.form)]
+            : [el('p', { class: 'cue', lang: 'pt-PT' },
+              el('b', {}, item.person), notes[item.person] ? ` (${notes[item.person]})` : '',
+              ` · ${withGloss(item.verb, item.gloss)} · ${tenseLabel(item.tense)}`),
+            el('p', { class: 'muted instruction' }, 'Which form?')],
+          el('div', { class: 'options' }, buttons),
+          feedback),
+      );
+    };
+    ask();
+  }
+
+  // "ver (to see)"; "estar, to be (state/location)" when the gloss has its own brackets.
+  function withGloss(verb, gloss) {
+    if (!gloss) return verb;
+    return gloss.includes('(') ? `${verb}, ${gloss}` : `${verb} (${gloss})`;
+  }
+
+  function verbGloss(verb) {
+    return isObject(data.verbs?.[verb]) ? data.verbs[verb].gloss ?? '' : '';
+  }
+
   function summary() {
     finished = true;
-    const steps = [['Recall', 'recall'], ['Echo', 'echo'], ['Transfer', 'transfer']];
-    const rows = Object.fromEntries(steps.map(([, key]) => [key, summarize(plan, results[key])]));
+    const steps = [['Recall', 'recall'], ['Echo', 'echo'], ['Discriminate', 'discriminate'], ['Transfer', 'transfer']];
+    const rows = Object.fromEntries(steps.filter(([, key]) => results[key])
+      .map(([, key]) => [key, summarize(plan, results[key])]));
     const label = { first: '✓ first try', retry: '✓ on retry', missed: '✗' };
     const firstTry = rows.transfer.filter(r => r.status === 'first').length;
     const status = (key, i) => {
       if (key === 'echo' && !plan[i].echo) return el('td', { class: 'none' }, '—');
+      if (key === 'discriminate') {
+        const t = tapped.get(plan[i].key);
+        if (!t) return el('td', { class: 'none' }, '—');
+        return el('td', { class: t.right === t.total ? 'first' : 'missed' }, `${t.right}/${t.total}`);
+      }
       const r = rows[key][i];
       return el('td', { class: r.status }, label[r.status],
         r.almost ? el('span', { class: 'almost-tag' }, 'almost') : null);
@@ -239,7 +314,8 @@ export function startSession(data, selection, { onHome, onAgain }) {
       el('h2', {}, 'Done'),
       el('p', {}, `${firstTry} of ${plan.length} right first time in Transfer.`),
       el('p', { class: 'muted small' },
-        'Transfer (typing the bare form) is the step mastery will count from M4; Recall and Echo are practice.'),
+        'From M4, mastery counts the bare-form steps: Discriminate and Transfer (SPEC §8). ' +
+        'Recall and Echo are practice.'),
       el('div', { class: 'scroll' },
         el('table', { class: 'summary' },
           el('thead', {}, el('tr', {},
@@ -255,11 +331,12 @@ export function startSession(data, selection, { onHome, onAgain }) {
     );
   }
 
-  // Meet → Recall → Echo → Transfer → summary (planPhases leaves out empty phases); each
-  // phase starts with a cell that differs from the last one shown.
+  // Meet → Recall → Echo → Discriminate → Transfer → summary (planPhases leaves out empty
+  // phases); each phase starts with a cell that differs from the last one shown.
   const GRADED = { recall: RECALL, echo: ECHO, transfer: TRANSFER };
   runPhases(planPhases(plan), (phase, prev, next) => {
     if (phase.name === 'meet') return meet(orderCells(phase.cells, Math.random, prev), 0, next);
+    if (phase.name === 'discriminate') return discriminate(phase.cells, prev, next);
     return graded(GRADED[phase.name], phase.cells, prev, next);
   }, summary);
 
