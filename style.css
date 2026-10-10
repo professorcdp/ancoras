@@ -213,13 +213,23 @@ button.key { min-width: 40px; padding: 6px 0; font-size: 1.05rem; }
 .feedback.almost { background: var(--almost-bg); color: var(--almost-text); }
 .feedback.wrong { background: var(--fail-bg); color: var(--fail-text); }
 .feedback .sentence { font-size: 1.1rem; color: var(--text); }
+.feedback .pt { color: var(--text); }
 .hint { margin-top: 10px; padding-top: 8px; border-top: 1px solid currentColor; }
 .hint-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
 .hint .pt { color: var(--text); font-size: 1.05rem; }
 .hint .en { color: var(--muted); }
 
-table.summary { width: auto; min-width: min(100%, 420px); }
-table.summary td { padding: 6px 12px 6px 0; }
-table.summary tr.missed td:last-child { color: var(--fail-text); }
-table.summary tr.first td:last-child, table.summary tr.retry td:last-child { color: var(--ok-text); }
+table.summary { width: auto; min-width: min(100%, 420px); background: transparent; }
+table.summary th, table.summary td { padding: 6px 14px 6px 0; white-space: nowrap; }
+table.summary td.missed { color: var(--fail-text); }
+table.summary td.first, table.summary td.retry { color: var(--ok-text); }
+table.summary td.none { color: var(--muted); }
+.small { font-size: 0.85rem; }
+
+/* Recall and Echo prompts */
+.card .gloss { font-size: 1.15rem; margin: 8px 0 4px; }
+.card .instruction { font-size: 0.88rem; margin: 2px 0 6px; }
+.question { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
+.question .pt { margin: 6px 0; }
+button.play { padding: 4px 12px; font-size: 0.9rem; }
 .almost-tag { margin-left: 8px; padding: 1px 7px; border-radius: 10px; font-size: 0.78rem; background: var(--almost-bg); color: var(--almost-text); }

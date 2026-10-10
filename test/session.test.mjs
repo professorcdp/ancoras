@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
-  splitOnForm, orderCells, requeue, summarize,
+  pickEchoAnchor, formsIn, splitOnForm, orderCells, requeue, summarize,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -113,4 +113,42 @@ test('summarize: first try, on retry, missed, almost', () => {
   assert.deepEqual(summarize(cells, results).map(r => [r.cell.key, r.status, r.almost]), [
     ['a', 'first', false], ['b', 'retry', true], ['c', 'missed', false], ['d', 'missed', true],
   ]);
+});
+
+const allCells = () => buildCells(data, { ...defaultSelection(data), verbs: Object.keys(data.verbs) }).cells;
+const cellByKey = key => allCells().find(c => c.key === key);
+const echoFor = key => {
+  const cell = cellByKey(key);
+  return pickEchoAnchor(cell, pickMeetAnchor(cell.anchors))?.id;
+};
+
+test('pickEchoAnchor: the answer turn decides, not the id', () => {
+  assert.equal(echoFor('vir.pres.eu'), 'vir-pres-tu-1');   // "… — Venho do Porto."
+  assert.equal(echoFor('ver.pps.nós'), 'ver-pps-eles-1');  // "Viram o jogo? — Vimos."
+  assert.equal(echoFor('vir.pres.tu'), undefined);         // vens is only in the question
+  assert.equal(echoFor('vir.pres.nós'), undefined);        // vimos (vir) isn't in an echo answer
+});
+
+test('pickEchoAnchor: 13 cells get an Echo item (decision 0006)', () => {
+  const keys = allCells().filter(c => pickEchoAnchor(c, pickMeetAnchor(c.anchors))).map(c => c.key);
+  assert.deepEqual(keys.sort(), [
+    'estar.pps.eu', 'fazer.pps.ele', 'fazer.pps.eu', 'pôr.pps.eu', 'ser.pps.ele', 'ser.pps.eu',
+    'ser.pres.eles', 'trazer.pps.eu', 'ver.pps.eu', 'ver.pps.nós', 'vir.pps.eles', 'vir.pps.eu',
+    'vir.pres.eu',
+  ].sort());
+});
+
+test('pickEchoAnchor prefers the Meet anchor when it qualifies', () => {
+  const a = { id: 'a', kind: 'echo', turns: ['Quem foi?', 'Fui eu.'] };
+  const b = { id: 'b', kind: 'echo', turns: ['Foste?', 'Fui.'] };
+  const cell = { form: 'fui', anchors: [a, b] };
+  assert.equal(pickEchoAnchor(cell, b), b);
+  assert.equal(pickEchoAnchor(cell, { id: 'x', kind: 'formula' }), a);
+  assert.equal(pickEchoAnchor({ form: 'fui', anchors: [{ id: 'c', kind: 'sentence', pt: 'Fui.' }] }), undefined);
+});
+
+test('formsIn: only the targets that appear in the given turn', () => {
+  const echo = data.anchors.find(a => a.id === 'ser-pps-tu-1'); // Foste tu? — Não fui eu, foi ele.
+  assert.deepEqual(formsIn(echo, echo.turns[1]).sort(), ['foi', 'fui']);
+  assert.deepEqual(formsIn(echo, echo.turns[0]), ['foste']);
 });

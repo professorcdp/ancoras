@@ -17,9 +17,11 @@
   prints "anchors.json OK: …" or a list of problems, and exits non-zero on problems. The rules
   live in `js/validate.js` (pure, no DOM), shared with the page's banner.
   Run `node --test` after any code change: it runs every file in `test/` (validator rules,
-  grading, session building) and checks that the real anchors.json passes. No dependencies.
+  form and phrase grading, session building incl. Echo anchor choice) and checks that the
+  real anchors.json passes. No dependencies.
 - Layout: `index.html`, `style.css`; `js/main.js` (load, validate, switch views),
-  `js/picker.js` (session picker), `js/practice.js` (Meet / Transfer / summary screens),
+  `js/picker.js` (session picker), `js/practice.js` (Meet / Recall / Echo / Transfer /
+  summary screens; the graded steps share one input-grade-retry routine),
   `js/data-view.js` (M0 tables at `#data`), `js/dom.js` (DOM helpers). Pure, tested modules:
   `js/validate.js`, `js/grade.js`, `js/session.js`. `js/audio.js` is a silent stub until M5.
   `validate.mjs` is the Node wrapper; `serve.mjs` the local server; `test/` holds the
