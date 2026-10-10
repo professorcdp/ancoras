@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
-  pickEchoAnchor, formsIn, splitOnForm, orderCells, requeue, summarize,
+  pickEchoAnchor, formsIn, targetsIn, describeCells, splitOnForm, orderCells, requeue, summarize,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -151,4 +151,19 @@ test('formsIn: only the targets that appear in the given turn', () => {
   const echo = data.anchors.find(a => a.id === 'ser-pps-tu-1'); // Foste tu? — Não fui eu, foi ele.
   assert.deepEqual(formsIn(echo, echo.turns[1]).sort(), ['foi', 'fui']);
   assert.deepEqual(formsIn(echo, echo.turns[0]), ['foste']);
+});
+
+test('targetsIn: one target per cell, only those in the text', () => {
+  const echo = data.anchors.find(a => a.id === 'trazer-pps-tu-1'); // Trouxeste …? — Trouxe.
+  assert.deepEqual(targetsIn(echo, echo.turns[1]).map(t => `${t.verb}.${t.tense}.${t.person}`), ['trazer.pps.eu']);
+});
+
+test('describeCells names every graded cell, the session cell first', () => {
+  const c = (verb, tense, person) => ({ verb, tense, person });
+  const anchor = id => data.anchors.find(a => a.id === id);
+  assert.equal(describeCells([], c('vir', 'pps', 'eu')), 'eu · vir · PPS');
+  assert.equal(describeCells(anchor('vir-pres-tu-1').targets, c('vir', 'pres', 'tu')), 'tu + eu · vir · present');
+  assert.equal(describeCells(anchor('vir-pps-eu-1').targets, c('ver', 'pps', 'eu')), 'eu · ver + vir · PPS');
+  assert.equal(describeCells([c('vir', 'pres', 'eu'), c('ver', 'pps', 'tu')], c('vir', 'pres', 'eu')),
+    'eu · vir · present + tu · ver · PPS');
 });
