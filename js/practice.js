@@ -8,7 +8,7 @@ import { gradeForm, gradePhrase, normalize, CORRECT, ALMOST } from './grade.js';
 import { speak } from './audio.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
-  splitOnForm, summarize, describeCells, tenseLabel,
+  splitOnForm, summarize, describeCells, tenseLabel, planPhases, runPhases,
 } from './session.js';
 
 const ACCENTS = ['á', 'à', 'â', 'ã', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ç'];
@@ -255,13 +255,13 @@ export function startSession(data, selection, { onHome, onAgain }) {
     );
   }
 
-  // Meet → Recall → Echo → Transfer → summary; each phase starts with a cell that differs
-  // from the last one shown.
-  const echoCells = plan.filter(c => c.echo);
-  meet(orderCells(plan), 0, lastMeet =>
-    graded(RECALL, plan, lastMeet, lastRecall =>
-      graded(ECHO, echoCells, lastRecall, lastEcho =>
-        graded(TRANSFER, plan, lastEcho, summary))));
+  // Meet → Recall → Echo → Transfer → summary (planPhases leaves out empty phases); each
+  // phase starts with a cell that differs from the last one shown.
+  const GRADED = { recall: RECALL, echo: ECHO, transfer: TRANSFER };
+  runPhases(planPhases(plan), (phase, prev, next) => {
+    if (phase.name === 'meet') return meet(orderCells(phase.cells, Math.random, prev), 0, next);
+    return graded(GRADED[phase.name], phase.cells, prev, next);
+  }, summary);
 
   return { inProgress: () => !finished };
 }

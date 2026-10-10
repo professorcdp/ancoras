@@ -6,6 +6,7 @@ import { $, el } from './dom.js';
 import { renderDataView } from './data-view.js';
 import { renderPicker } from './picker.js';
 import { startSession } from './practice.js';
+import { decideLeave } from './session.js';
 
 const VIEWS = ['home', 'practice', 'data'];
 
@@ -74,26 +75,25 @@ function render(data) {
   // A session gets its own history entry, so the browser's Back button returns home.
   // Leaving an unfinished session (Back, "End session", the title link) asks first.
   const run = selection => {
-    session = startSession(data, selection, { onHome: endSession, onAgain: () => run(selection) });
+    session = startSession(data, selection, { onHome: () => leave('end'), onAgain: () => run(selection) });
   };
-  const endSession = () => {
-    if (!session) return home();
-    if (session.inProgress() && !confirm(LEAVE_PROMPT)) return;
-    session = null;
-    history.back(); // pops the session's entry; popstate below shows home
-  };
-  window.addEventListener('popstate', () => {
-    if (session) {
-      if (session.inProgress() && !confirm(LEAVE_PROMPT)) {
-        history.pushState({ practice: true }, '', location.pathname); // stay in the session
-        return;
-      }
-      session = null;
+  const leave = via => {
+    if (!session) return via === 'back' ? route() : home();
+    let decision = decideLeave({ via, inProgress: session.inProgress() });
+    if (decision.action === 'ask') {
+      decision = decideLeave({ via, inProgress: true, confirmed: confirm(LEAVE_PROMPT) });
     }
-    route();
-  });
+    if (decision.action === 'stay') {
+      if (decision.restoreHistory) history.pushState({ practice: true }, '', location.pathname);
+      return;
+    }
+    session = null;
+    if (decision.popHistory) history.back(); // popstate below then shows home
+    else route();
+  };
+  window.addEventListener('popstate', () => leave('back'));
 
-  $('home-link').addEventListener('click', e => { e.preventDefault(); endSession(); });
+  $('home-link').addEventListener('click', e => { e.preventDefault(); leave('title'); });
   $('nav-home').addEventListener('click', e => { e.preventDefault(); home(); });
   renderPicker(data, {
     ok,

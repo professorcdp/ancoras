@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
   pickEchoAnchor, formsIn, targetsIn, describeCells, splitOnForm, orderCells, requeue, summarize,
+  planPhases, runPhases, decideLeave,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -166,4 +167,57 @@ test('describeCells names every graded cell, the session cell first', () => {
   assert.equal(describeCells(anchor('vir-pps-eu-1').targets, c('ver', 'pps', 'eu')), 'eu · ver + vir · PPS');
   assert.equal(describeCells([c('vir', 'pres', 'eu'), c('ver', 'pps', 'tu')], c('vir', 'pres', 'eu')),
     'eu · vir · present + tu · ver · PPS');
+});
+
+// Phase plan (decisions 0005, 0007, 0008).
+const names = phases => phases.map(p => `${p.name}:${p.cells.length}`);
+
+test('planPhases: full order, empty phases left out', () => {
+  const a = { key: 'a', echo: {}, discriminate: [1, 2] };
+  const b = { key: 'b' };
+  assert.deepEqual(names(planPhases([a, b])),
+    ['meet:2', 'recall:2', 'echo:1', 'discriminate:1', 'transfer:2']);
+  assert.deepEqual(names(planPhases([b])), ['meet:1', 'recall:1', 'transfer:1']);
+  assert.deepEqual(planPhases([]), []);
+});
+
+test('planPhases on a real vir+ver session: Echo covers the 5 vir/ver echo cells', () => {
+  const cells = buildCells(data, { ...defaultSelection(data), verbs: ['vir', 'ver'] }).cells
+    .map(c => ({ ...c, echo: pickEchoAnchor(c, pickMeetAnchor(c.anchors)) }));
+  assert.deepEqual(names(planPhases(cells)), ['meet:20', 'recall:20', 'echo:5', 'transfer:20']);
+});
+
+test('runPhases hands each phase the last cell of the one before, then calls done', () => {
+  const phases = [{ name: 'meet', cells: ['m1', 'm2'] }, { name: 'recall', cells: ['r1'] }];
+  const calls = [];
+  let finished;
+  runPhases(phases, (phase, prev, next) => { calls.push([phase.name, prev]); next(phase.cells.at(-1)); },
+    last => { finished = last; }, 'start');
+  assert.deepEqual(calls, [['meet', 'start'], ['recall', 'm2']]);
+  assert.equal(finished, 'r1');
+  runPhases([], () => assert.fail('no phases to run'), last => { finished = last; }, 'x');
+  assert.equal(finished, 'x');
+});
+
+// Leaving a session (#15, #20).
+test('decideLeave: an unfinished session asks first', () => {
+  for (const via of ['back', 'end', 'title']) {
+    assert.deepEqual(decideLeave({ via, inProgress: true }), { action: 'ask' });
+  }
+});
+
+test('decideLeave: confirmed → leave; only Back has already popped the history entry', () => {
+  assert.deepEqual(decideLeave({ via: 'back', inProgress: true, confirmed: true }), { action: 'leave', popHistory: false });
+  assert.deepEqual(decideLeave({ via: 'end', inProgress: true, confirmed: true }), { action: 'leave', popHistory: true });
+  assert.deepEqual(decideLeave({ via: 'title', inProgress: true, confirmed: true }), { action: 'leave', popHistory: true });
+});
+
+test('decideLeave: cancelled → stay; Back puts its entry back', () => {
+  assert.deepEqual(decideLeave({ via: 'back', inProgress: true, confirmed: false }), { action: 'stay', restoreHistory: true });
+  assert.deepEqual(decideLeave({ via: 'end', inProgress: true, confirmed: false }), { action: 'stay', restoreHistory: false });
+});
+
+test('decideLeave: from the summary, leave without asking', () => {
+  assert.deepEqual(decideLeave({ via: 'back', inProgress: false }), { action: 'leave', popHistory: false });
+  assert.deepEqual(decideLeave({ via: 'end', inProgress: false }), { action: 'leave', popHistory: true });
 });

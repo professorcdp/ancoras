@@ -216,3 +216,41 @@ export function summarize(cells, results) {
     return { cell, status, attempts: r, almost: r.includes('almost') };
   });
 }
+
+// The phases of a session, in order (SPEC §6; decisions 0005, 0007, 0008), each with the
+// cells it covers. Phases with no cells are left out: Echo needs an echo anchor (`cell.echo`),
+// Discriminate needs items (`cell.discriminate`).
+export const PHASES = ['meet', 'recall', 'echo', 'discriminate', 'transfer'];
+export function planPhases(cells) {
+  const covers = {
+    meet: () => true,
+    recall: () => true,
+    echo: c => Boolean(c.echo),
+    discriminate: c => list(c.discriminate).length > 0,
+    transfer: () => true,
+  };
+  return PHASES
+    .map(name => ({ name, cells: cells.filter(covers[name]) }))
+    .filter(p => p.cells.length);
+}
+
+// Run the phases one after another: run(phase, prev, next) shows a phase starting after
+// `prev` (the last cell shown) and calls next(lastCellShown) when done; then done(last).
+export function runPhases(phases, run, done, prev = null) {
+  const step = (i, last) => (i >= phases.length ? done(last) : run(phases[i], last, l => step(i + 1, l)));
+  step(0, prev);
+}
+
+// Leaving a practice session (Back, the End button, the title link). Pass `confirmed` once
+// the learner has answered the question. Returns:
+//   { action: 'ask' }                                   ask first (session unfinished)
+//   { action: 'leave', popHistory }                     go home; popHistory: also pop the
+//                                                       session's history entry (not Back,
+//                                                       which already popped it)
+//   { action: 'stay', restoreHistory }                  keep the session; restoreHistory: put
+//                                                       back the entry Back popped
+export function decideLeave({ via, inProgress, confirmed }) {
+  if (inProgress && confirmed === undefined) return { action: 'ask' };
+  if (!inProgress || confirmed) return { action: 'leave', popHistory: via !== 'back' };
+  return { action: 'stay', restoreHistory: via === 'back' };
+}
