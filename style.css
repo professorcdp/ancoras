@@ -224,6 +224,8 @@ table.summary th, table.summary td { padding: 6px 14px 6px 0; white-space: nowra
 table.summary td.missed { color: var(--fail-text); }
 table.summary td.first, table.summary td.retry { color: var(--ok-text); }
 table.summary td.none { color: var(--muted); }
+table.summary td.partial { color: var(--almost-text); }
+.practice-tag { color: var(--muted); font-size: 0.85em; }
 .small { font-size: 0.85rem; }
 
 /* Recall and Echo prompts */

@@ -264,6 +264,9 @@ export function decideLeave({ via, inProgress, confirmed }) {
 //           forms of the set's verbs. Not possible when two of those forms are identical.
 // Kinds alternate; if only one kind is possible, all items are that kind; if neither, the
 // cell gets no items. Options are shuffled and hold the right answer exactly once.
+// `counts` (decision 0008, amended for #23): only items about the cell's OWN form count
+// toward its mastery: its 'form' items and 'verb' items showing its own form. 'verb' items
+// showing a confusable verb's form are practice, scored for no cell.
 export const DISCRIMINATE_ITEMS = 5;
 
 const formKey = f => String(f).normalize('NFC').toLowerCase();
@@ -293,15 +296,32 @@ export function discriminateItemsFor(data, cell, rng = Math.random) {
     const kind = kinds[i % kinds.length];
     if (kind === 'verb') {
       const pick = verbItems[Math.floor(i / kinds.length) % verbItems.length];
-      items.push({ kind, key: cell.key, form: pick.form, answer: pick.answer, options: shuffle(set, rng) });
+      items.push({
+        kind, key: cell.key, counts: pick.answer === cell.verb,
+        form: pick.form, answer: pick.answer, options: shuffle(set, rng),
+      });
     } else {
       items.push({
-        kind, key: cell.key, verb: cell.verb, gloss: verbs[cell.verb]?.gloss, tense: cell.tense,
+        kind, key: cell.key, counts: true, verb: cell.verb, gloss: verbs[cell.verb]?.gloss, tense: cell.tense,
         person: cell.person, answer: cell.form, options: shuffle(choices, rng),
       });
     }
   }
   return items;
+}
+
+// Discriminate tally per cell from the taps in a session ({ key, counts, right } each):
+// key -> { scored: { right, total }, practice: { right, total } }. Only `scored` will feed
+// mastery (M4); `practice` is shown but scored for no cell.
+export function tallyDiscriminate(taps) {
+  const out = new Map();
+  for (const t of list(taps)) {
+    if (!out.has(t.key)) out.set(t.key, { scored: { right: 0, total: 0 }, practice: { right: 0, total: 0 } });
+    const bucket = out.get(t.key)[t.counts ? 'scored' : 'practice'];
+    bucket.total++;
+    if (t.right) bucket.right++;
+  }
+  return out;
 }
 
 // Interleave several lists of items so that no two neighbours come from the same list (cell)

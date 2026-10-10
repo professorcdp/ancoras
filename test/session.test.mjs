@@ -7,6 +7,7 @@ import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
   pickEchoAnchor, formsIn, targetsIn, describeCells, splitOnForm, orderCells, requeue, summarize,
   planPhases, runPhases, decideLeave, discriminateItemsFor, interleave, DISCRIMINATE_ITEMS,
+  tallyDiscriminate,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -295,4 +296,46 @@ test('interleave: no cell twice in a row when avoidable, nothing lost', () => {
     for (let i = 1; i < out.length; i++) assert.notEqual(out[i].key, out[i - 1].key);
   }
   assert.deepEqual(interleave([['a1', 'a2']], x => x[0]), ['a1', 'a2']); // one cell: repeats are unavoidable
+});
+
+// Which Discriminate items count toward a cell's mastery (#23).
+const itemsOf = key => itemsFor([key.split('.')[0]]).find(x => x.cell.key === key).items;
+
+test('Discriminate counts: ver.pps.nós has no scored "which verb?" items, its "which form?" items are scored', () => {
+  const items = itemsOf('ver.pps.nós');
+  assert.ok(items.length);
+  assert.ok(items.filter(i => i.kind === 'verb').every(i => !i.counts && i.form === 'viemos'));
+  const forms = items.filter(i => i.kind === 'form');
+  assert.ok(forms.length && forms.every(i => i.counts));
+});
+
+test('Discriminate counts: under vir.pres.tu, "vens → vir" is scored and "vês → ver" is not', () => {
+  const verbItems = itemsOf('vir.pres.tu').filter(i => i.kind === 'verb');
+  const vens = verbItems.filter(i => i.form === 'vens');
+  const ves = verbItems.filter(i => i.form === 'vês');
+  assert.ok(vens.length && vens.every(i => i.counts && i.answer === 'vir'));
+  assert.ok(ves.length && ves.every(i => !i.counts && i.answer === 'ver'));
+});
+
+test('Discriminate counts: every item says whether it counts, and own-form items always do', () => {
+  for (const verbs of [['vir', 'ver'], ['ir', 'ser'], ['ter', 'estar'], ['pôr', 'poder']]) {
+    for (const { cell, items } of itemsFor(verbs)) {
+      for (const it of items) {
+        assert.equal(typeof it.counts, 'boolean');
+        assert.equal(it.counts, it.kind === 'form' || it.answer === cell.verb, JSON.stringify(it));
+      }
+    }
+  }
+});
+
+test('tallyDiscriminate sums scored and practice taps per cell', () => {
+  const taps = [
+    { key: 'a', counts: true, right: true }, { key: 'a', counts: false, right: true },
+    { key: 'a', counts: true, right: false }, { key: 'b', counts: false, right: false },
+    { key: 'a', counts: false, right: true }, { key: 'a', counts: true, right: true },
+  ];
+  const t = tallyDiscriminate(taps);
+  assert.deepEqual(t.get('a'), { scored: { right: 2, total: 3 }, practice: { right: 2, total: 2 } });
+  assert.deepEqual(t.get('b'), { scored: { right: 0, total: 0 }, practice: { right: 0, total: 1 } });
+  assert.equal(tallyDiscriminate([]).size, 0);
 });
