@@ -5,7 +5,7 @@
 import { isObject, ECHO_SEPARATOR } from './validate.js';
 import { $, el, highlight } from './dom.js';
 import { gradeForm, gradePhrase, normalize, CORRECT, ALMOST } from './grade.js';
-import { speak } from './audio.js';
+import { speak, stop } from './audio.js';
 import { cellRecord, cellStatus, isScored } from './progress.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
@@ -48,6 +48,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
 
   const root = $('practice');
   const show = (...children) => {
+    stop(); // whatever was playing belongs to the previous screen
     root.replaceChildren(
       el('div', { class: 'practice-top' },
         el('button', { type: 'button', class: 'link', onclick: onHome }, '← End session')),
@@ -70,6 +71,11 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
   const phrase = a => el('p', { class: 'pt', lang: 'pt-PT' },
     highlight(a.kind === 'echo' && Array.isArray(a.turns) ? a.turns.join(ECHO_SEPARATOR) : a.pt,
       targetForms(a)));
+
+  // What to say for an anchor: both turns for an echo pair, else its phrase.
+  const spokenPhrase = a => (a.kind === 'echo' && Array.isArray(a.turns) ? a.turns.join(ECHO_SEPARATOR) : a.pt);
+  // A Play button; hidden by CSS when there is no pt-PT voice (body.no-audio).
+  const playButton = text => el('button', { type: 'button', class: 'play', onclick: () => speak(text) }, '▶ Play');
 
   // The Meet anchor as shown on the Meet screen and as the hint after a miss.
   const anchorBlock = cell => el('div', { class: 'anchor' }, phrase(cell.meet), el('p', { class: 'en' }, cell.meet.en));
@@ -102,10 +108,11 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         anchorBlock(cell),
         el('p', { class: 'cue', lang: 'pt-PT' }, `${cueText(cell)} → `, el('b', {}, cell.form))),
       el('div', { class: 'actions' },
-        el('button', { type: 'button', onclick: () => speak(cell.meet.pt) }, '▶ Play'),
+        playButton(spokenPhrase(cell.meet)),
         nextBtn),
     );
     nextBtn.focus();
+    speak(spokenPhrase(cell.meet)); // Meet plays its anchor when shown (decision 0010)
   }
 
   // One graded phase (Recall, Echo or Transfer). `step` supplies the prompt, the grading and
@@ -162,7 +169,11 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         const retryNote = result !== CORRECT && item.attempt === 1
           ? el('p', { class: 'muted' }, 'This one will come round again.') : null;
         feedback.className = `feedback ${result}`;
-        feedback.replaceChildren(...[...step.feedback(cell, outcome), retryNote].filter(c => c != null));
+        feedback.replaceChildren(...[
+          ...step.feedback(cell, outcome),
+          el('div', { class: 'replay' }, playButton(step.spoken(cell))), // no auto-play here
+          retryNote,
+        ].filter(c => c != null));
         nextBtn.focus();
       });
 
@@ -175,6 +186,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
           feedback),
       );
       input.focus();
+      step.onShow?.(cell);
     };
     ask();
   }
@@ -200,6 +212,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
     ],
     grade: (cell, answer) => gradePhrase(answer, cell.recallTargets.map(t => t.form)),
     feedback: (cell, outcome) => phraseFeedback(outcome, phrase(cell.meet)),
+    spoken: cell => spokenPhrase(cell.meet),
   };
 
   const ECHO = {
@@ -208,12 +221,14 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
       cueLine(cell, cell.echoTargets),
       el('div', { class: 'question' },
         el('p', { class: 'pt', lang: 'pt-PT' }, cell.echo.turns[0]),
-        el('button', { type: 'button', class: 'play', onclick: () => speak(cell.echo.turns[0]) }, '▶ Play')),
+        playButton(cell.echo.turns[0])),
       questionGloss(cell.echo) ? el('p', { class: 'en' }, questionGloss(cell.echo)) : null,
       el('p', { class: 'muted instruction' }, 'Type the answer.'),
     ],
     grade: (cell, answer) => gradePhrase(answer, cell.echoTargets.map(t => t.form)),
     feedback: (cell, outcome) => phraseFeedback(outcome, phrase(cell.echo)),
+    spoken: cell => spokenPhrase(cell.echo),
+    onShow: cell => speak(cell.echo.turns[0]), // Echo plays its question when shown
   };
 
   const TRANSFER = {
@@ -224,6 +239,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
       cell.transfer.en ? el('p', { class: 'en' }, cell.transfer.en) : null,
     ],
     grade: (cell, answer) => ({ result: gradeForm(answer, cell.form) }),
+    spoken: cell => (cell.transfer.source === 'bare' ? cell.form : cell.transfer.pt),
     feedback: (cell, { result }) => result === CORRECT
       ? [el('p', {}, el('strong', {}, '✓ Correct')), sentence(cell, true)]
       : [

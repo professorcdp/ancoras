@@ -6,6 +6,13 @@ import { isObject, cellKey } from './validate.js';
 import { $, el } from './dom.js';
 import { anchorsByCell, buildCells, presets, restoreSelection, tenseLabel } from './session.js';
 import { cellRecord, cellStatus, groupMastered, localDate, validateProgress } from './progress.js';
+import {
+  audioAvailable, voiceNames, currentVoiceName, setPreferredVoice, onVoicesChanged, speak,
+} from './audio.js';
+
+const NO_VOICE = 'No European Portuguese voice on this device, so audio is off. On a Mac or ' +
+  'iPhone, add one under Accessibility › Spoken Content › System voice › Manage voices › ' +
+  'Portuguese (Portugal).';
 
 const STORAGE_KEY = 'ancoras.selection';
 
@@ -163,6 +170,26 @@ export function renderPicker(data, { ok, onStart, progress }) {
     status.textContent = 'Progress reset.';
   };
 
+  // Audio line (decision 0010): pick among pt-PT voices, or say once that audio is off.
+  // Voices can arrive after the page loads, so it is redrawn when the list changes.
+  const audioLine = el('div', { class: 'audio-line small' });
+  const drawAudio = () => {
+    if (!audioAvailable()) {
+      audioLine.replaceChildren(el('span', { class: 'warn-text' }, NO_VOICE));
+      return;
+    }
+    const select = el('select', { name: 'voice', 'aria-label': 'Voice' },
+      voiceNames().map(name => el('option', { value: name }, name)));
+    select.value = currentVoiceName() ?? '';
+    select.addEventListener('change', () => {
+      setPreferredVoice(select.value);
+      speak('Vim, vi e venci.'); // let the learner hear the voice they picked
+    });
+    audioLine.replaceChildren(el('span', {}, 'Audio voice (European Portuguese):'), select);
+  };
+  onVoicesChanged(drawAudio);
+  drawAudio();
+
   const presetButtons = presets(data).map(group =>
     el('button', { type: 'button', class: 'chip', lang: 'pt-PT', onclick: () => setVerbs(group) },
       group.join(' + ')));
@@ -189,14 +216,15 @@ export function renderPicker(data, { ok, onStart, progress }) {
     el('div', { class: 'start-row' }, start, el('span', {}, count, ' ', skipped)),
     note,
     el('fieldset', { class: 'progress-box' },
-      el('legend', {}, 'Progress'),
+      el('legend', {}, 'Progress and audio'),
       saveNote,
       el('div', { class: 'chips' },
         el('button', { type: 'button', onclick: exportProgress }, 'Export progress'),
         el('button', { type: 'button', onclick: () => fileInput.click() }, 'Import progress'),
         el('button', { type: 'button', class: 'quiet', onclick: resetProgress }, 'Reset progress'),
         fileInput),
-      status),
+      status,
+      audioLine),
   ));
   update();
   refresh();

@@ -272,3 +272,9 @@ button.option { min-width: 7em; padding: 12px 18px; font-size: 1.15rem; }
 button.option:disabled { opacity: 1; cursor: default; }
 button.option.right { background: var(--ok-bg); color: var(--ok-text); border-color: var(--ok-text); font-weight: 600; }
 button.option.wrong { background: var(--fail-bg); color: var(--fail-text); border-color: var(--fail-text); text-decoration: line-through; }
+
+/* Audio: Play buttons only when a pt-PT voice exists (decision 0010) */
+body.no-audio button.play { display: none; }
+.replay { margin: 6px 0 2px; }
+.audio-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 12px 0 0; }
+.audio-line select { margin-left: 0; }

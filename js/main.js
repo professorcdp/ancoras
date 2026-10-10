@@ -7,6 +7,7 @@ import { renderDataView } from './data-view.js';
 import { renderPicker } from './picker.js';
 import { startSession } from './practice.js';
 import { decideLeave } from './session.js';
+import { initAudio, stop as stopAudio } from './audio.js';
 import { createStore, browserStorage } from './store.js';
 
 // The saved-progress store, as the picker and practice screens use it (get, record,
@@ -70,6 +71,7 @@ async function load() {
 }
 
 function render(data) {
+  initAudio();
   const result = validate(data);
   const ok = result.problems.length === 0;
   progress.onProblem(({ message }) => {
@@ -102,6 +104,7 @@ function render(data) {
       return;
     }
     session = null;
+    stopAudio();
     if (decision.popHistory) history.back(); // popstate below then shows home
     else route();
   };
