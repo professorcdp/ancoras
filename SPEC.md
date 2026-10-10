@@ -97,7 +97,9 @@ the bare form.
    Recall and Transfer still cover them. See decision 0006.
 4. **Discriminate.** Only for verbs with a non-empty confusion set. Show a form; the learner
    picks the verb, or shows an English cue ("we saw") and the learner picks between the two
-   confusable forms (*vimos* / *viemos*). Fast, tap-based, about 5 items per cell.
+   confusable forms (*vimos* / *viemos*). Fast, tap-based, about 5 items per cell. In v1 the
+   cue for picking a form is person + verb + gloss + tense ("nós · ver (to see) · PPS"), since
+   the data has no English per cell (decision 0008).
 5. **Transfer.** Show a sentence with the target form blanked, plus person and infinitive as
    the cue. The learner types the form. In v1, draw the sentence from another anchor that
    targets the same cell when one exists, otherwise from `transfer`; if neither exists, fall

@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
   pickEchoAnchor, formsIn, targetsIn, describeCells, splitOnForm, orderCells, requeue, summarize,
-  planPhases, runPhases, decideLeave,
+  planPhases, runPhases, decideLeave, discriminateItemsFor, interleave, DISCRIMINATE_ITEMS,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -220,4 +220,79 @@ test('decideLeave: cancelled → stay; Back puts its entry back', () => {
 test('decideLeave: from the summary, leave without asking', () => {
   assert.deepEqual(decideLeave({ via: 'back', inProgress: false }), { action: 'leave', popHistory: false });
   assert.deepEqual(decideLeave({ via: 'end', inProgress: false }), { action: 'leave', popHistory: true });
+});
+
+// Discriminate (decision 0008).
+const cellsFor = verbs => buildCells(data, { ...defaultSelection(data), verbs }).cells;
+const itemsFor = verbs => cellsFor(verbs).map(c => ({ cell: c, items: discriminateItemsFor(data, c, rng(7)) }));
+
+test('Discriminate: never a "which verb?" item for a form shared within the set', () => {
+  // Derived independently: every form that appears in two verbs of one confusion set.
+  const shared = new Set();
+  for (const [v, info] of Object.entries(data.verbs)) {
+    for (const w of info.confusion_set) {
+      const mine = Object.values(info.forms).flatMap(Object.values);
+      const theirs = Object.values(data.verbs[w].forms).flatMap(Object.values);
+      for (const f of mine) if (theirs.includes(f)) shared.add(f);
+    }
+  }
+  assert.ok(shared.has('vimos') && ['fui', 'foste', 'foi', 'fomos', 'foram'].every(f => shared.has(f)));
+  for (const verbs of [['vir', 'ver'], ['ir', 'ser'], ['ter', 'estar'], ['pôr', 'poder']]) {
+    for (const { items } of itemsFor(verbs)) {
+      for (const it of items.filter(x => x.kind === 'verb')) assert.ok(!shared.has(it.form), it.form);
+    }
+  }
+});
+
+test('Discriminate: ir/ser PPS cells get no items (identical forms), present cells do', () => {
+  for (const { cell, items } of itemsFor(['ir', 'ser'])) {
+    if (cell.tense === 'pps') assert.deepEqual(items, [], cell.key);
+    else assert.equal(items.length, DISCRIMINATE_ITEMS, cell.key);
+  }
+});
+
+test('Discriminate: a ter+estar cell yields 5 items of both kinds, 2 options each', () => {
+  for (const { cell, items } of itemsFor(['ter', 'estar'])) {
+    assert.equal(items.length, 5, cell.key);
+    assert.ok(items.every(it => it.options.length === 2), cell.key);
+    assert.deepEqual([...new Set(items.map(it => it.kind))].sort(), ['form', 'verb'], cell.key);
+  }
+});
+
+test('Discriminate: options always hold the right answer exactly once, no duplicates', () => {
+  for (const verbs of [['vir', 'ver'], ['ir', 'ser'], ['ter', 'estar'], ['pôr', 'poder']]) {
+    for (const { items } of itemsFor(verbs)) {
+      for (const it of items) {
+        assert.equal(it.options.filter(o => o === it.answer).length, 1, JSON.stringify(it));
+        assert.equal(new Set(it.options).size, it.options.length, JSON.stringify(it));
+      }
+    }
+  }
+});
+
+test('Discriminate: a "which verb?" item names the verb its form belongs to', () => {
+  for (const { items } of itemsFor(['vir', 'ver'])) {
+    for (const it of items.filter(x => x.kind === 'verb')) {
+      assert.ok(Object.values(data.verbs[it.answer].forms).flatMap(Object.values).includes(it.form));
+    }
+  }
+  const vimos = itemsFor(['vir']).find(x => x.cell.key === 'vir.pres.nós').items;
+  assert.ok(vimos.filter(x => x.kind === 'verb').every(x => x.form === 'vemos'));
+});
+
+test('Discriminate: verbs without a confusion set yield no items', () => {
+  for (const verb of ['fazer', 'dizer', 'querer', 'saber', 'trazer', 'dar', 'haver']) {
+    for (const { items } of itemsFor([verb])) assert.deepEqual(items, []);
+  }
+});
+
+test('interleave: no cell twice in a row when avoidable, nothing lost', () => {
+  for (let seed = 1; seed <= 30; seed++) {
+    const lists = cellsFor(['ter', 'estar']).slice(0, 6).map(c => discriminateItemsFor(data, c, rng(seed)));
+    const out = interleave(lists, it => it.key, rng(seed), lists[0][0].key);
+    assert.equal(out.length, lists.flat().length);
+    assert.notEqual(out[0].key, lists[0][0].key);
+    for (let i = 1; i < out.length; i++) assert.notEqual(out[i].key, out[i - 1].key);
+  }
+  assert.deepEqual(interleave([['a1', 'a2']], x => x[0]), ['a1', 'a2']); // one cell: repeats are unavoidable
 });

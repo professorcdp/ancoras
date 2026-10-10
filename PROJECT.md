@@ -46,7 +46,8 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 - Where to host once it works (any static host)
 
 ## Current status
-M2 done (2026-10-09): sessions run Meet → Recall → Echo → Transfer → summary, with phrase
-grading for Recall and Echo (decision 0007). Leaving a session mid-way now asks first (#15).
-No progress is stored yet. Next: M3 (#4), Discriminate. Open: #13 (content), #18 (choose
-steps?), #16, #17.
+M3 done (2026-10-09): sessions run Meet → Recall → Echo → Discriminate → Transfer → summary
+(decisions 0005–0008). Echo answers' English now names the verb (#19). Session logic that
+the browser drives (leaving, phase order) is pure and tested (#20). No progress is stored
+yet. Next: M4 (#5), mastery. Open: #18 (sessions are long: 107–165 screens per preset),
+#13 (content), #16, #17, #21.
