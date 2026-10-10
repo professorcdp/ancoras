@@ -17,6 +17,10 @@
   --check-text: #7a5300;
   --almost-bg: #fff3d6;
   --almost-text: #7a5300;
+  --sq-new: #ffffff;
+  --sq-learning: #f3c96b;
+  --sq-mastered: #2f8a52;
+  --sq-uncovered: #e4e4dd;
   color-scheme: light dark;
 }
 
@@ -40,6 +44,10 @@
     --check-text: #f0cf80;
     --almost-bg: #3b2f12;
     --almost-text: #f0cf80;
+    --sq-new: #2a2b28;
+    --sq-learning: #b8902f;
+    --sq-mastered: #5fbf83;
+    --sq-uncovered: #1c1d1b;
   }
 }
 
@@ -169,7 +177,24 @@ fieldset { border: 1px solid var(--border); border-radius: 10px; margin: 0 0 14p
 legend { padding: 0 6px; font-weight: 600; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 12px; }
 .checks { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-.verbs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px 18px; }
+.verbs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px 18px; }
+.verb-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+/* Mastery grid: one row per tense, one square per person */
+.minigrid { display: grid; grid-template-columns: repeat(var(--cols, 5), 11px); gap: 2px; flex: none; }
+.sq { display: inline-block; width: 11px; height: 11px; border-radius: 2px; border: 1px solid var(--border); background: var(--sq-new); vertical-align: -1px; }
+.sq.learning { background: var(--sq-learning); border-color: var(--sq-learning); }
+.sq.mastered { background: var(--sq-mastered); border-color: var(--sq-mastered); }
+.sq.uncovered { background: var(--sq-uncovered); border-style: dashed; }
+.sq.none { visibility: hidden; }
+.grid-legend { margin: -4px 0 12px; }
+.mastered-tag, .reset-tag { margin-left: 6px; padding: 1px 7px; border-radius: 10px; font-size: 0.75rem; white-space: nowrap; }
+.mastered-tag { background: var(--ok-bg); color: var(--ok-text); }
+.reset-tag { background: var(--fail-bg); color: var(--fail-text); }
+.badges:empty { display: none; }
+.progress-box { margin-top: 22px; }
+.progress-box .chips button { padding: 6px 14px; font-size: 0.92rem; }
+button.quiet { color: var(--muted); }
 label.check { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; cursor: pointer; }
 label.check input { transform: translateY(1px); }
 .start-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 18px 0 6px; }

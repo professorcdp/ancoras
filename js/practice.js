@@ -6,6 +6,7 @@ import { isObject, ECHO_SEPARATOR } from './validate.js';
 import { $, el, highlight } from './dom.js';
 import { gradeForm, gradePhrase, normalize, CORRECT, ALMOST } from './grade.js';
 import { speak } from './audio.js';
+import { cellRecord, cellStatus, isScored } from './progress.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
   splitOnForm, summarize, describeCells, tenseLabel, planPhases, runPhases,
@@ -18,7 +19,8 @@ const AUTO_ADVANCE_MS = 600; // Discriminate: pause on a correct tap before the 
 const targetForms = a => (Array.isArray(a?.targets) ? a.targets : []).filter(isObject).map(t => t.form);
 
 // Returns a controller: inProgress() is true until the summary screen is reached.
-export function startSession(data, selection, { onHome, onAgain }) {
+// `progress` is the store: every scored answer is recorded (and saved) as it happens.
+export function startSession(data, selection, { onHome, onAgain, progress }) {
   const notes = isObject(data.person_notes) ? data.person_notes : {};
   const plan = buildCells(data, selection).cells.map(cell => {
     const meet = pickMeetAnchor(cell.anchors);
@@ -35,6 +37,13 @@ export function startSession(data, selection, { onHome, onAgain }) {
   });
   const results = { recall: new Map(), echo: new Map(), transfer: new Map() }; // key -> grades
   const taps = []; // Discriminate: { key, counts, right } per tap, in order
+  const before = progress.get(); // to show what this session changed
+  const missedThisSession = new Set(); // cells whose streak a scored miss reset
+  const recordEvent = event => {
+    if (!isScored(event)) return; // Recall, Echo and practice-only taps don't touch progress
+    if (event.result !== CORRECT) missedThisSession.add(event.key);
+    progress.record(event);
+  };
   let finished = false;
 
   const root = $('practice');
@@ -144,6 +153,7 @@ export function startSession(data, selection, { onHome, onAgain }) {
         keys.forEach(k => { k.disabled = true; });
         const map = results[step.key];
         map.set(cell.key, [...(map.get(cell.key) ?? []), result]);
+        recordEvent({ key: cell.key, step: step.key, result, firstAttempt: item.attempt === 1 });
         queue = requeue(rest, item, result);
         done++;
 
@@ -246,6 +256,7 @@ export function startSession(data, selection, { onHome, onAgain }) {
         buttons.forEach(b => { b.disabled = true; });
         const right = opt === item.answer;
         taps.push({ key: item.key, counts: item.counts, right });
+        recordEvent({ key: item.key, step: 'discriminate', result: right ? CORRECT : 'wrong', counts: item.counts });
         for (const b of buttons) {
           if (b.textContent === item.answer) b.classList.add('right');
           else if (b.textContent === opt) b.classList.add('wrong');
@@ -294,6 +305,18 @@ export function startSession(data, selection, { onHome, onAgain }) {
   function summary() {
     finished = true;
     const steps = [['Recall', 'recall'], ['Echo', 'echo'], ['Discriminate', 'discriminate'], ['Transfer', 'transfer']];
+    const after = progress.get();
+    // Progress column: the cell's streak now, "mastered" if this session got it there, or
+    // "streak reset" if a scored miss this session reset it.
+    const progressCell = cell => {
+      const rec = cellRecord(after, cell.key);
+      const nowMastered = cellStatus(after, cell.key) === 'mastered';
+      const badge = nowMastered && cellStatus(before, cell.key) !== 'mastered'
+        ? el('span', { class: 'mastered-tag' }, 'mastered')
+        : missedThisSession.has(cell.key) && !nowMastered ? el('span', { class: 'reset-tag' }, 'streak reset') : null;
+      return el('td', { title: `${rec.days.length} day${rec.days.length === 1 ? '' : 's'} with a first-try Transfer` },
+        `streak ${rec.streak}`, badge);
+    };
     const rows = Object.fromEntries(steps.filter(([, key]) => results[key])
       .map(([, key]) => [key, summarize(plan, results[key])]));
     const label = { first: '✓ first try', retry: '✓ on retry', missed: '✗' };
@@ -318,17 +341,17 @@ export function startSession(data, selection, { onHome, onAgain }) {
       el('h2', {}, 'Done'),
       el('p', {}, `${firstTry} of ${plan.length} right first time in Transfer.`),
       el('p', { class: 'muted small' },
-        'From M4, mastery counts the bare-form steps: Discriminate and Transfer (SPEC §8). ' +
-        'Recall and Echo are practice.'),
+        'Mastery counts the bare-form steps: Discriminate and Transfer (SPEC §8). ' +
+        'Recall and Echo are practice. Progress is saved after every answer.'),
       el('div', { class: 'scroll' },
         el('table', { class: 'summary' },
           el('thead', {}, el('tr', {},
             el('th', { scope: 'col' }, 'Cell'), el('th', { scope: 'col' }, 'Form'),
-            steps.map(([name]) => el('th', { scope: 'col' }, name)))),
+            steps.map(([name]) => el('th', { scope: 'col' }, name)), el('th', { scope: 'col' }, 'Progress'))),
           el('tbody', {}, plan.map((cell, i) => el('tr', {},
             el('td', { lang: 'pt-PT' }, cueText(cell)),
             el('td', { lang: 'pt-PT' }, el('b', {}, cell.form)),
-            steps.map(([, key]) => status(key, i))))))),
+            steps.map(([, key]) => status(key, i)), progressCell(cell)))))),
       el('div', { class: 'actions' },
         el('button', { type: 'button', class: 'primary', onclick: onAgain }, 'Practise again'),
         el('button', { type: 'button', onclick: onHome }, 'Home')),

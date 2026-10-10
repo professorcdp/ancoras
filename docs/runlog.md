@@ -167,3 +167,32 @@ Newest entries at the bottom.
 - **Fixed:** none (no must-fix items).
 - **Deferred:** (1) #23 (bug, now; blocks M4, needs Jim's decision; checked: 22 of 60 "which verb?" items in a vir+ver session are about the other verb), (2) #24, (3) #25, (4) #26 (checked: 18 duplicate questions in a vir+ver session; linked to #18), (5) #27 (to be checked in the browser first).
 - **Next:** Jim decides #23 (credit by the form shown, or count only the cell's own form); then M4 (#5) with #24.
+
+## 2026-10-09: Discriminate scoring (#23, #24, #25); M4 mastery (#5)
+- **#23 (decided, decision 0008 amended):** only Discriminate items about the cell's own form
+  count (`counts` on each item): its "which form?" items and "which verb?" items showing its
+  own form; "which verb?" items about a confusable verb's form are practice for no cell.
+  **#24:** `tallyDiscriminate()` in js/session.js (scored and practice per cell), tested.
+  **#25:** summary shows e.g. "3/3 (+2/2 practice)": full green, partial amber, zero red.
+  Separate commit.
+- **M4 (decision 0009):** js/progress.js (pure): per-cell `streak`, `days` (local dates of a
+  correct first Transfer attempt), `events`; mastered derived (streak ≥ 3, ≥ 2 days); "almost"
+  is a miss; scored Discriminate taps and every Transfer attempt feed streak in answer order;
+  Recall/Echo never do; `validateProgress` for storage and import. js/store.js saves to
+  "ancoras.progress" after every scored answer; a malformed value is ignored with a console
+  warning and left in place until the next save. Picker: mastery mini grid beside each verb
+  (rows tenses, columns persons; new / learning / mastered / uncovered; tooltip with streak
+  and days; "✓ tense" when a tense is fully mastered), legend, Progress section with Export
+  (ancoras-progress-YYYY-MM-DD.json), Import (validated, confirmed, replaces) and Reset.
+  Summary: Progress column with streak and "mastered" / "streak reset". No rule had to change
+  from the advisor's defaults; SPEC unchanged. No change to anchors.json.
+- **Tests:** `node --test` 93/93 (81 after Part 1; 12 new progress tests). `node validate.mjs` OK.
+- **Browser (isolated test profile):** vir · PPS · tu+nós: cells turn learning; a second
+  session the same day raised streaks (5→10, 6→12) with days staying 1; a Transfer miss reset
+  a streak ("streak reset"); export → reset (grid cleared) → import (grid back); a version-2
+  file is refused with a message; with a previous day imported, a clean session reached
+  "mastered" (2 days); leaving after 4 Discriminate taps kept them; a malformed stored value
+  gives one console warning; phone width.
+- **Issues touched:** #23, #24, #25, #5 closed.
+- **Next:** M5 (#6), then stop for learner feedback. Jim: run /second-opinion in a new chat on
+  9d32a2c..HEAD; try the grid and decide #18.
