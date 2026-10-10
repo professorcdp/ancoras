@@ -204,3 +204,25 @@ Newest entries at the bottom.
 - **Fixed:** (1)–(3). js/store.js is now `createStore(storage)`: `record()` re-reads the stored copy (`load()`) before applying each answer, so two tabs build on each other; a damaged or wrong-version value is copied to "ancoras.progress.bad" before the first save and reported; blocked storage or a failed save is reported once and progress carries on in memory (exportable). Problems show in a warning bar on every view (index.html `#store-warning`), and the Progress box says "Not being saved" instead of "Saved". 7 new tests in test/store.test.mjs with a fake storage (incl. two tabs sharing it); `node --test` 100/100; `node validate.mjs` OK. Browser-checked in an isolated profile: two real tabs answering in turn kept both cells' progress; a planted version-2 value showed the page warning and was kept as "ancoras.progress.bad"; a forced setItem failure showed the warning bar and the "Not being saved" note while the grid kept the in-memory answer. Decision 0009 amended.
 - **Deferred:** (4) #28, (5) #29, (6) #30.
 - **Next:** M5 (#6), then stop for learner feedback.
+
+## 2026-10-09: M5 pt-PT audio (#6)
+- **Changed (decision 0010):** js/audio.js now speaks via speechSynthesis: `choosePtPtVoice`
+  (pure, tested) takes only pt-PT voices (pt_PT and case variants accepted), honours the
+  remembered voice ("ancoras.voice"), never pt-BR or generic "pt"; voices are re-read on
+  `voiceschanged`; speak() cancels, then speaks at rate 0.9 in pt-PT, or does nothing without
+  a pt-PT voice. Meet plays its anchor on show, Echo plays its question on show; graded
+  feedback gets a Play button (no auto-play); speech stops on every screen change and on
+  leaving. Home: "Progress and audio" box with a pt-PT voice dropdown (plays a sample on
+  change), or the one-line no-voice notice; Play buttons hidden via `body.no-audio`.
+- **Tests:** `node --test` 104/104 (4 new voice-choice tests). `node validate.mjs` OK.
+- **Browser:** this Mac's Chrome has 3 pt-PT voices (Joana, Joana (Enhanced), Joaquim
+  (Enhanced)) among 13 Portuguese ones; the dropdown lists exactly those 3. The first read of
+  the voice list came back partial (only a pt-BR voice), and the Audio line redrew itself when
+  the full list arrived, which confirms the late-loading handling. A real Joana utterance ran
+  start → end (volume forced to 0 so nothing was heard). With a fake voice list: Meet spoke on
+  show and on Play, Echo spoke only the question, nothing auto-played after answers, the
+  chosen voice was remembered across reloads, leaving cancelled speech; with only pt-BR /
+  generic voices the notice showed, no Play button appeared and nothing was spoken.
+- **Issues touched:** #6 closed.
+- **Next:** stop for learner feedback (SPEC §11). Jim practises; then decide #18 and review
+  the open issues before building anything new.
