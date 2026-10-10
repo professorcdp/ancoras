@@ -18,14 +18,15 @@
   live in `js/validate.js` (pure, no DOM), shared with the page's banner.
   Run `node --test` after any code change: it runs every file in `test/` (validator rules,
   form and phrase grading, session building incl. Echo anchor choice, Discriminate items
-  and tally, the phase plan, the leave-session decision, and the progress rules) and checks that the real anchors.json passes. No dependencies.
+  and tally, the phase plan, the leave-session decision, the progress rules and the store) and checks that the real anchors.json passes. No dependencies.
   Browser-only behaviour (history, confirm()) lives in js/main.js and stays thin: the
   decisions it acts on (`decideLeave`, `planPhases`, `runPhases`) are pure, in js/session.js.
 - Layout: `index.html`, `style.css`; `js/main.js` (load, validate, switch views),
   `js/picker.js` (session picker), `js/practice.js` (Meet / Recall / Echo / Discriminate /
   Transfer / summary screens; the typed steps share one input-grade-retry routine),
   `js/data-view.js` (M0 tables at `#data`), `js/dom.js` (DOM helpers), `js/store.js` (saved
-  progress in localStorage, "ancoras.progress"). Pure, tested modules: `js/validate.js`,
+  progress in localStorage, "ancoras.progress"; written against a localStorage-like object so
+  test/store.test.mjs can use a fake). Pure, tested modules: `js/validate.js`,
   `js/grade.js`, `js/session.js`, `js/progress.js` (mastery rules, decision 0009).
   `js/audio.js` is a silent stub until M5.
   `validate.mjs` is the Node wrapper; `serve.mjs` the local server; `test/` holds the

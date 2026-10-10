@@ -7,15 +7,11 @@ import { renderDataView } from './data-view.js';
 import { renderPicker } from './picker.js';
 import { startSession } from './practice.js';
 import { decideLeave } from './session.js';
-import * as store from './store.js';
+import { createStore, browserStorage } from './store.js';
 
-// The saved-progress store, as the picker and practice screens use it.
-const progress = {
-  get: store.getProgress,
-  record: store.record,
-  replace: store.replaceProgress,
-  reset: store.resetProgress,
-};
+// The saved-progress store, as the picker and practice screens use it (get, record,
+// replace, reset, problems). Storage problems show in a warning bar on every view.
+const progress = createStore(browserStorage());
 let picker = null;
 
 const VIEWS = ['home', 'practice', 'data'];
@@ -76,6 +72,12 @@ async function load() {
 function render(data) {
   const result = validate(data);
   const ok = result.problems.length === 0;
+  progress.onProblem(({ message }) => {
+    const bar = $('store-warning');
+    bar.append(el('p', {}, message));
+    bar.hidden = false;
+    picker?.refresh();
+  });
   renderBanner(result);
   renderDataView(data, result);
 

@@ -46,3 +46,12 @@ allowed to move on?". Every scored answer writes to localStorage, which is cheap
 size. Progress stays in one browser on one address; export/import is the way to move or back
 it up. Changing a rule later (e.g. the thresholds) changes the derived status of existing
 progress immediately, because mastered is never stored.
+
+## Amendment, 2026-10-09: storage safety (review of 7074ee0..1a14b7d)
+- Every save re-reads the stored copy first and applies the answer to it, so two open tabs
+  build on each other instead of overwriting.
+- A damaged or wrong-version stored value is copied to "ancoras.progress.bad" before any
+  save replaces it, and a warning appears on the page (not only in the console).
+- Blocked storage or a failed save shows a warning on every view; the Progress box says
+  progress is not being saved, and progress carries on in memory (still exportable) until
+  the page is closed.
