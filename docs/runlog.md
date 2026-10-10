@@ -196,3 +196,11 @@ Newest entries at the bottom.
 - **Issues touched:** #23, #24, #25, #5 closed.
 - **Next:** M5 (#6), then stop for learner feedback. Jim: run /second-opinion in a new chat on
   9d32a2c..HEAD; try the grid and decide #18.
+
+## 2026-10-09 (review)
+- **Reviewed:** 7074ee0..1a14b7d
+- **Verdict:** Sound; nothing must-fix. Three quiet ways to lose saved progress (two tabs, silent save failure, damaged data wiped) should be closed before M5.
+- **Findings:** Should fix: (1) two tabs overwrite each other (js/store.js:38, :45); (2) failed saves are silent while the page says it saved (js/store.js:33, js/picker.js:185); (3) damaged saved progress wiped on next answer with only a console warning (js/store.js:26). Could fix: (4) "streak reset" badge shows after the streak was rebuilt in the same session (js/practice.js:316); (5) grid streak/days only in hover tooltips, invisible on phones, grid aria-hidden (js/picker.js:102); (6) no test for the event glue in js/practice.js:156 and :259.
+- **Fixed:** (1)–(3). js/store.js is now `createStore(storage)`: `record()` re-reads the stored copy (`load()`) before applying each answer, so two tabs build on each other; a damaged or wrong-version value is copied to "ancoras.progress.bad" before the first save and reported; blocked storage or a failed save is reported once and progress carries on in memory (exportable). Problems show in a warning bar on every view (index.html `#store-warning`), and the Progress box says "Not being saved" instead of "Saved". 7 new tests in test/store.test.mjs with a fake storage (incl. two tabs sharing it); `node --test` 100/100; `node validate.mjs` OK. Browser-checked in an isolated profile: two real tabs answering in turn kept both cells' progress; a planted version-2 value showed the page warning and was kept as "ancoras.progress.bad"; a forced setItem failure showed the warning bar and the "Not being saved" note while the grid kept the in-memory answer. Decision 0009 amended.
+- **Deferred:** (4) #28, (5) #29, (6) #30.
+- **Next:** M5 (#6), then stop for learner feedback.

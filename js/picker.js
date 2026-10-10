@@ -107,7 +107,15 @@ export function renderPicker(data, { ok, onStart, progress }) {
         el('span', { class: 'muted' }, isObject(v) ? v.gloss ?? '' : ''), ' ', badges),
       grid);
   };
-  const refresh = () => { for (const verb of grids.keys()) drawGrid(verb); };
+  const saveNote = el('p', { class: 'muted small' });
+  const refresh = () => {
+    for (const verb of grids.keys()) drawGrid(verb);
+    const failing = progress.problems().some(p => p.kind !== 'damaged');
+    saveNote.textContent = failing
+      ? 'Not being saved in this browser (see the warning above). Export progress to keep a copy.'
+      : 'Saved in this browser after every answer. Export to keep a copy or move it to another device.';
+    saveNote.className = failing ? 'small warn-text' : 'muted small';
+  };
 
   const legend = el('p', { class: 'legend grid-legend' },
     el('span', { class: 'sq new' }), ' new ', el('span', { class: 'sq learning' }), ' learning ',
@@ -182,7 +190,7 @@ export function renderPicker(data, { ok, onStart, progress }) {
     note,
     el('fieldset', { class: 'progress-box' },
       el('legend', {}, 'Progress'),
-      el('p', { class: 'muted small' }, 'Saved in this browser after every answer. Export to keep a copy or move it to another device.'),
+      saveNote,
       el('div', { class: 'chips' },
         el('button', { type: 'button', onclick: exportProgress }, 'Export progress'),
         el('button', { type: 'button', onclick: () => fileInput.click() }, 'Import progress'),
