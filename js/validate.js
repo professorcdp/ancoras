@@ -3,6 +3,7 @@
 // It never throws on malformed data: bad entries are skipped and reported as problems.
 
 const ANCHOR_KINDS = ['formula', 'sentence', 'echo', 'contrast'];
+export const ECHO_SEPARATOR = ' — '; // an echo anchor's pt is its two turns joined by this
 
 // A plain JSON object (not null, not an array).
 export function isObject(x) {
@@ -124,6 +125,9 @@ export function validate(data) {
       const ok = Array.isArray(a.turns) && a.turns.length === 2 &&
         a.turns.every(t => typeof t === 'string' && t.trim());
       if (!ok) add(ref, 'echo anchor needs a "turns" array of two non-empty strings');
+      else if (a.pt !== a.turns.join(ECHO_SEPARATOR)) {
+        add(ref, `pt does not equal its turns joined with '${ECHO_SEPARATOR}'`);
+      }
     }
 
     if (!Array.isArray(a.targets)) {

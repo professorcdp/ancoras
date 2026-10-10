@@ -90,8 +90,10 @@ the bare form.
    repeats aloud and taps to continue. Not graded.
 2. **Recall.** Show the English gloss (and for echo anchors, the question turn). The learner
    types the whole phrase, or the answer turn for echo anchors.
-3. **Echo.** Only for cells with an echo anchor. Play and show the question; the learner types
-   the answer. Skip this step for cells without one.
+3. **Echo.** Only for cells whose form appears in the answer turn of an echo anchor. Play and
+   show the question; the learner types the answer, and the answer turn's targets are graded.
+   Cells whose form appears only in the question turn (or in no echo anchor) skip this step;
+   Recall and Transfer still cover them. See decision 0006.
 4. **Discriminate.** Only for verbs with a non-empty confusion set. Show a form; the learner
    picks the verb, or shows an English cue ("we saw") and the learner picks between the two
    confusable forms (*vimos* / *viemos*). Fast, tap-based, about 5 items per cell.
