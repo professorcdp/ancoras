@@ -121,3 +121,11 @@ Newest entries at the bottom.
   the "Vim, vi e venci" contrast is graded on both forms; Back mid-session asks; phone width.
 - **Issues touched:** #15 and #3 closed; opened #18.
 - **Next:** M3 (#4), Discriminate. Jim: run /second-opinion in a new chat on these commits.
+
+## 2026-10-09 (review)
+- **Reviewed:** 9d76314..9017532
+- **Verdict:** Sound; nothing must-fix. Echo-pair English glosses omit the graded verb.
+- **Findings:** Should fix: (1) echo anchors' answer English omits the verb that Recall and Echo grade (e.g. "From Porto." → "Venho do Porto."; "Me." → "Fui eu."), so a natural answer is marked wrong; in Recall the cue line names the question's cell, not the answer's; (2) no automated tests for the leave-session/Back logic (js/main.js:75-95) or the phase chaining in js/practice.js. Could fix: (3) reload or closing the tab mid-session gives no warning (no beforeunload); (4) after leaving via Back, Forward lands on a dead history entry that shows home, and if the browser suppresses dialogs, confirm() returns false so Back/title link can't leave a session; (5) stale comment on requeue (js/session.js:169) says "After a Transfer answer".
+- **Fixed:** none (no must-fix items).
+- **Deferred:** (1) #19 (confirmed against the data: 12 of 13 echo answers' English omits the verb; full table in the issue), (2) #20, (3)+(4) #21, (5) #22.
+- **Next:** Jim to choose the approach for #19; then M3 (#4), with #20 before M4 (#5).
