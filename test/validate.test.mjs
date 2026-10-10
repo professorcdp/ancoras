@@ -130,6 +130,19 @@ test('echo anchor with bad turns', () => {
   expectProblem(d, /^anchor vir-pres-ele-1$/, /two non-empty strings/);
 });
 
+test('echo anchor whose pt matches its turns passes', () => {
+  const d = sample();
+  const echo = anchor(d, 'vir-pres-ele-1');
+  assert.equal(echo.pt, echo.turns.join(' — '));
+  assert.deepEqual(validate(d).problems.filter(p => /turns joined/.test(p.msg)), []);
+});
+
+test('echo anchor whose pt differs from its turns', () => {
+  const d = sample();
+  anchor(d, 'vir-pres-ele-1').pt = 'Quem vem? - Venho eu.'; // hyphen instead of the em dash
+  expectProblem(d, /^anchor vir-pres-ele-1$/, /pt does not equal its turns joined with ' — '/);
+});
+
 test('unknown anchor kind', () => {
   const d = sample();
   anchor(d, 'ver-pres-eu-1').kind = 'proverb';

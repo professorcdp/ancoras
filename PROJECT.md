@@ -46,6 +46,6 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 - Where to host once it works (any static host)
 
 ## Current status
-M1 done (2026-10-06): session picker, Meet and Transfer steps, grading with accent buttons,
-and a per-cell summary. M0's data tables are behind the "Data" link. No progress is stored
-yet. Next: M2 (#3), after deciding #12 and doing #9; content question #13 open.
+M1 done (2026-10-06); local server `node serve.mjs` on port 4791 (2026-10-09). Echo rule
+decided (decision 0006) and the validator now checks echo pairs. No progress is stored yet.
+Next: M2 (#3), Recall + Echo. Open: #15 before M4; content question #13.

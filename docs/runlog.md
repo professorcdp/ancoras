@@ -72,3 +72,26 @@ Newest entries at the bottom.
 - **Fixed:** (1) `serve.mjs` now defaults to port 4791 (uncommon, so rarely busy); if it has to fall back (4792–4811) or is given another port, it prints a warning that saved settings and progress live on 4791. CLAUDE.md "Run locally" updated. Note: the selection saved on :8000 doesn't carry over; pick it once more on :4791. (2) Submitting an empty box (or only spaces/punctuation) does nothing and keeps focus in the input; uses the existing tested `normalize()`, so no new pure function or test. Checked in the browser with real keystrokes; `node --test` 45/45, `node validate.mjs` OK.
 - **Deferred:** (3) #15, (4) #16 (measured 48% over 5000 runs; pôr+poder repeats are unavoidable, 10 vs 6 cells), (5) #17.
 - **Next:** decide #12 and do #9, then M2 (#3). #15 before M4. #13 still needs Jim's call on content.
+
+## 2026-10-09: Echo pairs credit both turns (#12) and echo pt check (#9)
+- **#12 decided (Jim with the advisor):** Echo (M2) tests the targets in the answer turn;
+  cells whose form is only in the question skip Echo. SPEC §6 step 3 reworded; decision 0006.
+- **Data finding:** the planned data change was not needed. The brief expected 12 answer-turn
+  forms to be missing from `targets` (venho, vim, vi, vimos, fui ×2, foi, estive, pus, fiz,
+  fez, trouxe); all of them have been listed since the first commit, with homographs already
+  assigned by meaning (vimos → ver.pps.nós; fui/foi → ser). The earlier review note ("in 10
+  of 13 echo anchors the id's cell is only in the question turn") was true of the id's cell,
+  not of the targets. anchors.json unchanged; nothing to remove from `uncovered_cells`.
+  Under the rule, Echo will test 13 cells and skip 9 question-only (mostly tu) cells.
+- **Transfer:** unchanged, still 85 of 117 cells on the bare prompt (#13 not updated). vir.pres.eu
+  and vir.pps.eu already draw their echo sentences; confirmed in a vir+ver session.
+- **#9 validator rule:** for `kind: "echo"`, `pt` must equal `turns[0] + " — " + turns[1]`
+  (space, em dash, space; confirmed on all 13 echo anchors). Validator checks are now: target
+  forms appear in `pt` (whole word, case-insensitive, accents significant); unique ids;
+  symmetric confusion sets; targets match the paradigm; every cell is covered or in
+  `uncovered_cells` (never both); echo anchors have two `turns` **and `pt` equals them joined**;
+  known kinds; malformed entries reported, not crashed on.
+- **Tests:** `node --test` 47/47 (2 new: echo pt passing and failing case; the failing case
+  fails against the old validator). `node validate.mjs` OK.
+- **Issues touched:** #12 and #9 closed.
+- **Next:** M2 (#3). #15 before M4. #13 still needs Jim's call on content.
