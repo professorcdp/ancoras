@@ -7,6 +7,16 @@ import { renderDataView } from './data-view.js';
 import { renderPicker } from './picker.js';
 import { startSession } from './practice.js';
 import { decideLeave } from './session.js';
+import * as store from './store.js';
+
+// The saved-progress store, as the picker and practice screens use it.
+const progress = {
+  get: store.getProgress,
+  record: store.record,
+  replace: store.replaceProgress,
+  reset: store.resetProgress,
+};
+let picker = null;
 
 const VIEWS = ['home', 'practice', 'data'];
 
@@ -22,7 +32,9 @@ function showView(name) {
 }
 
 function route() {
-  showView(location.hash === '#data' ? 'data' : 'home');
+  const view = location.hash === '#data' ? 'data' : 'home';
+  if (view === 'home') picker?.refresh(); // the grid reflects any session just finished
+  showView(view);
 }
 
 function showError(title, detail) {
@@ -75,7 +87,7 @@ function render(data) {
   // A session gets its own history entry, so the browser's Back button returns home.
   // Leaving an unfinished session (Back, "End session", the title link) asks first.
   const run = selection => {
-    session = startSession(data, selection, { onHome: () => leave('end'), onAgain: () => run(selection) });
+    session = startSession(data, selection, { onHome: () => leave('end'), onAgain: () => run(selection), progress });
   };
   const leave = via => {
     if (!session) return via === 'back' ? route() : home();
@@ -95,8 +107,9 @@ function render(data) {
 
   $('home-link').addEventListener('click', e => { e.preventDefault(); leave('title'); });
   $('nav-home').addEventListener('click', e => { e.preventDefault(); home(); });
-  renderPicker(data, {
+  picker = renderPicker(data, {
     ok,
+    progress,
     onStart: selection => {
       history.pushState({ practice: true }, '', location.pathname);
       showView('practice');

@@ -46,8 +46,8 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 - Where to host once it works (any static host)
 
 ## Current status
-M3 done (2026-10-09): sessions run Meet → Recall → Echo → Discriminate → Transfer → summary
-(decisions 0005–0008). Echo answers' English now names the verb (#19). Session logic that
-the browser drives (leaving, phase order) is pure and tested (#20). No progress is stored
-yet. Next: M4 (#5), mastery. Open: #18 (sessions are long: 107–165 screens per preset),
-#13 (content), #16, #17, #21.
+M4 done (2026-10-09): progress is saved after every scored answer (decision 0009); the picker
+shows a mastery grid per verb and offers export / import / reset; the summary shows each
+cell's streak. Discriminate scores only items about the cell's own form (0008 amendment).
+Next: M5 (#6), pt-PT audio; then stop for learner feedback (SPEC §11). Open: #18 (session
+length), #13 (content), #21, #26, #27, #16, #17.
