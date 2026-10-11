@@ -1,4 +1,4 @@
-# Âncoras (TVFpractice)
+# Âncoras (repo: ancoras; folder: TVFpractice)
 
 ## Project notes
 - What it is: a static practice web app for European Portuguese verb forms. Full design in
@@ -13,6 +13,10 @@
   (`python3 -m http.server 4791` also works, same port for the same saved data.) Opening the
   HTML file directly won't work: `fetch` of `anchors.json` needs a server.
 - `serve.mjs` binds localhost only and refuses paths outside the folder and hidden files.
+- **Pushing to `main` publishes the site** (GitHub Pages, no build) at
+  https://jamminalley.github.io/ancoras/. Every file in the repo is readable there, so keep
+  secrets out (as always) and run `node --test` and `node validate.mjs` before pushing. All
+  paths in the app must stay relative (the site lives under /ancoras/).
 - Test: run `node validate.mjs` in the project folder after any edit to `anchors.json`. It
   prints "anchors.json OK: …" or a list of problems, and exits non-zero on problems. The rules
   live in `js/validate.js` (pure, no DOM), shared with the page's banner.

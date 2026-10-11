@@ -1,7 +1,9 @@
-# Âncoras (TVFpractice)
+# Âncoras (repo: ancoras; folder: TVFpractice)
+
+Live: https://jamminalley.github.io/ancoras/ (GitHub Pages from `main`; decision 0011)
 
 ## Stamp
-PERSONAL (folder marker: `.claude-account` = `personal`; GitHub: jamminalley)
+PERSONAL (folder marker: `.claude-account` = `personal`; GitHub: jamminalley/ancoras, private)
 
 ## Started
 2026-10-06 (inferred from file dates)
@@ -43,7 +45,7 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 ## Open questions
 - Native-speaker check of the 80 anchors marked `needs_native_check`
 - Do `uncovered_cells` need anchors, or just bare-form transfer items?
-- Where to host once it works (any static host)
+- ~~Where to host once it works~~ Resolved 2026-10-10: GitHub Pages, https://jamminalley.github.io/ancoras/ (decision 0011)
 
 ## Current status
 M5 done; stopped for learner feedback per SPEC §11 (2026-10-09). All five steps run

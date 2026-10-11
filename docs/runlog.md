@@ -237,3 +237,16 @@ Newest entries at the bottom.
   grid, practice screens, feedback and Data tables while the system is light; the theme is set
   before the stylesheet on reload (no flash); Light holds while the system is dark; Follow
   system tracks it. `node --test` 104/104. Issue #31 closed.
+
+## 2026-10-10: Repo renamed `ancoras`; published with GitHub Pages (#32)
+- Renamed the GitHub repo TVFpractice → `ancoras` (`gh repo rename`; local remote updated;
+  still private; folder and `.claude-account` unchanged). Before publishing, listed the repo:
+  no secrets, but Pages exposes every file (notes, docs, `.vscode/settings.json` with the Mac
+  username path); Jim chose to publish everything as planned.
+- Enabled Pages from `main` / root: https://jamminalley.github.io/ancoras/. Added
+  `.nojekyll`, `manifest.webmanifest` (standalone, light-palette colours), home-screen icons
+  `icons/icon-192.png` and `icons/icon-512.png` (the "Â" favicon design, drawn on a canvas
+  in Chrome since no image tools are installed), and the apple-mobile-web-app meta tags.
+  serve.mjs learned the `.webmanifest` content type. Decision 0011.
+- Checks: `node --test` 104/104; `node validate.mjs` OK; local serve.mjs serves the new files
+  with the right types.
