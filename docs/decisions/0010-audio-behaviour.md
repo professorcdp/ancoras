@@ -27,7 +27,9 @@ M5 has to settle how the voice is chosen, when audio plays, and what the learner
   dropdown of them (by name), remembered in localStorage ("ancoras.voice"); choosing one
   plays a short sample. With none, one notice ("No European Portuguese voice on this device,
   so audio is off. On a Mac or iPhone, add one under Accessibility › Spoken Content › System
-  voice › Manage voices › Portuguese (Portugal).") on the home screen only, and every Play
+  voice › Manage voices › Portuguese (Portugal). On Android: Settings › search for
+  'Text-to-speech' › Speech Services by Google › settings › Install voice data › Portuguese
+  (Portugal).") on the home screen only, and every Play
   button is hidden (`body.no-audio`).
 
 ## Consequences

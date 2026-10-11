@@ -250,3 +250,6 @@ Newest entries at the bottom.
   serve.mjs learned the `.webmanifest` content type. Decision 0011.
 - Checks: `node --test` 104/104; `node validate.mjs` OK; local serve.mjs serves the new files
   with the right types.
+
+## 2026-10-10: Android steps in the no-voice notice
+- The home screen's no-voice notice (js/picker.js) and decision 0010 now also say how to add a Portuguese (Portugal) voice on Android (Jim's phone is a Pixel); the Mac/iPhone wording is unchanged.
