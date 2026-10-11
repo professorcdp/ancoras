@@ -33,3 +33,6 @@ private; the address is chosen before anyone has progress on it.
   browser; nothing is collected.
 - Pushing anything to `main` publishes it within about a minute, so tests and the data check
   should pass before every push.
+
+**Superseded in part by decision 0012 (2026-10-11):** the repo moved to professorcdp and is
+now public; the site is at https://professorcdp.github.io/ancoras/.

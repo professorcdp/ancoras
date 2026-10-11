@@ -1,9 +1,9 @@
 # Âncoras (repo: ancoras; folder: TVFpractice)
 
-Live: https://jamminalley.github.io/ancoras/ (GitHub Pages from `main`; decision 0011)
+Live: https://professorcdp.github.io/ancoras/ (GitHub Pages from `main`; decisions 0011, 0012)
 
 ## Stamp
-PERSONAL (folder marker: `.claude-account` = `personal`; GitHub: jamminalley/ancoras, private)
+BUSINESS (folder marker: .claude-account = business; GitHub: professorcdp/ancoras, public; see decision 0012)
 
 ## Started
 2026-10-06 (inferred from file dates)
@@ -45,12 +45,10 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 ## Open questions
 - Native-speaker check of the 80 anchors marked `needs_native_check`
 - Do `uncovered_cells` need anchors, or just bare-form transfer items?
-- ~~Where to host once it works~~ Resolved 2026-10-10: GitHub Pages, https://jamminalley.github.io/ancoras/ (decision 0011)
+- ~~Where to host once it works~~ Resolved 2026-10-10: GitHub Pages (decision 0011); since 2026-10-11 https://professorcdp.github.io/ancoras/ (decision 0012)
 
 ## Current status
-M5 done; stopped for learner feedback per SPEC §11 (2026-10-09). All five steps run
-(Meet → Recall → Echo → Discriminate → Transfer), progress and the mastery grid are saved in
-the browser, and audio speaks European Portuguese (decision 0010). Next: Jim practises with
-it and reports what works and what doesn't before anything new is built. Open for that
-review: #18 (session length), #13 (Transfer content), #7 (native-speaker check), #8
-(uncovered cells), plus smaller fixes #16, #17, #21, #26–#30.
+M5 done; stopped for learner feedback per SPEC §11. Since 2026-10-11 a BUSINESS project:
+repo professorcdp/ancoras (public), live at https://professorcdp.github.io/ancoras/
+(decision 0012). Next: Jim practises with it and reports back. Open: GitHub Support request
+to purge the pre-rewrite commits (see runlog 2026-10-11); #18, #13, #7, #8 and smaller fixes.

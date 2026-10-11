@@ -253,3 +253,25 @@ Newest entries at the bottom.
 
 ## 2026-10-10: Android steps in the no-voice notice
 - The home screen's no-voice notice (js/picker.js) and decision 0010 now also say how to add a Portuguese (Portugal) voice on Android (Jim's phone is a Pixel); the Mac/iPhone wording is unchanged.
+
+## 2026-10-11: Business project; repo moved to professorcdp and made public (#33)
+- Transferred jamminalley/ancoras → **professorcdp/ancoras** (HTTP 202; issues and Pages
+  config moved; local remote updated). The site then would not build: GitHub replied "current
+  plan does not support private GitHub Pages" (professorcdp is on the free plan per GitHub's
+  API; epcompanheiro's Pages site is down for the same reason). Jim chose to make the repo
+  public.
+- Before going public: scanned the full history and all issues: no secrets; the only personal
+  item was a personal email address on all 21 commits. With Jim's approval, rewrote the history
+  (git filter-branch) to the noreply address 190651337+jamminalley@users.noreply.github.com,
+  author and committer; content verified identical; backup bundle kept outside the repo;
+  force-pushed with lease; this clone's git config now uses the noreply address. Old→new IDs:
+  docs/commit-id-map.md.
+- Made the repo public; Pages built; https://professorcdp.github.io/ancoras/ serves index,
+  anchors.json, js/, manifest and icons (200) and a session starts with no console errors.
+  The old jamminalley address returns 404, as expected.
+- **Still to do (Jim):** GitHub still serves the old commits by ID (checked: 200 anonymously,
+  with the old email), and issue timelines link some. Ask GitHub Support to remove cached
+  views of the rewritten commits in professorcdp/ancoras.
+- Docs: PROJECT.md (stamp BUSINESS, address, status), CLAUDE.md (address, public repo,
+  noreply), decision 0012, note in 0011. Restamped BUSINESS last (`claude-stamp business .`).
+  Issue #33 closed.

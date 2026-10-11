@@ -14,9 +14,11 @@
   HTML file directly won't work: `fetch` of `anchors.json` needs a server.
 - `serve.mjs` binds localhost only and refuses paths outside the folder and hidden files.
 - **Pushing to `main` publishes the site** (GitHub Pages, no build) at
-  https://jamminalley.github.io/ancoras/. Every file in the repo is readable there, so keep
-  secrets out (as always) and run `node --test` and `node validate.mjs` before pushing. All
-  paths in the app must stay relative (the site lives under /ancoras/).
+  https://professorcdp.github.io/ancoras/. The repo (professorcdp/ancoras) is **public**:
+  code, history and issues are visible to anyone, so keep secrets and personal details out
+  (as always) and run `node --test` and `node validate.mjs` before pushing. Commits use the
+  GitHub noreply address (set in this clone's git config). All paths in the app must stay
+  relative (the site lives under /ancoras/).
 - Test: run `node validate.mjs` in the project folder after any edit to `anchors.json`. It
   prints "anchors.json OK: …" or a list of problems, and exits non-zero on problems. The rules
   live in `js/validate.js` (pure, no DOM), shared with the page's banner.
