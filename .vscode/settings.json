@@ -1,13 +1,13 @@
 {
   "terminal.integrated.env.osx": {
-    "CLAUDE_CONFIG_DIR": "/Users/jmranalli/.claude-personal"
+    "CLAUDE_CONFIG_DIR": "/Users/jmranalli/.claude-business"
   },
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#1e6b3a",
+    "titleBar.activeBackground": "#1f4e79",
     "titleBar.activeForeground": "#ffffff",
-    "titleBar.inactiveBackground": "#1e6b3a",
+    "titleBar.inactiveBackground": "#1f4e79",
     "titleBar.inactiveForeground": "#cccccc",
-    "statusBar.background": "#1e6b3a",
+    "statusBar.background": "#1f4e79",
     "statusBar.foreground": "#ffffff"
   }
 }
