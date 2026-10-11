@@ -226,3 +226,14 @@ Newest entries at the bottom.
 - **Issues touched:** #6 closed.
 - **Next:** stop for learner feedback (SPEC §11). Jim practises; then decide #18 and review
   the open issues before building anything new.
+
+## 2026-10-10: Theme switch (#31)
+- Added "Theme: Follow system / Light / Dark" next to Audio in the home screen's "Progress and
+  settings" box, remembered in localStorage ("ancoras.theme"; absent = follow system). An
+  inline script at the top of <head> sets data-theme on <html> before the stylesheet loads;
+  style.css keeps the dark palette under prefers-color-scheme (guarded with
+  :root:not([data-theme="light"])), repeats it under :root[data-theme="dark"], and sets
+  color-scheme to match. Browser-checked with emulated light/dark: Dark darkens the picker,
+  grid, practice screens, feedback and Data tables while the system is light; the theme is set
+  before the stylesheet on reload (no flash); Light holds while the system is dark; Follow
+  system tracks it. `node --test` 104/104. Issue #31 closed.

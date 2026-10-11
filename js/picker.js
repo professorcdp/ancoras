@@ -10,6 +10,29 @@ import {
   audioAvailable, voiceNames, currentVoiceName, setPreferredVoice, onVoicesChanged, speak,
 } from './audio.js';
 
+const THEME_KEY = 'ancoras.theme';
+const THEMES = [['system', 'Follow system'], ['light', 'Light'], ['dark', 'Dark']];
+
+// Theme override (the inline script in index.html applies the saved one on load).
+function storedTheme() {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    return t === 'light' || t === 'dark' ? t : 'system';
+  } catch {
+    return 'system';
+  }
+}
+function setTheme(theme) {
+  if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+  else delete document.documentElement.dataset.theme;
+  try {
+    if (theme === 'light' || theme === 'dark') localStorage.setItem(THEME_KEY, theme);
+    else localStorage.removeItem(THEME_KEY);
+  } catch {
+    // Not remembered; the choice still applies until the page is closed.
+  }
+}
+
 const NO_VOICE = 'No European Portuguese voice on this device, so audio is off. On a Mac or ' +
   'iPhone, add one under Accessibility › Spoken Content › System voice › Manage voices › ' +
   'Portuguese (Portugal).';
@@ -190,6 +213,12 @@ export function renderPicker(data, { ok, onStart, progress }) {
   onVoicesChanged(drawAudio);
   drawAudio();
 
+  const themeSelect = el('select', { name: 'theme', 'aria-label': 'Theme' },
+    THEMES.map(([value, label]) => el('option', { value }, label)));
+  themeSelect.value = storedTheme();
+  themeSelect.addEventListener('change', () => setTheme(themeSelect.value));
+  const themeLine = el('div', { class: 'audio-line small' }, el('span', {}, 'Theme:'), themeSelect);
+
   const presetButtons = presets(data).map(group =>
     el('button', { type: 'button', class: 'chip', lang: 'pt-PT', onclick: () => setVerbs(group) },
       group.join(' + ')));
@@ -216,7 +245,7 @@ export function renderPicker(data, { ok, onStart, progress }) {
     el('div', { class: 'start-row' }, start, el('span', {}, count, ' ', skipped)),
     note,
     el('fieldset', { class: 'progress-box' },
-      el('legend', {}, 'Progress and audio'),
+      el('legend', {}, 'Progress and settings'),
       saveNote,
       el('div', { class: 'chips' },
         el('button', { type: 'button', onclick: exportProgress }, 'Export progress'),
@@ -224,7 +253,8 @@ export function renderPicker(data, { ok, onStart, progress }) {
         el('button', { type: 'button', class: 'quiet', onclick: resetProgress }, 'Reset progress'),
         fileInput),
       status,
-      audioLine),
+      audioLine,
+      themeLine),
   ));
   update();
   refresh();

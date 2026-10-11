@@ -21,11 +21,13 @@
   --sq-learning: #f3c96b;
   --sq-mastered: #2f8a52;
   --sq-uncovered: #e4e4dd;
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
+/* Dark palette: when the system is dark (unless Light is chosen), or when Dark is chosen.
+   The theme switch on the home screen sets data-theme on <html>; none = follow system. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #161715;
     --surface: #1f201e;
     --text: #e9e9e4;
@@ -48,7 +50,34 @@
     --sq-learning: #b8902f;
     --sq-mastered: #5fbf83;
     --sq-uncovered: #1c1d1b;
+    color-scheme: dark;
   }
+}
+
+:root[data-theme="dark"] {
+  --bg: #161715;
+  --surface: #1f201e;
+  --text: #e9e9e4;
+  --muted: #a1a199;
+  --border: #3a3b37;
+  --accent: #6cc58d;
+  --ok-bg: #1d3325;
+  --ok-text: #8fd9a9;
+  --fail-bg: #3d1e1a;
+  --fail-text: #f2a094;
+  --covered: #1d3325;
+  --uncovered: #2a2b28;
+  --gap: #3d1e1a;
+  --mark: #5a4a10;
+  --check: #3b2f12;
+  --check-text: #f0cf80;
+  --almost-bg: #3b2f12;
+  --almost-text: #f0cf80;
+  --sq-new: #2a2b28;
+  --sq-learning: #b8902f;
+  --sq-mastered: #5fbf83;
+  --sq-uncovered: #1c1d1b;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
