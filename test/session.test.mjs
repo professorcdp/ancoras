@@ -44,10 +44,20 @@ test('buildCells: vir+ver is 20 cells, nothing uncovered', () => {
 });
 
 test('buildCells skips uncovered cells and counts them', () => {
-  const { cells, skipped } = buildCells(data, { ...defaultSelection(data), verbs: ['poder'] });
+  // Since #8 the real data covers every cell, so take poder's four newest anchors away.
+  const removed = ['poder-pres-tu-1', 'poder-pres-nós-1', 'poder-pres-eles-1', 'poder-pps-tu-1'];
+  const thinned = { ...data, anchors: data.anchors.filter(a => !removed.includes(a.id)) };
+  const { cells, skipped } = buildCells(thinned, { ...defaultSelection(data), verbs: ['poder'] });
   assert.equal(cells.length + skipped, 10);
-  assert.equal(skipped, 4); // poder.pres.tu/nós/eles, poder.pps.tu
+  assert.equal(skipped, 4);
   assert.ok(!cells.some(c => c.key === 'poder.pres.tu'));
+});
+
+test('real data: every cell is covered, nothing is skipped (#8)', () => {
+  const { cells, skipped } = buildCells(data, { ...defaultSelection(data), verbs: Object.keys(data.verbs) });
+  assert.equal(skipped, 0);
+  assert.equal(cells.length, 142);
+  assert.equal(buildCells(data, { ...defaultSelection(data), verbs: ['saber'] }).cells.length, 10);
 });
 
 test('buildCells: haver only has ele', () => {

@@ -49,7 +49,7 @@ Top-level keys:
 | `verbs` | Per verb: `gloss`, `confusion_set`, `pps_pattern` (`flip` / `match` / `irregular`), and `forms[tense][person]` |
 | `anchors` | List of anchors (below) |
 | `rules` | Short explanatory rules, shown as hints (e.g. the eu/ele flip) |
-| `uncovered_cells` | Cells with a form but no anchor yet. These are mostly regular forms left out on purpose. |
+| `uncovered_cells` | Cells with a form but no anchor yet. Empty since decision 0013 (every cell has an anchor); kept so new verbs can be added gradually. |
 | `persons`, `tenses`, `person_notes` | Labels |
 
 Anchor fields:
@@ -65,7 +65,7 @@ Anchor fields:
 | `needs_native_check` | `true` for composed sentences not yet verified by a native speaker |
 | `transfer` | Empty in v0.1. Reserved for extra gap-fill sentences (see step 5). |
 
-Current contents: 15 verbs, 126 anchors, 117 cells covered.
+Current contents: 15 verbs, 150 anchors, all 142 cells covered (decision 0013).
 
 Known homographs the app must handle: *vimos* (vir pres. nós / ver PPS nós) and the whole
 ir/ser PPS. Never ask "which verb is this?" for an ir/ser PPS form.
@@ -175,7 +175,7 @@ Stop after M5 and get the learner's feedback before adding anything.
 
 ## 13. Open items for the learner
 
-- Have a native speaker check anchors with `needs_native_check: true` (80 of 126).
+- Have a native speaker check anchors with `needs_native_check: true` (100 of 150).
 - Replace anchors that don't stick with sentences true of his own life.
-- Decide whether `uncovered_cells` (mostly regular forms such as *podes, dizemos, sabem*) need
-  anchors or just bare-form transfer items.
+- ~~Decide whether `uncovered_cells` need anchors or just bare-form transfer items.~~
+  Decided: every cell gets an anchor (decision 0013).

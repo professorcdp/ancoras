@@ -1072,6 +1072,23 @@
    "transfer": []
   },
   {
+   "id": "ir-pps-tu-1",
+   "kind": "sentence",
+   "pt": "Foste ao Porto no fim de semana?",
+   "en": "Did you go to Porto at the weekend?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ir",
+     "tense": "pps",
+     "person": "tu",
+     "form": "foste"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "ir-pps-nós-1",
    "kind": "contrast",
    "pt": "Fomos e viemos no mesmo dia.",
@@ -1282,6 +1299,23 @@
    ]
   },
   {
+   "id": "ser-pps-nós-1",
+   "kind": "sentence",
+   "pt": "Fomos vizinhos durante dez anos.",
+   "en": "We were neighbours for ten years.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "ser",
+     "tense": "pps",
+     "person": "nós",
+     "form": "fomos"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "ser-pps-eles-1",
    "kind": "sentence",
    "pt": "Foram só cinco minutos.",
@@ -1396,6 +1430,23 @@
      "tense": "pps",
      "person": "eu",
      "form": "tive"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "ter-pps-tu-1",
+   "kind": "formula",
+   "pt": "Tiveste sorte!",
+   "en": "You were lucky!",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "ter",
+     "tense": "pps",
+     "person": "tu",
+     "form": "tiveste"
     }
    ],
    "transfer": []
@@ -1818,6 +1869,23 @@
    "transfer": []
   },
   {
+   "id": "poder-pres-tu-1",
+   "kind": "sentence",
+   "pt": "Podes repetir, por favor?",
+   "en": "Can you repeat that, please?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "poder",
+     "tense": "pres",
+     "person": "tu",
+     "form": "podes"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "poder-pres-ele-1",
    "kind": "formula",
    "pt": "Pode ser.",
@@ -1835,6 +1903,40 @@
    "transfer": []
   },
   {
+   "id": "poder-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Hoje não podemos, fica para amanhã.",
+   "en": "We can't today; let's leave it for tomorrow.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "poder",
+     "tense": "pres",
+     "person": "nós",
+     "form": "podemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "poder-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Eles podem entrar sem bilhete.",
+   "en": "They can go in without a ticket.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "poder",
+     "tense": "pres",
+     "person": "eles",
+     "form": "podem"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "poder-pps-eu-1",
    "kind": "sentence",
    "pt": "Não pude ir.",
@@ -1847,6 +1949,23 @@
      "tense": "pps",
      "person": "eu",
      "form": "pude"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "poder-pps-tu-1",
+   "kind": "sentence",
+   "pt": "Não pudeste vir ontem?",
+   "en": "Couldn't you come yesterday?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "poder",
+     "tense": "pps",
+     "person": "tu",
+     "form": "pudeste"
     }
    ],
    "transfer": []
@@ -1984,6 +2103,23 @@
    "transfer": []
   },
   {
+   "id": "fazer-pres-tu-1",
+   "kind": "formula",
+   "pt": "Fazes anos hoje?",
+   "en": "Is it your birthday today?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pres",
+     "person": "tu",
+     "form": "fazes"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "fazer-pres-ele-1",
    "kind": "formula",
    "pt": "Não faz mal.",
@@ -1996,6 +2132,40 @@
      "tense": "pres",
      "person": "ele",
      "form": "faz"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Ao domingo fazemos sempre uma caminhada.",
+   "en": "On Sundays we always go for a walk.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pres",
+     "person": "nós",
+     "form": "fazemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "fazer-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Eles fazem muito barulho à noite.",
+   "en": "They make a lot of noise at night.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "fazer",
+     "tense": "pres",
+     "person": "eles",
+     "form": "fazem"
     }
    ],
    "transfer": []
@@ -2171,6 +2341,23 @@
    "transfer": []
   },
   {
+   "id": "dizer-pres-tu-1",
+   "kind": "sentence",
+   "pt": "Dizes sempre a mesma coisa.",
+   "en": "You always say the same thing.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pres",
+     "person": "tu",
+     "form": "dizes"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "dizer-pres-ele-1",
    "kind": "formula",
    "pt": "Como se diz…?",
@@ -2188,6 +2375,40 @@
    "transfer": []
   },
   {
+   "id": "dizer-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Em Portugal dizemos «autocarro», não «ônibus».",
+   "en": "In Portugal we say \"autocarro\", not \"ônibus\".",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pres",
+     "person": "nós",
+     "form": "dizemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pres-eles-1",
+   "kind": "formula",
+   "pt": "Dizem que vai chover.",
+   "en": "They say it's going to rain.",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pres",
+     "person": "eles",
+     "form": "dizem"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "dizer-pps-eu-1",
    "kind": "formula",
    "pt": "Eu bem te disse!",
@@ -2200,6 +2421,23 @@
      "tense": "pps",
      "person": "eu",
      "form": "disse"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "dizer-pps-tu-1",
+   "kind": "sentence",
+   "pt": "O que é que disseste?",
+   "en": "What did you say?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "dizer",
+     "tense": "pps",
+     "person": "tu",
+     "form": "disseste"
     }
    ],
    "transfer": []
@@ -2273,6 +2511,23 @@
    "transfer": []
   },
   {
+   "id": "querer-pres-tu-1",
+   "kind": "formula",
+   "pt": "Queres um café?",
+   "en": "Do you want a coffee?",
+   "established": true,
+   "needs_native_check": false,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pres",
+     "person": "tu",
+     "form": "queres"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "querer-pres-ele-1",
    "kind": "formula",
    "pt": "Quer dizer…",
@@ -2290,6 +2545,40 @@
    "transfer": []
   },
   {
+   "id": "querer-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Queremos uma mesa para dois.",
+   "en": "We'd like a table for two.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pres",
+     "person": "nós",
+     "form": "queremos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Eles querem ficar mais uma noite.",
+   "en": "They want to stay one more night.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pres",
+     "person": "eles",
+     "form": "querem"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "querer-pps-eu-1",
    "kind": "sentence",
    "pt": "Eu não quis incomodar.",
@@ -2302,6 +2591,23 @@
      "tense": "pps",
      "person": "eu",
      "form": "quis"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "querer-pps-tu-1",
+   "kind": "sentence",
+   "pt": "Avisei-te, mas não quiseste ouvir.",
+   "en": "I warned you, but you didn't want to listen.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "querer",
+     "tense": "pps",
+     "person": "tu",
+     "form": "quiseste"
     }
    ],
    "transfer": []
@@ -2375,6 +2681,23 @@
    "transfer": []
   },
   {
+   "id": "saber-pres-tu-1",
+   "kind": "sentence",
+   "pt": "Sabes a que horas abre?",
+   "en": "Do you know what time it opens?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pres",
+     "person": "tu",
+     "form": "sabes"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "saber-pres-ele-1",
    "kind": "formula",
    "pt": "Sabe bem!",
@@ -2392,6 +2715,40 @@
    "transfer": []
   },
   {
+   "id": "saber-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Não sabemos o caminho.",
+   "en": "We don't know the way.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pres",
+     "person": "nós",
+     "form": "sabemos"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pres-eles-1",
+   "kind": "sentence",
+   "pt": "Eles sabem nadar muito bem.",
+   "en": "They can swim very well.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pres",
+     "person": "eles",
+     "form": "sabem"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "saber-pps-eu-1",
    "kind": "sentence",
    "pt": "Só soube ontem.",
@@ -2404,6 +2761,23 @@
      "tense": "pps",
      "person": "eu",
      "form": "soube"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "saber-pps-tu-1",
+   "kind": "sentence",
+   "pt": "Como é que soubeste?",
+   "en": "How did you find out?",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "saber",
+     "tense": "pps",
+     "person": "tu",
+     "form": "soubeste"
     }
    ],
    "transfer": []
@@ -2477,6 +2851,29 @@
    "transfer": []
   },
   {
+   "id": "trazer-pres-tu-1",
+   "kind": "sentence",
+   "pt": "Trazes o vinho e eu trago a sobremesa.",
+   "en": "You bring the wine and I'll bring the dessert.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pres",
+     "person": "tu",
+     "form": "trazes"
+    },
+    {
+     "verb": "trazer",
+     "tense": "pres",
+     "person": "eu",
+     "form": "trago"
+    }
+   ],
+   "transfer": []
+  },
+  {
    "id": "trazer-pres-ele-1",
    "kind": "formula",
    "pt": "O que o traz por cá?",
@@ -2489,6 +2886,29 @@
      "tense": "pres",
      "person": "ele",
      "form": "traz"
+    }
+   ],
+   "transfer": []
+  },
+  {
+   "id": "trazer-pres-nós-1",
+   "kind": "sentence",
+   "pt": "Nós trazemos a comida, vocês trazem as bebidas.",
+   "en": "We'll bring the food, you lot bring the drinks.",
+   "established": false,
+   "needs_native_check": true,
+   "targets": [
+    {
+     "verb": "trazer",
+     "tense": "pres",
+     "person": "nós",
+     "form": "trazemos"
+    },
+    {
+     "verb": "trazer",
+     "tense": "pres",
+     "person": "eles",
+     "form": "trazem"
     }
    ],
    "transfer": []
@@ -2776,31 +3196,5 @@
    "transfer": []
   }
  ],
- "uncovered_cells": [
-  "ir.pps.tu",
-  "ser.pps.nós",
-  "ter.pps.tu",
-  "poder.pres.tu",
-  "poder.pres.nós",
-  "poder.pres.eles",
-  "poder.pps.tu",
-  "fazer.pres.tu",
-  "fazer.pres.nós",
-  "fazer.pres.eles",
-  "dizer.pres.tu",
-  "dizer.pres.nós",
-  "dizer.pres.eles",
-  "dizer.pps.tu",
-  "querer.pres.tu",
-  "querer.pres.nós",
-  "querer.pres.eles",
-  "querer.pps.tu",
-  "saber.pres.tu",
-  "saber.pres.nós",
-  "saber.pres.eles",
-  "saber.pps.tu",
-  "trazer.pres.tu",
-  "trazer.pres.nós",
-  "trazer.pres.eles"
- ]
+ "uncovered_cells": []
 }

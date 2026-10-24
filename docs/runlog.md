@@ -275,3 +275,16 @@ Newest entries at the bottom.
 - Docs: PROJECT.md (stamp BUSINESS, address, status), CLAUDE.md (address, public repo,
   noreply), decision 0012, note in 0011. Restamped BUSINESS last (`claude-stamp business .`).
   Issue #33 closed.
+
+## 2026-10-23: Every cell gets an anchor (#8)
+- Added 24 anchors (decision 0013) covering the 25 uncovered cells; `uncovered_cells` is now
+  empty. Existing anchors untouched (checked field by field and order kept); new ones placed
+  next to their verb and tense. 4 established formulas, 20 `needs_native_check`.
+- `node validate.mjs`: 15 verbs, 150 anchors, 142 cells covered. `node --test` 105/105: the
+  skip-and-count test now uses a copy of the data with poder's new anchors removed, plus a new
+  test that the real data skips nothing and saber has 10 cells.
+- Browser: a saber session has 10 cells and no "skipped" note; the grid has no uncovered
+  squares. ir.pps.tu still gets no Discriminate items (foste is shared with ser).
+- Counts: #7 now 100 of 150 to check; #13 now 109 of 142 cells on the bare Transfer prompt
+  (the new cells have one anchor each). SPEC §4 and §13 and PROJECT.md updated.
+- **Issues touched:** #8 closed; commented on #7, #13.

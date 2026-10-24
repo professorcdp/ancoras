@@ -43,8 +43,8 @@ See SPEC.md §2: no conjugation engine, syllabus, spaced-repetition scheduler, r
 calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognition.
 
 ## Open questions
-- Native-speaker check of the 80 anchors marked `needs_native_check`
-- Do `uncovered_cells` need anchors, or just bare-form transfer items?
+- Native-speaker check of the 100 anchors marked `needs_native_check` (#7)
+- ~~Do `uncovered_cells` need anchors?~~ Resolved 2026-10-23: every cell has an anchor (decision 0013)
 - ~~Where to host once it works~~ Resolved 2026-10-10: GitHub Pages (decision 0011); since 2026-10-11 https://professorcdp.github.io/ancoras/ (decision 0012)
 
 ## Current status
