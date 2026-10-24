@@ -311,5 +311,5 @@ Newest entries at the bottom.
 - **Reviewed:** 16fc5b1..97e91be
 - **Verdict:** Mostly sound; one privacy slip (personal email in public docs) must be fixed.
 - **Findings:** (1) personal email address written out in docs/runlog.md and decision 0012, both served publicly by Pages; (2) Start enabled at ~0 screens (js/picker.js:98-103); (3) Mac username path in .vscode/settings.json; (4) practice.js duplicates prepareCells(); (5) localStorage shared across the whole professorcdp.github.io origin.
-- **Fixed:** (1) both lines now say "a personal email address"; `git grep yahoo` finds nothing in the working tree. The address is still in the saved files of commits d08cf35, 8b839d7 and 97e91be (and on GitHub by those IDs) until a history rewrite and a GitHub Support purge; not done yet, pending Jim's decision.
+- **Fixed:** (1) both lines now say "a personal email address"; a search of the working tree for the address finds nothing. The address is still in the saved files of commits d08cf35, 8b839d7 and 97e91be (and on GitHub by those IDs) until a history rewrite and a GitHub Support purge; not done yet, pending Jim's decision.
 - **Deferred:** (2) #34, (3) #35, (4) #36, (5) #37.
