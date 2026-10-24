@@ -29,3 +29,5 @@ A session now has up to four phases; a full vir+ver selection (20 cells) is at l
 screens before retries (20 Meet + 20 Recall + 5 Echo + 20 Transfer). Whether the picker should
 let the learner choose steps is left open (#18) until Jim has practised with it. Nothing is
 stored yet (M4, #5).
+
+**Amended by decision 0014 (2026-10-23):** the learner can switch steps off in the picker; switched-off phases are left out like empty ones.

@@ -4,7 +4,11 @@
 
 import { isObject, cellKey } from './validate.js';
 import { $, el } from './dom.js';
-import { anchorsByCell, buildCells, presets, restoreSelection, tenseLabel } from './session.js';
+import {
+  anchorsByCell, buildCells, presets, restoreSelection, tenseLabel, screenCount, PHASES,
+} from './session.js';
+
+const STEP_LABELS = { meet: 'Meet', recall: 'Recall', echo: 'Echo', discriminate: 'Discriminate', transfer: 'Transfer' };
 import { cellRecord, cellStatus, groupMastered, localDate, validateProgress } from './progress.js';
 import {
   audioAvailable, voiceNames, currentVoiceName, setPreferredVoice, onVoicesChanged, speak,
@@ -66,7 +70,7 @@ export function renderPicker(data, { ok, onStart, progress }) {
   const byCell = anchorsByCell(data);
   const selection = restoreSelection(data, loadStored());
 
-  const boxes = { verbs: new Map(), tenses: new Map(), persons: new Map() };
+  const boxes = { verbs: new Map(), tenses: new Map(), persons: new Map(), steps: new Map() };
   const checkbox = (group, value, ...label) => {
     const input = el('input', { type: 'checkbox', value, onchange: update });
     input.checked = selection[group].includes(value);
@@ -83,7 +87,7 @@ export function renderPicker(data, { ok, onStart, progress }) {
 
   function read() {
     const pick = group => [...boxes[group]].filter(([, b]) => b.checked).map(([v]) => v);
-    return { verbs: pick('verbs'), tenses: pick('tenses'), persons: pick('persons') };
+    return { verbs: pick('verbs'), tenses: pick('tenses'), persons: pick('persons'), steps: pick('steps') };
   }
 
   function update() {
@@ -91,10 +95,12 @@ export function renderPicker(data, { ok, onStart, progress }) {
     save(sel);
     const result = buildCells(data, sel, byCell);
     const n = result.cells.length;
-    count.textContent = `${n} cell${n === 1 ? '' : 's'}`;
+    const screens = n && sel.steps.length ? screenCount(data, result.cells, sel.steps) : 0;
+    count.textContent = `${n} cell${n === 1 ? '' : 's'}` + (n ? ` · ~${screens} screen${screens === 1 ? '' : 's'}` : '');
     skipped.textContent = result.skipped
       ? `(${result.skipped} uncovered cell${result.skipped === 1 ? '' : 's'} skipped)` : '';
-    start.disabled = !ok || n === 0;
+    if (n && !sel.steps.length) skipped.textContent = '(tick at least one step)';
+    start.disabled = !ok || n === 0 || sel.steps.length === 0;
   }
 
   function setVerbs(list) {
@@ -243,6 +249,11 @@ export function renderPicker(data, { ok, onStart, progress }) {
       el('div', { class: 'checks' }, persons.map(p =>
         checkbox('persons', p, el('b', { lang: 'pt-PT' }, p),
           notes[p] ? el('span', { class: 'muted' }, ` (${notes[p]})`) : null)))),
+    el('fieldset', {},
+      el('legend', {}, 'Steps'),
+      el('div', { class: 'checks' }, PHASES.map(step => checkbox('steps', step, el('b', {}, STEP_LABELS[step])))),
+      el('p', { class: 'muted small steps-note' },
+        'Progress is recorded in Discriminate and Transfer. Recall uses the Meet phrase even when Meet is off.')),
     el('div', { class: 'start-row' }, start, el('span', {}, count, ' ', skipped)),
     note,
     el('fieldset', { class: 'progress-box' },

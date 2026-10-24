@@ -10,7 +10,7 @@ import { cellRecord, cellStatus, isScored } from './progress.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
   splitOnForm, summarize, describeCells, tenseLabel, planPhases, runPhases,
-  discriminateItemsFor, interleave, tallyDiscriminate,
+  discriminateItemsFor, interleave, tallyDiscriminate, PHASES,
 } from './session.js';
 
 const ACCENTS = ['á', 'à', 'â', 'ã', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ç'];
@@ -36,6 +36,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
     };
   });
   const results = { recall: new Map(), echo: new Map(), transfer: new Map() }; // key -> grades
+  const steps = Array.isArray(selection.steps) ? selection.steps : PHASES; // decision 0014
   const taps = []; // Discriminate: { key, counts, right } per tap, in order
   const before = progress.get(); // to show what this session changed
   const missedThisSession = new Set(); // cells whose streak a scored miss reset
@@ -320,7 +321,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
 
   function summary() {
     finished = true;
-    const steps = [['Recall', 'recall'], ['Echo', 'echo'], ['Discriminate', 'discriminate'], ['Transfer', 'transfer']];
+    const columns = [['Recall', 'recall'], ['Echo', 'echo'], ['Discriminate', 'discriminate'], ['Transfer', 'transfer']];
     const after = progress.get();
     // Progress column: the cell's streak now, "mastered" if this session got it there, or
     // "streak reset" if a scored miss this session reset it.
@@ -333,12 +334,13 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
       return el('td', { title: `${rec.days.length} day${rec.days.length === 1 ? '' : 's'} with a first-try Transfer` },
         `streak ${rec.streak}`, badge);
     };
-    const rows = Object.fromEntries(steps.filter(([, key]) => results[key])
+    const rows = Object.fromEntries(columns.filter(([, key]) => results[key])
       .map(([, key]) => [key, summarize(plan, results[key])]));
     const label = { first: '✓ first try', retry: '✓ on retry', missed: '✗' };
     const firstTry = rows.transfer.filter(r => r.status === 'first').length;
     const tally = tallyDiscriminate(taps);
     const status = (key, i) => {
+      if (!steps.includes(key)) return el('td', { class: 'none', title: 'step switched off' }, '—');
       if (key === 'echo' && !plan[i].echo) return el('td', { class: 'none' }, '—');
       if (key === 'discriminate') {
         const t = tally.get(plan[i].key);
@@ -355,7 +357,9 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
     };
     show(
       el('h2', {}, 'Done'),
-      el('p', {}, `${firstTry} of ${plan.length} right first time in Transfer.`),
+      el('p', {}, steps.includes('transfer')
+        ? `${firstTry} of ${plan.length} right first time in Transfer.`
+        : 'Transfer was switched off for this session.'),
       el('p', { class: 'muted small' },
         'Mastery counts the bare-form steps: Discriminate and Transfer (SPEC §8). ' +
         'Recall and Echo are practice. Progress is saved after every answer.'),
@@ -363,11 +367,11 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         el('table', { class: 'summary' },
           el('thead', {}, el('tr', {},
             el('th', { scope: 'col' }, 'Cell'), el('th', { scope: 'col' }, 'Form'),
-            steps.map(([name]) => el('th', { scope: 'col' }, name)), el('th', { scope: 'col' }, 'Progress'))),
+            columns.map(([name]) => el('th', { scope: 'col' }, name)), el('th', { scope: 'col' }, 'Progress'))),
           el('tbody', {}, plan.map((cell, i) => el('tr', {},
             el('td', { lang: 'pt-PT' }, cueText(cell)),
             el('td', { lang: 'pt-PT' }, el('b', {}, cell.form)),
-            steps.map(([, key]) => status(key, i)), progressCell(cell)))))),
+            columns.map(([, key]) => status(key, i)), progressCell(cell)))))),
       el('div', { class: 'actions' },
         el('button', { type: 'button', class: 'primary', onclick: onAgain }, 'Practise again'),
         el('button', { type: 'button', onclick: onHome }, 'Home')),
@@ -377,7 +381,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
   // Meet → Recall → Echo → Discriminate → Transfer → summary (planPhases leaves out empty
   // phases); each phase starts with a cell that differs from the last one shown.
   const GRADED = { recall: RECALL, echo: ECHO, transfer: TRANSFER };
-  runPhases(planPhases(plan), (phase, prev, next) => {
+  runPhases(planPhases(plan, steps), (phase, prev, next) => {
     if (phase.name === 'meet') return meet(orderCells(phase.cells, Math.random, prev), 0, next);
     if (phase.name === 'discriminate') return discriminate(phase.cells, prev, next);
     return graded(GRADED[phase.name], phase.cells, prev, next);

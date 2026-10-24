@@ -307,3 +307,5 @@ body.no-audio button.play { display: none; }
 .replay { margin: 6px 0 2px; }
 .audio-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 12px 0 0; }
 .audio-line select { margin-left: 0; }
+
+.steps-note { margin: 8px 0 0; }

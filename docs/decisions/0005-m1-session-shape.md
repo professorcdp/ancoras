@@ -30,3 +30,5 @@ Sessions are short and predictable, and no results are stored yet (mastery is M4
 A learner who misses a form twice sees it marked ✗ in the summary but gets no further
 repetition this session. Transfer often falls back to a bare prompt because most cells have
 only one anchor (#13).
+
+**Amended by decision 0014 (2026-10-23):** the learner can switch steps off in the picker; switched-off phases are left out like empty ones.

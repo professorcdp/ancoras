@@ -288,3 +288,21 @@ Newest entries at the bottom.
 - Counts: #7 now 100 of 150 to check; #13 now 109 of 142 cells on the bare Transfer prompt
   (the new cells have one anchor each). SPEC §4 and §13 and PROJECT.md updated.
 - **Issues touched:** #8 closed; commented on #7, #13.
+
+## 2026-10-23: Learner chooses the steps (#18)
+- Picker: "Steps" checkboxes (Meet · Recall · Echo · Discriminate · Transfer), all on by
+  default, saved with the selection (`restoreSelection` gives all five for a missing or
+  malformed value, e.g. a selection saved before this change); Start disabled with none
+  ticked; small print "Progress is recorded in Discriminate and Transfer…". Count line now
+  "20 cells · ~165 screens" via the pure `screenCount()`; `planPhases(cells, enabled)` leaves
+  out switched-off steps; new `prepareCells()`. Summary shows "—" for switched-off steps, and
+  says so when Transfer was off. Decision 0014; 0005 and 0007 amended with a pointer.
+- Bug caught in the browser before committing: the summary's own column list was also named
+  `steps` and hid the chosen steps, so every column showed "—"; renamed it `columns`.
+- Tests: `node --test` 108/108 (new: planPhases subsets, a stale stored selection, the screen
+  count; selection tests updated for `steps`). `node validate.mjs` OK.
+- Browser: with Meet and Recall unticked a vir+ver session showed "~125 screens", started at
+  "Echo · 1 of 5" and ran Echo → Discriminate → Transfer; the summary showed "—" for Recall;
+  the choice survived a reload; no-steps disables Start; phone width fine.
+- **Issues touched:** #18 closed.
+- **Next:** Jim practises; run /second-opinion on 8b839d7..HEAD.

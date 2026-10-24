@@ -24,8 +24,8 @@
   live in `js/validate.js` (pure, no DOM), shared with the page's banner.
   Run `node --test` after any code change: it runs every file in `test/` (validator rules,
   form and phrase grading, session building incl. Echo anchor choice, Discriminate items
-  and tally, the phase plan, the leave-session decision, the progress rules, the store and
-  pt-PT voice choice) and checks that the real anchors.json passes. No dependencies.
+  and tally, the phase plan with chosen steps and the screen count, the leave-session
+  decision, the progress rules, the store and pt-PT voice choice) and checks that the real anchors.json passes. No dependencies.
   Browser-only behaviour (history, confirm()) lives in js/main.js and stays thin: the
   decisions it acts on (`decideLeave`, `planPhases`, `runPhases`) are pure, in js/session.js.
 - Layout: `index.html`, `style.css`; `js/main.js` (load, validate, switch views),

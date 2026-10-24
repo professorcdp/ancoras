@@ -7,7 +7,7 @@ import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
   pickEchoAnchor, formsIn, targetsIn, describeCells, splitOnForm, orderCells, requeue, summarize,
   planPhases, runPhases, decideLeave, discriminateItemsFor, interleave, DISCRIMINATE_ITEMS,
-  tallyDiscriminate,
+  tallyDiscriminate, screenCount,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -22,9 +22,10 @@ test('presets come from confusion sets', () => {
   assert.deepEqual(presets(data), [['vir', 'ver'], ['ir', 'ser'], ['ter', 'estar'], ['pôr', 'poder']]);
 });
 
-test('default selection: no verbs, every tense and person', () => {
+test('default selection: no verbs, every tense, person and step', () => {
   assert.deepEqual(defaultSelection(data), {
     verbs: [], tenses: ['pres', 'pps'], persons: ['eu', 'tu', 'ele', 'nós', 'eles'],
+    steps: ['meet', 'recall', 'echo', 'discriminate', 'transfer'],
   });
 });
 
@@ -33,8 +34,18 @@ test('restoreSelection keeps known values and falls back on bad input', () => {
   for (const bad of [null, 'x', 42, []]) assert.deepEqual(restoreSelection(data, bad), fallback);
   assert.deepEqual(
     restoreSelection(data, { verbs: ['ver', 'nope', 'vir'], tenses: ['pps'], persons: 'eu' }),
-    { verbs: ['vir', 'ver'], tenses: ['pps'], persons: fallback.persons },
+    { verbs: ['vir', 'ver'], tenses: ['pps'], persons: fallback.persons, steps: fallback.steps },
   );
+});
+
+test('restoreSelection: a selection saved before #18 (or with bad steps) gets all steps', () => {
+  const all = ['meet', 'recall', 'echo', 'discriminate', 'transfer'];
+  const saved = { verbs: ['vir'], tenses: ['pres'], persons: ['eu'] };
+  assert.deepEqual(restoreSelection(data, saved).steps, all);              // no steps key yet
+  assert.deepEqual(restoreSelection(data, { ...saved, steps: 'meet' }).steps, all);
+  assert.deepEqual(restoreSelection(data, { ...saved, steps: ['transfer', 'bogus', 'meet'] }).steps,
+    ['meet', 'transfer']);                                                  // known ones, in order
+  assert.deepEqual(restoreSelection(data, { ...saved, steps: [] }).steps, []); // none ticked stays none
 });
 
 test('buildCells: vir+ver is 20 cells, nothing uncovered', () => {
@@ -348,4 +359,25 @@ test('tallyDiscriminate sums scored and practice taps per cell', () => {
   assert.deepEqual(t.get('a'), { scored: { right: 2, total: 3 }, practice: { right: 2, total: 2 } });
   assert.deepEqual(t.get('b'), { scored: { right: 0, total: 0 }, practice: { right: 0, total: 1 } });
   assert.equal(tallyDiscriminate([]).size, 0);
+});
+
+// Choosing steps (#18, decision 0014).
+test('planPhases leaves out switched-off steps like empty ones', () => {
+  const a = { key: 'a', echo: {}, discriminate: [1, 2] };
+  const b = { key: 'b' };
+  assert.deepEqual(names(planPhases([a, b], ['echo', 'discriminate', 'transfer'])),
+    ['echo:1', 'discriminate:1', 'transfer:2']);
+  assert.deepEqual(names(planPhases([a, b], ['transfer', 'meet'])), ['meet:2', 'transfer:2']); // order fixed
+  assert.deepEqual(names(planPhases([b], ['echo'])), []);           // on, but no cell has it
+  assert.deepEqual(planPhases([a, b], []), []);
+});
+
+test('screenCount: per-step screens for a vir+ver session', () => {
+  const cells = buildCells(data, { ...defaultSelection(data), verbs: ['vir', 'ver'] }).cells;
+  assert.equal(screenCount(data, cells), 20 + 20 + 5 + 100 + 20);
+  assert.equal(screenCount(data, cells, ['transfer']), 20);
+  assert.equal(screenCount(data, cells, ['echo', 'discriminate']), 105);
+  assert.equal(screenCount(data, cells, []), 0);
+  const fazer = buildCells(data, { ...defaultSelection(data), verbs: ['fazer'] }).cells;
+  assert.equal(screenCount(data, fazer, ['discriminate']), 0);       // no confusion set
 });

@@ -7,11 +7,13 @@ import { CORRECT } from './grade.js';
 const list = x => (Array.isArray(x) ? x : []);
 const verbsOf = data => (isObject(data?.verbs) ? data.verbs : {});
 
+// The picker's selection. `steps` are the phases to run (decision 0014): all on by default.
 export function defaultSelection(data) {
   return {
     verbs: [],
     tenses: Object.keys(isObject(data?.tenses) ? data.tenses : {}),
     persons: list(data?.persons).slice(),
+    steps: PHASES.slice(),
   };
 }
 
@@ -25,6 +27,7 @@ export function restoreSelection(data, stored) {
     verbs: keep('verbs', Object.keys(verbsOf(data))),
     tenses: keep('tenses', fallback.tenses),
     persons: keep('persons', fallback.persons),
+    steps: keep('steps', fallback.steps), // missing or malformed (e.g. saved before #18): all on
   };
 }
 
@@ -219,9 +222,10 @@ export function summarize(cells, results) {
 
 // The phases of a session, in order (SPEC §6; decisions 0005, 0007, 0008), each with the
 // cells it covers. Phases with no cells are left out: Echo needs an echo anchor (`cell.echo`),
-// Discriminate needs items (`cell.discriminate`).
+// Discriminate needs items (`cell.discriminate`). So are phases the learner switched off
+// (`enabled`, decision 0014).
 export const PHASES = ['meet', 'recall', 'echo', 'discriminate', 'transfer'];
-export function planPhases(cells) {
+export function planPhases(cells, enabled = PHASES) {
   const covers = {
     meet: () => true,
     recall: () => true,
@@ -230,8 +234,25 @@ export function planPhases(cells) {
     transfer: () => true,
   };
   return PHASES
+    .filter(name => enabled.includes(name))
     .map(name => ({ name, cells: cells.filter(covers[name]) }))
     .filter(p => p.cells.length);
+}
+
+// Give each cell what the phase plan needs: its Meet anchor, Echo anchor and Discriminate
+// items. (Recall uses the Meet anchor even when Meet is switched off.)
+export function prepareCells(data, cells, rng = Math.random) {
+  return cells.map(cell => {
+    const meet = pickMeetAnchor(cell.anchors);
+    return { ...cell, meet, echo: pickEchoAnchor(cell, meet), discriminate: discriminateItemsFor(data, cell, rng) };
+  });
+}
+
+// About how many screens a session takes before retries: one per cell in Meet, Recall and
+// Transfer, one per Echo cell, one per Discriminate item.
+export function screenCount(data, cells, steps = PHASES) {
+  return planPhases(prepareCells(data, cells), steps).reduce((n, p) =>
+    n + (p.name === 'discriminate' ? p.cells.reduce((m, c) => m + c.discriminate.length, 0) : p.cells.length), 0);
 }
 
 // Run the phases one after another: run(phase, prev, next) shows a phase starting after
