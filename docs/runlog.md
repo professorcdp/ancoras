@@ -305,11 +305,11 @@ Newest entries at the bottom.
   "Echo · 1 of 5" and ran Echo → Discriminate → Transfer; the summary showed "—" for Recall;
   the choice survived a reload; no-steps disables Start; phone width fine.
 - **Issues touched:** #18 closed.
-- **Next:** Jim practises; run /second-opinion on 8b839d7..HEAD.
+- **Next:** Jim practises; run /second-opinion on 88cb8d6..HEAD.
 
 ## 2026-10-24 (review)
-- **Reviewed:** 16fc5b1..97e91be
+- **Reviewed:** a54c316..b6aae01
 - **Verdict:** Mostly sound; one privacy slip (personal email in public docs) must be fixed.
 - **Findings:** (1) personal email address written out in docs/runlog.md and decision 0012, both served publicly by Pages; (2) Start enabled at ~0 screens (js/picker.js:98-103); (3) Mac username path in .vscode/settings.json; (4) practice.js duplicates prepareCells(); (5) localStorage shared across the whole professorcdp.github.io origin.
-- **Fixed:** (1) both lines now say "a personal email address"; a search of the working tree for the address finds nothing. The address is still in the saved files of commits d08cf35, 8b839d7 and 97e91be (and on GitHub by those IDs) until a history rewrite and a GitHub Support purge; not done yet, pending Jim's decision.
+- **Fixed:** (1) both lines now say "a personal email address"; a search of the working tree for the address finds nothing. The address is still in the saved files of commits 5576501, 88cb8d6 and b6aae01 (and on GitHub by those IDs) until a history rewrite and a GitHub Support purge; not done yet, pending Jim's decision.
 - **Deferred:** (2) #34, (3) #35, (4) #36, (5) #37.

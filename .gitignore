@@ -11,3 +11,6 @@ secrets/
 .DS_Store
 node_modules/
 dist/
+
+# Editor settings (local paths; claude-stamp writes this per machine)
+.vscode/
