@@ -6,7 +6,7 @@ import { isObject, ECHO_SEPARATOR } from './validate.js';
 import { $, el, highlight } from './dom.js';
 import { gradeForm, gradePhrase, normalize, CORRECT, ALMOST } from './grade.js';
 import { speak, stop } from './audio.js';
-import { openFormsPanel } from './forms.js';
+import { openFormsPanel, formsPanelOpen } from './forms.js';
 import { cellRecord, cellStatus, isScored } from './progress.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
@@ -162,7 +162,8 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
       const check = el('button', { type: 'submit', class: 'primary' }, 'Check');
       const feedback = el('div', { class: 'feedback', 'aria-live': 'polite' });
       const form = el('form', { class: 'answer-form' }, el('div', { class: 'answer-row' }, input, check));
-      let peeked = false; // Forms opened before this attempt was answered
+      // Forms opened before this attempt was answered, or still open as the item appears.
+      let peeked = formsPanelOpen();
 
       form.addEventListener('submit', e => {
         e.preventDefault();
@@ -292,7 +293,9 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         type: 'button', class: 'option', lang: 'pt-PT', onclick: () => choose(opt),
       }, opt));
       const advance = () => { i++; ask(); };
-      let peeked = false; // Forms opened before this tap: the tap is looked up
+      // Forms opened before this tap, or still open as the item appears (it can be, when a
+      // correct tap moves on by itself while the learner is peeking): the tap is looked up.
+      let peeked = formsPanelOpen();
       function choose(opt) {
         if (buttons.some(b => b.disabled)) return;
         buttons.forEach(b => { b.disabled = true; });

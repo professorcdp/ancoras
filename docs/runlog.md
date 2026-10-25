@@ -315,9 +315,9 @@ Newest entries at the bottom.
 - **Deferred:** (2) #34, (3) #35, (4) #36, (5) #37.
 
 ## 2026-10-24: Personal data scrubbed from history (#35); Start off at ~0 screens (#34)
-- **History rewrite (round 2), decided by Jim:** backup first at
-  `/Users/jmranalli/Documents/Development/ancoras-backup-2026-10-24.bundle` (outside the repo;
-  holds the history before today and the round-1 original). Installed git-filter-repo
+- **History rewrite (round 2), decided by Jim:** backup first: a backup bundle in the parent
+  folder, outside the repo (`ancoras-backup-2026-10-24.bundle`; holds the history before
+  today and the round-1 original). Installed git-filter-repo
   (Homebrew) and rewrote all 26 commits: the personal email address written out in two docs is
   replaced with "a personal email address" in every commit, and `.vscode/settings.json` (Mac
   username path) is removed from every commit. Verified: the address appears 0 times in all
@@ -419,3 +419,11 @@ d08cf35c84f09c5218379395aa633d61da095316
   picker's (hidden) Forms button instead of the session's; rechecked correctly. Laptop panel
   blocks now sit side by side (tables had inherited full width).
 - **Issues touched:** #38 closed.
+
+## 2026-10-25 (review)
+- **Reviewed:** b6aae01..b034c66
+- **Verdict:** Sound; one privacy slip (Mac username path in the runlog) and one loophole in the looked-up rule (Discriminate auto-advance) should be fixed.
+- **Findings:** (1) username path in docs/runlog.md:319; (2) Discriminate auto-advance peek loophole: a peek during the ~600 ms pause after a correct tap left the panel open over the next item, whose peeked flag started false, so a looked-up answer could score; (3) panel padding click closes it; (4) looked-up tag per cell, not per attempt, plus the streak-reset design note; (5) panel outlives a session left via Back; (6) no tests for the practice.js glue (#30).
+- **Tests at review time:** `node --test` 115/115; `node validate.mjs` OK.
+- **Fixed:** (1) the runlog now describes the backup as "a backup bundle in the parent folder, outside the repo"; no home-folder path is left in any tracked file (a search of the tracked files for the path prefix finds nothing). The path remains in the history of two commits (ed2bec1, b034c66); we chose not to rewrite history again. (2) Every graded and Discriminate item now starts out looked up if the Forms panel is open as it appears (`formsPanelOpen()` in js/forms.js), so "an answer given while or after the panel was open for that item doesn't score" holds on every path. Not pure (it depends on the dialog), so browser-checked: in a Discriminate-only vir+ver session, a correct tap, then Forms during the pause; the next item (vir.pps.eu, "which form?") appeared under the open panel; after closing it, a correct answer was not recorded (events 1 → 1). Control: an ordinary which-form tap without a peek was recorded (ver.pps.eu events 0 → 1).
+- **Deferred:** (3) #39, (4) #40, (5) #41, (6) added to #30.

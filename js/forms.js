@@ -41,6 +41,10 @@ function ensureDialog() {
   return dialog;
 }
 
+// Is the panel showing? An item that appears while it is open (e.g. Discriminate moving on by
+// itself after a correct tap) starts out looked up (decision 0015).
+export const formsPanelOpen = () => Boolean(dialog?.open);
+
 // Show the forms of `verbs` (each its own block, in order), marking the cells in `highlight`
 // (a Set of cell keys like "vir.pps.eu").
 export function openFormsPanel(data, { verbs, highlight = new Set() }) {
