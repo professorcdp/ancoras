@@ -427,3 +427,12 @@ d08cf35c84f09c5218379395aa633d61da095316
 - **Tests at review time:** `node --test` 115/115; `node validate.mjs` OK.
 - **Fixed:** (1) the runlog now describes the backup as "a backup bundle in the parent folder, outside the repo"; no home-folder path is left in any tracked file (a search of the tracked files for the path prefix finds nothing). The path remains in the history of two commits (ed2bec1, b034c66); we chose not to rewrite history again. (2) Every graded and Discriminate item now starts out looked up if the Forms panel is open as it appears (`formsPanelOpen()` in js/forms.js), so "an answer given while or after the panel was open for that item doesn't score" holds on every path. Not pure (it depends on the dialog), so browser-checked: in a Discriminate-only vir+ver session, a correct tap, then Forms during the pause; the next item (vir.pps.eu, "which form?") appeared under the open panel; after closing it, a correct answer was not recorded (events 1 → 1). Control: an ordinary which-form tap without a peek was recorded (ver.pps.eu events 0 → 1).
 - **Deferred:** (3) #39, (4) #40, (5) #41, (6) added to #30.
+
+## 2026-10-26: Data page filter on phones (#42, reported by Jim)
+- Jim couldn't get back to the full list after filtering the Data page by verb on his Pixel,
+  and after reopening the app the dropdown seemed to have gone. Reproduced at 412×915 (touch):
+  the dropdown sits below all 15 verb cards (~5,750 px down a ~50,000 px page), there is no
+  "show all" link, and it filters only the anchors, not the verb cards. After reopening, it is
+  still there (reset to "All verbs") but out of sight at the top of the page. No code changed.
+- Opened #42 (bug, next) with a proposed fix (filter at the top, filtering both sections; a
+  "× Show all verbs" button; sticky on phones). Jim is taking it through the advisor first.
