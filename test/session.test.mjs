@@ -7,7 +7,7 @@ import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
   pickEchoAnchor, formsIn, targetsIn, describeCells, splitOnForm, orderCells, requeue, summarize,
   planPhases, runPhases, decideLeave, discriminateItemsFor, interleave, DISCRIMINATE_ITEMS,
-  tallyDiscriminate, screenCount,
+  tallyDiscriminate, screenCount, startBlocker,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -380,4 +380,23 @@ test('screenCount: per-step screens for a vir+ver session', () => {
   assert.equal(screenCount(data, cells, []), 0);
   const fazer = buildCells(data, { ...defaultSelection(data), verbs: ['fazer'] }).cells;
   assert.equal(screenCount(data, fazer, ['discriminate']), 0);       // no confusion set
+});
+
+test('startBlocker: Start is off for bad data, no cells, no steps, or ~0 screens (#34)', () => {
+  const go = { ok: true, cells: 10, steps: 5, screens: 48 };
+  assert.equal(startBlocker(go), null);
+  assert.equal(startBlocker({ ...go, ok: false }).reason, 'data');
+  assert.equal(startBlocker({ ...go, cells: 0, screens: 0 }).reason, 'no-cells');
+  assert.equal(startBlocker({ ...go, steps: 0, screens: 0 }).reason, 'no-steps');
+  const none = startBlocker({ ...go, screens: 0 });
+  assert.equal(none.reason, 'no-screens');
+  assert.match(none.message, /nothing to practise/);
+});
+
+test('~0 screens happens for real selections: Echo only for fazer, Discriminate only for dizer', () => {
+  const sel = verbs => buildCells(data, { ...defaultSelection(data), verbs }).cells;
+  assert.equal(screenCount(data, sel(['dizer']), ['discriminate']), 0);   // no confusion set
+  const fazerPres = sel(['fazer']).filter(c => c.tense === 'pres');
+  assert.equal(screenCount(data, fazerPres, ['echo']), 0);               // no echo pair in the present
+  assert.ok(screenCount(data, sel(['fazer']), ['echo']) > 0);              // fazer-pps-tu-1 is an echo pair
 });

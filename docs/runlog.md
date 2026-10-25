@@ -311,5 +311,86 @@ Newest entries at the bottom.
 - **Reviewed:** a54c316..b6aae01
 - **Verdict:** Mostly sound; one privacy slip (personal email in public docs) must be fixed.
 - **Findings:** (1) personal email address written out in docs/runlog.md and decision 0012, both served publicly by Pages; (2) Start enabled at ~0 screens (js/picker.js:98-103); (3) Mac username path in .vscode/settings.json; (4) practice.js duplicates prepareCells(); (5) localStorage shared across the whole professorcdp.github.io origin.
-- **Fixed:** (1) both lines now say "a personal email address"; a search of the working tree for the address finds nothing. The address is still in the saved files of commits 5576501, 88cb8d6 and b6aae01 (and on GitHub by those IDs) until a history rewrite and a GitHub Support purge; not done yet, pending Jim's decision.
+- **Fixed:** (1) both lines now say "a personal email address"; a search of the working tree for the address finds nothing. The address was still in the saved files of commits d08cf35, 8b839d7 and 97e91be (IDs from before the 2026-10-24 rewrite; now 5576501, 88cb8d6 and b6aae01, which no longer contain it), pending a history rewrite (done 2026-10-24, see below) and a GitHub Support purge.
 - **Deferred:** (2) #34, (3) #35, (4) #36, (5) #37.
+
+## 2026-10-24: Personal data scrubbed from history (#35); Start off at ~0 screens (#34)
+- **History rewrite (round 2), decided by Jim:** backup first at
+  `/Users/jmranalli/Documents/Development/ancoras-backup-2026-10-24.bundle` (outside the repo;
+  holds the history before today and the round-1 original). Installed git-filter-repo
+  (Homebrew) and rewrote all 26 commits: the personal email address written out in two docs is
+  replaced with "a personal email address" in every commit, and `.vscode/settings.json` (Mac
+  username path) is removed from every commit. Verified: the address appears 0 times in all
+  history; the settings file is in 0 commits; 26 commits with the same messages; the latest
+  tree differs from before only by the removed settings file. The local settings file was
+  copied aside and restored (it routes this folder to the business Claude account);
+  `.vscode/` is now ignored. Removed the round-1 backup ref and cleared old objects locally
+  (they're in the bundle). Force-pushed with lease; Pages rebuilt; the live site returns 200
+  for the app, 404 for the settings file, and no address in the served docs.
+- docs/commit-id-map.md now maps both rewrites (original → between → current). Commit IDs
+  quoted in the runlog from between the rewrites were updated to the current ones, except
+  where the old IDs are the point (the 2026-10-24 review entry above).
+- **#34:** Start is now off whenever the estimate is ~0 screens, with a one-line reason under
+  the count (e.g. only Discriminate ticked for dizer, which has no confusion set). The
+  decision is the pure, tested `startBlocker()` in js/session.js.
+- Tests: `node --test` 110/110; `node validate.mjs` OK. Browser: dizer + Discriminate only →
+  "~0 screens", reason shown, Start off; adding Transfer → ~10 screens, Start on.
+- **Issues touched:** #35, #34 closed.
+
+### For Jim: GitHub Support request
+- **Repository:** professorcdp/ancoras (public)
+- **Reason:** personal data in rewritten commits; please remove cached views. The history was
+  rewritten on 2026-10-11 and again on 2026-10-24; the old commits below are no longer on any
+  branch but are still viewable on GitHub by ID.
+- **Old commit IDs (47: the first 21 from before 2026-10-11, then 26 from between the two
+  rewrites):**
+
+```
+4581f8d4a2e9bffb9bead14680919428425eb435
+0bf6a1955cae05de91fb0c8aa04a7808b7f116d5
+1ac38a3e88b411edeee9d83a69e7044bab1ebaeb
+6a4ab2e77e0b1ee6d75b172de748ad07c73a53ca
+9d76314cd6593140c529492e3202ebe4456b510d
+aa5fb488425e8cd1996d69daa10a4d1a72dc8889
+e3657a412ba0fbddc09df7acdd5775afaeba7446
+1563c278224a95c9a929c6e9f5d8ad7fae013a86
+901753291d0b44513f6db1e76acfece414ca20f4
+3e9a06509dfee81837213189e82aa2423e29bcde
+2e817c3b4b17e3e16487e8e382baa3f52ea7236a
+9c99ca96b5ee9d276860f06ae8996d2f8c8776c1
+7074ee05f8faa7a680d6f10fcbf88437f6bacb71
+9d32a2c92f6be707e0574e09d93dacb12430797f
+7078a526b533735914518c40b08358bdac1546ba
+1a14b7df2ea70ee0262971b2f54fb94984fb0cfc
+494a8ee8ccfc9d0dc97617982e7902752aefc908
+180b451af77566bdcec38de28af9095fcdf87dfc
+1c8ef1dd750819658d13612547455d635e031f58
+f27c67e4227bec7667734251acd13b530cf47969
+586853eccb6a41c936912e9fa81ad6705fc7334d
+115fc0a556956906ec4f7fbaf2e145da1bc62a40
+1f191b857140b7dbbb8f46d06615fabf4c23f5e7
+f27ba49139eaed474612b475414fedefeadb64b1
+7a9140d03899c1044d65a672aa37f62245fc36ac
+05e398e22e3400fb4984e1562d43aa374a57cd11
+3f733afef1d1bdf622b79ccb789eca89e0c8b2c9
+581b8996344116bdcb30ace6bd4a150fa556975c
+279b7e3f0a8683d0b9c705b9b23a45d8ac8ba64d
+633dba2818abfd6e2c42a5ab67985c667575b8eb
+e29919fcfd2147e1e2bb861e895e02129b4eb4d9
+c99de6abb5a14219face68dd6c1f2ce1a64c4feb
+8acef36c96b59345e468811e8d0d0fe6dc5f757a
+0ac743828a9345e065e69c991a762571051bad4f
+d3a82064243a9b92621c1b3f55c46953b228e265
+63cfd2dfa6201f9741729f2d0c51fc2a9ede1408
+b72f4eba969a27ca08bf8751a58016b5ba2076b0
+16fc5b16c8ffdac33876c85c7125d2c23e2e0754
+a508cd891402de95d7a30130a1c94a76e893abdb
+8a4e546e5621c6e9c97693aeeb1ab83d3af4d28d
+ae36c056c9f6d823f518abea7beb62c781bd3af8
+613877775cddc2906b48aae6edd940099f29c026
+d08cf35c84f09c5218379395aa633d61da095316
+8b839d73c93b7867bbf4f99a2cc96e32f8fd5f74
+97e91be042a1f527c9618ecebe281ac4844fcea8
+04b5b8a54f70b782269da7d3f431e9392fe63772
+38c2d852a36df7cc4219d66973ae38a00b18f988
+```

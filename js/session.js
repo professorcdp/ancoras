@@ -365,3 +365,19 @@ export function interleave(lists, keyOf, rng = Math.random, prevKey = null) {
   }
   return out;
 }
+
+// Why Start can't be pressed, or null if it can (#34). `ok` is false when anchors.json has
+// problems (the banner explains those, so no message here).
+export function startBlocker({ ok, cells, steps, screens }) {
+  if (!ok) return { reason: 'data', message: '' };
+  if (!cells) return { reason: 'no-cells', message: '' };
+  if (!steps) return { reason: 'no-steps', message: '(tick at least one step)' };
+  if (!screens) {
+    return {
+      reason: 'no-screens',
+      message: '(nothing to practise: none of these cells has the ticked steps — Echo needs a ' +
+        'question-and-answer anchor, Discriminate a verb with a confusion set)',
+    };
+  }
+  return null;
+}

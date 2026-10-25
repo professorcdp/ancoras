@@ -5,7 +5,7 @@
 import { isObject, cellKey } from './validate.js';
 import { $, el } from './dom.js';
 import {
-  anchorsByCell, buildCells, presets, restoreSelection, tenseLabel, screenCount, PHASES,
+  anchorsByCell, buildCells, presets, restoreSelection, tenseLabel, screenCount, startBlocker, PHASES,
 } from './session.js';
 
 const STEP_LABELS = { meet: 'Meet', recall: 'Recall', echo: 'Echo', discriminate: 'Discriminate', transfer: 'Transfer' };
@@ -99,8 +99,9 @@ export function renderPicker(data, { ok, onStart, progress }) {
     count.textContent = `${n} cell${n === 1 ? '' : 's'}` + (n ? ` · ~${screens} screen${screens === 1 ? '' : 's'}` : '');
     skipped.textContent = result.skipped
       ? `(${result.skipped} uncovered cell${result.skipped === 1 ? '' : 's'} skipped)` : '';
-    if (n && !sel.steps.length) skipped.textContent = '(tick at least one step)';
-    start.disabled = !ok || n === 0 || sel.steps.length === 0;
+    const blocked = startBlocker({ ok, cells: n, steps: sel.steps.length, screens });
+    if (blocked?.message) skipped.textContent = blocked.message;
+    start.disabled = Boolean(blocked);
   }
 
   function setVerbs(list) {
