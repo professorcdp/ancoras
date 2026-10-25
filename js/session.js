@@ -381,3 +381,21 @@ export function startBlocker({ ok, cells, steps, screens }) {
   }
   return null;
 }
+
+// What the Forms panel shows for a screen (decision 0015): the verbs to show, each as its own
+// block, and the cells to highlight. `cells` are the cell(s) being practised or shown (e.g. an
+// echo pair's targets). The first cell's verb comes first, then its confusion set, then any
+// other verb among the cells. Nothing is highlighted when `highlight` is false (the picker).
+export function formsFocus(data, cells, { highlight = true } = {}) {
+  const verbs = verbsOf(data);
+  const shown = list(cells).filter(c => isObject(c) && c.verb in verbs);
+  const order = [];
+  const add = v => { if (v in verbs && !order.includes(v)) order.push(v); };
+  if (shown.length) {
+    add(shown[0].verb);
+    list(verbs[shown[0].verb]?.confusion_set).forEach(add);
+    shown.forEach(c => add(c.verb));
+  }
+  const keys = highlight ? shown.filter(c => c.tense && c.person).map(c => cellKey(c.verb, c.tense, c.person)) : [];
+  return { verbs: order, highlight: new Set(keys) };
+}

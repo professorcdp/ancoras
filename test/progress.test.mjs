@@ -119,3 +119,20 @@ test('validateProgress rejects bad shapes and versions', () => {
 test('localDate uses the local calendar date', () => {
   assert.equal(localDate(new Date(2026, 0, 5, 23, 59)), '2026-01-05');
 });
+
+test('a looked-up attempt is graded elsewhere but never touches progress (decision 0015)', () => {
+  const start = run([transfer('correct'), tap('correct')]);
+  const before = cellRecord(start, K);
+  for (const e of [
+    { ...transfer('correct'), lookedUp: true },              // would build streak and add a day
+    { ...transfer('wrong'), lookedUp: true },                // would reset the streak
+    { ...tap('correct'), lookedUp: true },
+    { ...tap('wrong'), lookedUp: true },
+  ]) {
+    assert.equal(isScored(e), false);
+    assert.equal(applyEvent(start, e, '2026-10-26'), start);
+  }
+  assert.deepEqual(cellRecord(start, K), before);
+  // lookedUp: false (or absent) changes nothing about the normal rules
+  assert.equal(isScored({ ...transfer('correct'), lookedUp: false }), true);
+});

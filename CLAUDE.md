@@ -31,7 +31,8 @@
 - Layout: `index.html`, `style.css`; `js/main.js` (load, validate, switch views),
   `js/picker.js` (session picker), `js/practice.js` (Meet / Recall / Echo / Discriminate /
   Transfer / summary screens; the typed steps share one input-grade-retry routine),
-  `js/data-view.js` (M0 tables at `#data`), `js/dom.js` (DOM helpers), `js/store.js` (saved
+  `js/data-view.js` (M0 tables at `#data`), `js/forms.js` (the forms grid shared with the
+  Data view, and the Forms panel), `js/dom.js` (DOM helpers), `js/store.js` (saved
   progress in localStorage, "ancoras.progress"; written against a localStorage-like object so
   test/store.test.mjs can use a fake). Pure, tested modules: `js/validate.js`,
   `js/grade.js`, `js/session.js`, `js/progress.js` (mastery rules, decision 0009).

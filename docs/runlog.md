@@ -394,3 +394,28 @@ d08cf35c84f09c5218379395aa633d61da095316
 04b5b8a54f70b782269da7d3f431e9392fe63772
 38c2d852a36df7cc4219d66973ae38a00b18f988
 ```
+
+## 2026-10-25: Forms button on every screen; peeks don't score (#38)
+- New js/forms.js: `formsGrid()` (shared with the Data view, which now uses it) and the Forms
+  panel (a native <dialog>: Escape and tap-outside close it, focus returns; bottom sheet on
+  phones, side-by-side blocks on laptops). Forms buttons on each picker verb row (that verb,
+  nothing highlighted) and in the top bar of every practice screen. `formsFocus()` (pure,
+  in js/session.js) picks the verbs (the cell's verb, then its confusion set, then any other
+  target verb) and the highlighted cells (every target shown, e.g. both cells of an echo
+  pair or a contrast line).
+- Looked-up attempts (decision 0015): peeking before answering a Recall / Echo / Transfer
+  item or a Discriminate tap marks that attempt; `isScored()` returns false for it, so it
+  never feeds progress. Feedback and summary show a "looked up" tag. Peeking after answering
+  or on Meet changes nothing.
+- Tests: `node --test` 115/115 (new: looked-up events never touch progress; formsFocus for a
+  confusion pair, an echo pair, a contrast line, the picker, unknown verbs).
+  `node validate.mjs` OK.
+- Browser (isolated profile, fake speech engine): Forms on every screen at phone width;
+  highlights right (Meet "Como vieste? — Vim a pé" marks vieste and vim; "Vim, vi e venci"
+  marks vim and vi); opening the panel never cancelled speech; in Transfer, peek → Escape
+  (focus back in the box) → correct answer showed "✓ Correct" + "looked up" with the cell's
+  progress unchanged; answering first and then peeking scored normally (streak 2 → 3, day
+  added). A first browser pass showed no highlights, but that was my test clicking the
+  picker's (hidden) Forms button instead of the session's; rechecked correctly. Laptop panel
+  blocks now sit side by side (tables had inherited full width).
+- **Issues touched:** #38 closed.

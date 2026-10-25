@@ -48,8 +48,9 @@ calls, accounts/backend/sync/analytics, extra tenses in v1, or speech recognitio
 - ~~Where to host once it works~~ Resolved 2026-10-10: GitHub Pages (decision 0011); since 2026-10-11 https://professorcdp.github.io/ancoras/ (decision 0012)
 
 ## Current status
-2026-10-23: every cell has an anchor (150 anchors, decision 0013) and the picker lets the
-learner choose which steps to run, with a screen estimate (decision 0014). Live at
-https://professorcdp.github.io/ancoras/ (BUSINESS, decision 0012). Still in the
-learner-feedback phase (SPEC §11). Open: #7 (native check, 100 of 150), #13 (Transfer
-content, 109 of 142 bare), GitHub Support purge of pre-rewrite commits, smaller fixes.
+2026-10-25: a Forms button on every screen shows the verb's paradigm (and its confusion
+set's); answers given after peeking are graded but not counted (decision 0015). Every cell
+has an anchor (0013); the learner chooses the steps (0014). Live at
+https://professorcdp.github.io/ancoras/ (BUSINESS, 0012). Still in the learner-feedback phase
+(SPEC §11). Open: #7 (native check, 100 of 150), #13 (Transfer content), #36, #37, GitHub
+Support purge of old commits (list in the runlog, 2026-10-24).

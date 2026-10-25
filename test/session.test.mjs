@@ -7,7 +7,7 @@ import {
   defaultSelection, restoreSelection, presets, buildCells, pickMeetAnchor, pickTransfer,
   pickEchoAnchor, formsIn, targetsIn, describeCells, splitOnForm, orderCells, requeue, summarize,
   planPhases, runPhases, decideLeave, discriminateItemsFor, interleave, DISCRIMINATE_ITEMS,
-  tallyDiscriminate, screenCount, startBlocker,
+  tallyDiscriminate, screenCount, startBlocker, formsFocus,
 } from '../js/session.js';
 
 const data = JSON.parse(readFileSync(new URL('../anchors.json', import.meta.url), 'utf8'));
@@ -399,4 +399,34 @@ test('~0 screens happens for real selections: Echo only for fazer, Discriminate 
   const fazerPres = sel(['fazer']).filter(c => c.tense === 'pres');
   assert.equal(screenCount(data, fazerPres, ['echo']), 0);               // no echo pair in the present
   assert.ok(screenCount(data, sel(['fazer']), ['echo']) > 0);              // fazer-pps-tu-1 is an echo pair
+});
+
+// Forms panel (decision 0015).
+test('formsFocus: the cell\'s verb first, then its confusion set; the cell highlighted', () => {
+  const f = formsFocus(data, [{ verb: 'ver', tense: 'pps', person: 'nós' }]);
+  assert.deepEqual(f.verbs, ['ver', 'vir']);
+  assert.deepEqual([...f.highlight], ['ver.pps.nós']);
+});
+
+test('formsFocus: an echo pair highlights every target cell shown', () => {
+  const echo = data.anchors.find(a => a.id === 'vir-pres-tu-1'); // De onde vens? — Venho do Porto.
+  const f = formsFocus(data, [{ verb: 'vir', tense: 'pres', person: 'tu' }, ...echo.targets]);
+  assert.deepEqual(f.verbs, ['vir', 'ver']);
+  assert.deepEqual([...f.highlight].sort(), ['vir.pres.eu', 'vir.pres.tu']);
+});
+
+test('formsFocus: a contrast across verbs shows both; a verb without a set shows alone', () => {
+  const vim = data.anchors.find(a => a.id === 'vir-pps-eu-1'); // Vim, vi e venci.
+  const f = formsFocus(data, [{ verb: 'vir', tense: 'pps', person: 'eu' }, ...vim.targets]);
+  assert.deepEqual(f.verbs, ['vir', 'ver']);
+  assert.deepEqual([...f.highlight].sort(), ['ver.pps.eu', 'vir.pps.eu']);
+  assert.deepEqual(formsFocus(data, [{ verb: 'fazer', tense: 'pps', person: 'eu' }]).verbs, ['fazer']);
+});
+
+test('formsFocus: the picker shows a verb with nothing highlighted; unknown verbs are ignored', () => {
+  const f = formsFocus(data, [{ verb: 'ir' }], { highlight: false });
+  assert.deepEqual(f.verbs, ['ir', 'ser']);
+  assert.equal(f.highlight.size, 0);
+  assert.deepEqual(formsFocus(data, [{ verb: 'nope' }]).verbs, []);
+  assert.deepEqual(formsFocus(data, []).verbs, []);
 });

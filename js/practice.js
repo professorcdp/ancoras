@@ -6,17 +6,19 @@ import { isObject, ECHO_SEPARATOR } from './validate.js';
 import { $, el, highlight } from './dom.js';
 import { gradeForm, gradePhrase, normalize, CORRECT, ALMOST } from './grade.js';
 import { speak, stop } from './audio.js';
+import { openFormsPanel } from './forms.js';
 import { cellRecord, cellStatus, isScored } from './progress.js';
 import {
   buildCells, pickMeetAnchor, pickTransfer, pickEchoAnchor, targetsIn, orderCells, requeue,
   splitOnForm, summarize, describeCells, tenseLabel, planPhases, runPhases,
-  discriminateItemsFor, interleave, tallyDiscriminate, PHASES,
+  discriminateItemsFor, interleave, tallyDiscriminate, PHASES, formsFocus,
 } from './session.js';
 
 const ACCENTS = ['á', 'à', 'â', 'ã', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ç'];
 const BLANK = '____';
 const AUTO_ADVANCE_MS = 600; // Discriminate: pause on a correct tap before the next item
 const targetForms = a => (Array.isArray(a?.targets) ? a.targets : []).filter(isObject).map(t => t.form);
+const targetCells = a => (Array.isArray(a?.targets) ? a.targets : []).filter(isObject);
 
 // Returns a controller: inProgress() is true until the summary screen is reached.
 // `progress` is the store: every scored answer is recorded (and saved) as it happens.
@@ -46,13 +48,26 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
     progress.record(event);
   };
   let finished = false;
+  // Attempts made after opening the Forms panel (decision 0015): step -> cell keys.
+  const lookedUp = { recall: new Set(), echo: new Set(), discriminate: new Set(), transfer: new Set() };
+
+  // What the Forms button shows on the current screen, and what peeking does there: each
+  // screen calls setFocus(cells, onPeek). onPeek marks an unanswered attempt as looked up.
+  let focus = { cells: [], onPeek: null };
+  const setFocus = (cells, onPeek = null) => { focus = { cells, onPeek }; };
+  const openForms = () => {
+    focus.onPeek?.();
+    openFormsPanel(data, formsFocus(data, focus.cells, { highlight: !finished }));
+  };
+  const lookedUpTag = () => el('span', { class: 'looked-tag', title: 'Forms panel opened before answering: not counted toward progress' }, 'looked up');
 
   const root = $('practice');
   const show = (...children) => {
     stop(); // whatever was playing belongs to the previous screen
     root.replaceChildren(
       el('div', { class: 'practice-top' },
-        el('button', { type: 'button', class: 'link', onclick: onHome }, '← End session')),
+        el('button', { type: 'button', class: 'link', onclick: onHome }, '← End session'),
+        el('button', { type: 'button', class: 'forms-btn', onclick: openForms, 'aria-haspopup': 'dialog' }, 'Forms')),
       ...children.filter(c => c != null));
     window.scrollTo(0, 0);
   };
@@ -113,6 +128,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         nextBtn),
     );
     nextBtn.focus();
+    setFocus([cell, ...targetCells(cell.meet)]); // Meet isn't graded: peeking changes nothing
     speak(spokenPhrase(cell.meet)); // Meet plays its anchor when shown (decision 0010)
   }
 
@@ -146,6 +162,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
       const check = el('button', { type: 'submit', class: 'primary' }, 'Check');
       const feedback = el('div', { class: 'feedback', 'aria-live': 'polite' });
       const form = el('form', { class: 'answer-form' }, el('div', { class: 'answer-row' }, input, check));
+      let peeked = false; // Forms opened before this attempt was answered
 
       form.addEventListener('submit', e => {
         e.preventDefault();
@@ -161,7 +178,8 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         keys.forEach(k => { k.disabled = true; });
         const map = results[step.key];
         map.set(cell.key, [...(map.get(cell.key) ?? []), result]);
-        recordEvent({ key: cell.key, step: step.key, result, firstAttempt: item.attempt === 1 });
+        recordEvent({ key: cell.key, step: step.key, result, firstAttempt: item.attempt === 1, lookedUp: peeked });
+        if (peeked) lookedUp[step.key].add(cell.key);
         queue = requeue(rest, item, result);
         done++;
 
@@ -170,8 +188,10 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         const retryNote = result !== CORRECT && item.attempt === 1
           ? el('p', { class: 'muted' }, 'This one will come round again.') : null;
         feedback.className = `feedback ${result}`;
+        const shown = step.feedback(cell, outcome);
+        if (peeked) shown[0].append(' ', lookedUpTag()); // verdict line, e.g. "✓ Correct looked up"
         feedback.replaceChildren(...[
-          ...step.feedback(cell, outcome),
+          ...shown,
           el('div', { class: 'replay' }, playButton(step.spoken(cell))), // no auto-play here
           retryNote,
         ].filter(c => c != null));
@@ -187,6 +207,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
           feedback),
       );
       input.focus();
+      setFocus(step.focusCells(cell), () => { if (!input.disabled) peeked = true; });
       step.onShow?.(cell);
     };
     ask();
@@ -212,6 +233,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         : 'Type the whole phrase in Portuguese.'),
     ],
     grade: (cell, answer) => gradePhrase(answer, cell.recallTargets.map(t => t.form)),
+    focusCells: cell => [cell, ...cell.recallTargets],
     feedback: (cell, outcome) => phraseFeedback(outcome, phrase(cell.meet)),
     spoken: cell => spokenPhrase(cell.meet),
   };
@@ -227,6 +249,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
       el('p', { class: 'muted instruction' }, 'Type the answer.'),
     ],
     grade: (cell, answer) => gradePhrase(answer, cell.echoTargets.map(t => t.form)),
+    focusCells: cell => [cell, ...targetCells(cell.echo)], // the whole exchange is shown after
     feedback: (cell, outcome) => phraseFeedback(outcome, phrase(cell.echo)),
     spoken: cell => spokenPhrase(cell.echo),
     onShow: cell => speak(cell.echo.turns[0]), // Echo plays its question when shown
@@ -240,6 +263,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
       cell.transfer.en ? el('p', { class: 'en' }, cell.transfer.en) : null,
     ],
     grade: (cell, answer) => ({ result: gradeForm(answer, cell.form) }),
+    focusCells: cell => [cell],
     spoken: cell => (cell.transfer.source === 'bare' ? cell.form : cell.transfer.pt),
     feedback: (cell, { result }) => result === CORRECT
       ? [el('p', {}, el('strong', {}, '✓ Correct')), sentence(cell, true)]
@@ -268,12 +292,14 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         type: 'button', class: 'option', lang: 'pt-PT', onclick: () => choose(opt),
       }, opt));
       const advance = () => { i++; ask(); };
+      let peeked = false; // Forms opened before this tap: the tap is looked up
       function choose(opt) {
         if (buttons.some(b => b.disabled)) return;
         buttons.forEach(b => { b.disabled = true; });
         const right = opt === item.answer;
         taps.push({ key: item.key, counts: item.counts, right });
-        recordEvent({ key: item.key, step: 'discriminate', result: right ? CORRECT : 'wrong', counts: item.counts });
+        recordEvent({ key: item.key, step: 'discriminate', result: right ? CORRECT : 'wrong', counts: item.counts, lookedUp: peeked });
+        if (peeked) lookedUp.discriminate.add(item.key);
         for (const b of buttons) {
           if (b.textContent === item.answer) b.classList.add('right');
           else if (b.textContent === opt) b.classList.add('wrong');
@@ -305,6 +331,8 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
           el('div', { class: 'options' }, buttons),
           feedback),
       );
+      const cell = byKey.get(item.key);
+      setFocus(cell ? [cell] : [], () => { if (!buttons.some(b => b.disabled)) peeked = true; });
     };
     ask();
   }
@@ -349,11 +377,13 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         const style = !scored.total ? 'none' : scored.right === scored.total ? 'first'
           : scored.right ? 'partial' : 'missed';
         return el('td', { class: style }, scored.total ? `${scored.right}/${scored.total}` : '—',
-          practice.total ? el('span', { class: 'practice-tag' }, ` (+${practice.right}/${practice.total} practice)`) : null);
+          practice.total ? el('span', { class: 'practice-tag' }, ` (+${practice.right}/${practice.total} practice)`) : null,
+          lookedUp.discriminate.has(plan[i].key) ? lookedUpTag() : null);
       }
       const r = rows[key][i];
       return el('td', { class: r.status }, label[r.status],
-        r.almost ? el('span', { class: 'almost-tag' }, 'almost') : null);
+        r.almost ? el('span', { class: 'almost-tag' }, 'almost') : null,
+        lookedUp[key].has(plan[i].key) ? lookedUpTag() : null);
     };
     show(
       el('h2', {}, 'Done'),
@@ -376,6 +406,7 @@ export function startSession(data, selection, { onHome, onAgain, progress }) {
         el('button', { type: 'button', class: 'primary', onclick: onAgain }, 'Practise again'),
         el('button', { type: 'button', onclick: onHome }, 'Home')),
     );
+    setFocus(plan); // the session's verbs; nothing highlighted once finished
   }
 
   // Meet → Recall → Echo → Discriminate → Transfer → summary (planPhases leaves out empty

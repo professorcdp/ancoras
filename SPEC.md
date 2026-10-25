@@ -106,6 +106,9 @@ the bare form.
    back to a bare prompt (`vir · PPS · eles → ____`). On a miss, show the anchor as the hint.
 
 Interleave cells within a step, so the learner never answers the same cell twice in a row.
+A Forms button on every screen shows the verb's paradigm (and its confusion set's) from
+`anchors.json`; an answer given after opening it is graded as usual but marked "looked up"
+and not counted toward mastery (decision 0015).
 
 ## 7. Grading
 

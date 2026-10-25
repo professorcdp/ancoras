@@ -309,3 +309,31 @@ body.no-audio button.play { display: none; }
 .audio-line select { margin-left: 0; }
 
 .steps-note { margin: 8px 0 0; }
+
+/* Forms button and panel (decision 0015) */
+.practice-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+button.forms-btn { padding: 4px 12px; font-size: 0.88rem; border-radius: 999px; }
+button.forms-btn.small-btn { padding: 2px 9px; font-size: 0.78rem; }
+.row-end { display: flex; align-items: center; gap: 8px; flex: none; }
+.looked-tag { margin-left: 6px; padding: 1px 7px; border-radius: 10px; font-size: 0.75rem; font-weight: 400; white-space: nowrap; background: var(--uncovered); color: var(--muted); }
+dialog.forms-panel {
+  border: 1px solid var(--border); border-radius: 14px; padding: 14px 18px 18px;
+  background: var(--surface); color: var(--text); max-width: min(720px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px); overflow: auto;
+}
+dialog.forms-panel::backdrop { background: rgb(0 0 0 / 0.35); }
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.panel-head h2 { margin: 0 0 6px; font-size: 1.1rem; }
+.panel-blocks { display: flex; flex-wrap: wrap; gap: 14px 28px; }
+.panel-block { flex: 1 1 300px; min-width: 0; }
+.panel-block h3 { margin: 8px 0 4px; font-size: 1rem; }
+.panel-block table.forms { width: auto; background: transparent; }
+.panel-block table.forms td.cell.here { background: var(--mark); font-weight: 700; border-radius: 4px; }
+/* Phones: a bottom sheet */
+@media (max-width: 700px) {
+  dialog.forms-panel {
+    margin: auto 0 0; width: 100%; max-width: 100%; max-height: 80vh;
+    border-radius: 14px 14px 0 0; border-bottom: none;
+  }
+  .panel-blocks { flex-direction: column; gap: 6px; }
+}

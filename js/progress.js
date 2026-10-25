@@ -34,9 +34,13 @@ export function cellRecord(progress, key) {
   return progress?.cells?.[key] ?? blank();
 }
 
-// Does this event count toward mastery? Only the bare-form steps, and for Discriminate only
-// items about the cell's own form (decision 0008 amendment). Recall and Echo never do.
+// Does this event count toward mastery? Only the bare-form steps, for Discriminate only
+// items about the cell's own form (decision 0008 amendment), and never a looked-up attempt
+// (decision 0015). Recall and Echo never do.
 export function isScored(event) {
+  // An attempt made after opening the Forms panel is graded and shown as usual but never
+  // feeds progress: it neither builds nor resets the streak and adds no day (decision 0015).
+  if (event?.lookedUp === true) return false;
   if (event?.step === 'transfer') return true;
   if (event?.step === 'discriminate') return event.counts === true;
   return false;

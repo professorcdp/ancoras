@@ -6,7 +6,9 @@ import { isObject, cellKey } from './validate.js';
 import { $, el } from './dom.js';
 import {
   anchorsByCell, buildCells, presets, restoreSelection, tenseLabel, screenCount, startBlocker, PHASES,
+  formsFocus,
 } from './session.js';
+import { openFormsPanel } from './forms.js';
 
 const STEP_LABELS = { meet: 'Meet', recall: 'Recall', echo: 'Echo', discriminate: 'Discriminate', transfer: 'Transfer' };
 import { cellRecord, cellStatus, groupMastered, localDate, validateProgress } from './progress.js';
@@ -140,10 +142,14 @@ export function renderPicker(data, { ok, onStart, progress }) {
     const grid = el('span', { class: 'minigrid', style: `--cols: ${persons.length}`, 'aria-hidden': 'true' });
     const badges = el('span', { class: 'badges' });
     grids.set(verb, { grid, badges });
+    const formsBtn = el('button', {
+      type: 'button', class: 'forms-btn small-btn', 'aria-haspopup': 'dialog', 'aria-label': `Forms of ${verb}`,
+      onclick: () => openFormsPanel(data, formsFocus(data, [{ verb }], { highlight: false })),
+    }, 'Forms');
     return el('div', { class: 'verb-row' },
       checkbox('verbs', verb, el('b', { lang: 'pt-PT' }, verb), ' ',
         el('span', { class: 'muted' }, isObject(v) ? v.gloss ?? '' : ''), ' ', badges),
-      grid);
+      el('span', { class: 'row-end' }, formsBtn, grid));
   };
   const saveNote = el('p', { class: 'muted small' });
   const refresh = () => {

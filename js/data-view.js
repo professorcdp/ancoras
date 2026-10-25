@@ -1,7 +1,8 @@
 // Data view (M0): browsable verbs and anchors tables, behind the "Data" link.
 
-import { cellKey, isObject } from './validate.js';
+import { isObject } from './validate.js';
 import { $, el, highlight } from './dom.js';
+import { formsGrid } from './forms.js';
 
 export function renderDataView(data, result) {
   renderVerbs(data, result);
@@ -9,26 +10,15 @@ export function renderDataView(data, result) {
 }
 
 function renderVerbs(data, { covered }) {
-  const persons = Array.isArray(data.persons) ? data.persons : [];
-  const tenses = Object.keys(isObject(data.tenses) ? data.tenses : {});
   const uncovered = new Set(Array.isArray(data.uncovered_cells) ? data.uncovered_cells : []);
   const verbs = Object.entries(isObject(data.verbs) ? data.verbs : {}).filter(([, v]) => isObject(v));
 
-  const formsGrid = (verb, v) => el('table', { class: 'forms' },
-    el('tr', {}, el('th', {}), tenses.map(t => el('th', { scope: 'col' }, t))),
-    persons.map(p => el('tr', {},
-      el('th', { scope: 'row' }, p),
-      tenses.map(t => {
-        const form = isObject(v.forms?.[t]) ? v.forms[t][p] : undefined;
-        if (form === undefined) return el('td', { class: 'cell none' }, '—');
-        const key = cellKey(verb, t, p);
-        const ids = covered.get(key);
-        const status = ids ? 'covered' : uncovered.has(key) ? 'uncovered' : 'gap';
-        const title = ids ? `${key}: ${ids.join(', ')}` : `${key}: ${status === 'gap' ? 'no anchor, not listed' : 'in uncovered_cells'}`;
-        return el('td', { class: `cell ${status}`, title }, form);
-      }),
-    )),
-  );
+  const statusOf = (key, form) => {
+    const ids = covered.get(key);
+    const status = ids ? 'covered' : uncovered.has(key) ? 'uncovered' : 'gap';
+    const title = ids ? `${key}: ${ids.join(', ')}` : `${key}: ${status === 'gap' ? 'no anchor, not listed' : 'in uncovered_cells'}`;
+    return { class: status, title };
+  };
 
   $('verbs-table').replaceChildren(
     el('thead', {}, el('tr', {},
@@ -40,7 +30,7 @@ function renderVerbs(data, { covered }) {
         el('td', { 'data-label': 'Confusion set', lang: 'pt-PT' },
           (Array.isArray(v.confusion_set) ? v.confusion_set : []).join(', ') || '—'),
         el('td', { 'data-label': 'PPS pattern' }, v.pps_pattern ?? ''),
-        el('td', { 'data-label': 'Forms', lang: 'pt-PT' }, formsGrid(verb, v)),
+        el('td', { 'data-label': 'Forms', lang: 'pt-PT' }, formsGrid(data, verb, { cell: statusOf })),
       ))),
   );
   $('verbs-section').hidden = false;
