@@ -13,7 +13,7 @@ import { openFormsPanel } from './forms.js';
 const STEP_LABELS = { meet: 'Meet', recall: 'Recall', echo: 'Echo', discriminate: 'Discriminate', transfer: 'Transfer' };
 import { cellRecord, cellStatus, groupMastered, localDate, validateProgress } from './progress.js';
 import {
-  audioAvailable, voiceNames, currentVoiceName, setPreferredVoice, onVoicesChanged, speak,
+  audioAvailable, voiceNames, currentVoiceName, setPreferredVoice, onVoicesChanged, speak, NO_VOICE,
 } from './audio.js';
 
 const THEME_KEY = 'ancoras.theme';
@@ -39,10 +39,6 @@ function setTheme(theme) {
   }
 }
 
-const NO_VOICE = 'No European Portuguese voice on this device, so audio is off. On a Mac or ' +
-  'iPhone, add one under Accessibility › Spoken Content › System voice › Manage voices › ' +
-  'Portuguese (Portugal). On Android: Settings › search for \'Text-to-speech\' › Speech ' +
-  'Services by Google › settings › Install voice data › Portuguese (Portugal).';
 
 const STORAGE_KEY = 'ancoras.selection';
 

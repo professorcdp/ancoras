@@ -5,6 +5,13 @@
 // choosePtPtVoice is pure and tested (test/audio.test.mjs); the rest needs a browser.
 
 const VOICE_KEY = 'ancoras.voice';
+
+// Shown (once, on the home screen and the review page) when there is no pt-PT voice.
+export const NO_VOICE = 'No European Portuguese voice on this device, so audio is off. On a Mac or ' +
+  'iPhone, add one under Accessibility › Spoken Content › System voice › Manage voices › ' +
+  'Portuguese (Portugal). On Android: Settings › search for \'Text-to-speech\' › Speech ' +
+  'Services by Google › settings › Install voice data › Portuguese (Portugal).';
+
 const RATE = 0.9;
 
 // "pt-PT", "pt_PT", "PT-pt" … are European Portuguese; "pt-BR" and bare "pt" are not.

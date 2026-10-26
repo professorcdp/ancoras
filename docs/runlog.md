@@ -436,3 +436,28 @@ d08cf35c84f09c5218379395aa633d61da095316
   still there (reset to "All verbs") but out of sight at the top of the page. No code changed.
 - Opened #42 (bug, next) with a proposed fix (filter at the top, filtering both sections; a
   "× Show all verbs" button; sticky on phones). Jim is taking it through the advisor first.
+
+## 2026-10-26: Native-speaker review page and import (#43, for #7)
+- `review/` (index.html, review.js, review.css, review-core.js): one card per anchor on one
+  page; OK / CHANGE / FORM; separate Corrected Portuguese / Corrected English (CHANGE only,
+  prefilled) and Comment; progress bar; filters All / Unanswered / CHECK only / Set phrases;
+  Jump to first unanswered; Copy / Download answers. Saved in "ancoras.review.v1"; an answer
+  given on Portuguese that has since changed shows "Updated" and is never copied. Reuses the
+  app's palette, theme, whole-word matching and pt-PT audio (the no-voice notice moved to
+  js/audio.js as `NO_VOICE`, shared with the picker). Lessons from EPspokenfrequency's review
+  pages designed out (no paging, no side-effect verdicts, filters that don't shift
+  mid-answer, separate fields, stale answers, raw paste kept, reviewer anonymous).
+- `review-import.mjs <file> [--write]`: keeps the raw text as review/answers-YYYY-MM-DD.txt;
+  dry run reports applied / skipped / flagged; --write commits the raw file first, then
+  applies, validates and writes. Tried on a sample (dry run in the repo, --write in a
+  throwaway clone): 3 applied (incl. an echo re-split), 3 skipped (a dropped form, an unknown
+  id, a bad line), 1 FORM flagged; the raw file was committed before the data. Test files
+  removed afterwards.
+- Tests: `node --test` 124/124 (9 new for review-core: parsing incl. "|" inside text and
+  accents, the stale rule, form-still-present, echo re-split). `node validate.mjs` OK.
+- Browser at Pixel size: three answers persist across a reload; Copy gave exactly three lines;
+  an answered anchor whose Portuguese changed (simulated) showed "Updated" and dropped out of
+  Copy (2 lines); filters 147 / 100 / 50; Jump went to the first unanswered card. Fixed while
+  checking: chips rendering, the toolbar is pinned only on wide screens (it took a quarter of
+  a phone screen), field names.
+- Decision 0016. #7 stays open until her answers are applied.

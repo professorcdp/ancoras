@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // Same theme setting as the app, applied before the stylesheet loads.
+    try {
+      const t = localStorage.getItem('ancoras.theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch {}
+  </script>
+  <title>Âncoras · review</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../icons/icon-192.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="review.css">
+  <script type="module" src="review.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Âncoras · sentence review</h1>
+  </header>
+  <main class="review">
+    <section class="intro">
+      <p>These are the practice sentences for a European Portuguese verb app. For each one, tap
+        <b>OK</b> if a native speaker from Portugal would say it; <b>CHANGE</b> if it needs
+        rewording (edit the Portuguese — the bold form must stay exactly as it is, it's the form
+        being learned); <b>FORM</b> if the bold verb form itself is wrong or unnatural here (say
+        why in Comment). Everyday spoken Portuguese from Portugal, not Brazil. Your answers save in
+        this browser as you go; when you're done (or whenever you like), tap <b>Copy answers</b>
+        and paste the text into a message to Jim. Cards marked CHECK matter most; 'set phrase'
+        ones should be fine.</p>
+      <p id="audio-note" class="small warn-text" hidden></p>
+      <p id="save-note" class="small warn-text" hidden></p>
+    </section>
+
+    <section id="toolbar" class="toolbar" aria-label="Progress and filters">
+      <div class="progress-line">
+        <span id="progress-text">Loading…</span>
+        <div class="bar" aria-hidden="true"><div id="progress-bar"></div></div>
+      </div>
+      <div class="chips" id="filters" role="group" aria-label="Show"></div>
+      <div class="actions">
+        <button type="button" id="jump">Jump to first unanswered</button>
+        <button type="button" class="primary copy">Copy answers</button>
+        <button type="button" class="download">Download answers</button>
+      </div>
+      <p class="small copy-status" aria-live="polite"></p>
+    </section>
+
+    <div id="cards" class="cards"></div>
+
+    <section class="toolbar bottom">
+      <div class="actions">
+        <button type="button" class="primary copy">Copy answers</button>
+        <button type="button" class="download">Download answers</button>
+      </div>
+      <p class="small copy-status" aria-live="polite"></p>
+      <textarea id="fallback" class="fallback" readonly hidden aria-label="Answers to copy"></textarea>
+    </section>
+  </main>
+</body>
+</html>

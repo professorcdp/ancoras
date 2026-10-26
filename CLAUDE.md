@@ -40,6 +40,15 @@
   tested); everything else calls only speak()/stop(), so recorded files can replace it.
   `validate.mjs` is the Node wrapper; `serve.mjs` the local server; `test/` holds the
   `node --test` files.
+- **Native-speaker review** (#7, decision 0016): `review/` is a page served by Pages at
+  https://professorcdp.github.io/ancoras/review/ (one card per anchor; OK / CHANGE / FORM;
+  answers saved in the reviewer's browser under "ancoras.review.v1"; Copy / Download answers
+  as plain text). Shared, tested logic in `review/review-core.js` (test/review.test.mjs).
+  To apply her pasted answers: save them to a file, then `node review-import.mjs <file>`
+  (dry run: prints applied / skipped / flagged) and `node review-import.mjs <file> --write`
+  (saves the raw text verbatim as review/answers-YYYY-MM-DD.txt, commits that file first,
+  then applies and validates before writing anchors.json). Never put the reviewer's name in
+  the repo or the page.
 - Keep to the spec's non-goals (SPEC.md §2). Build milestones in order and stop after M5 for
   learner feedback.
 - Never fall back to a pt-BR voice.
